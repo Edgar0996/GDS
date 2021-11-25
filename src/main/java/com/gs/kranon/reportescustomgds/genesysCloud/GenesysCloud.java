@@ -1,7 +1,8 @@
 package com.gs.kranon.reportescustomgds.genesysCloud;
 
-import com.gs.kranon.conexionHttp.ConexionResponse;
-import com.gs.kranon.conexionHttp.ConexionHttp;
+
+import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
+import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
