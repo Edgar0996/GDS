@@ -26,17 +26,22 @@ public class Utilerias {
 
     @SuppressWarnings("rawtypes")
     public boolean getProperties(Map<String, String> voMapConfi) {
+        
         try {
+           
             Properties p = new Properties();
             p.load(new FileReader(vsPathConf));
             for (Enumeration voEnum = p.keys(); voEnum.hasMoreElements();) {
                 String vsProperty = String.valueOf(voEnum.nextElement());
+                
                 if (!vsProperty.contains("//")) {
                     voMapConfi.put(vsProperty, p.getProperty(vsProperty));
                 }
             }
+           
             return true;
         } catch (Exception e) {
+          
             voLogger.error("[Utilerias][" + vsUUI + "] ---> ERROR : " + e.getMessage());
             return false;
         }

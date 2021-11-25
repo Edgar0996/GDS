@@ -14,7 +14,7 @@ import org.apache.log4j.LogManager;
 
 public class GenesysCloud {
     
-    static {
+    static {    
         System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
     }
     private static final org.apache.log4j.Logger voLogger = LogManager.getLogger("Reporte");
@@ -45,11 +45,13 @@ public class GenesysCloud {
             conexionResponse = conexionHttp.executePost(URLServicio, timeOut, inputJson, header);
             if (conexionResponse.getCodigoRespuesta() == 200) {
                 JSONObject json = new JSONObject(conexionResponse.getMensajeRespuesta());
+               
                 if (json.has("access_token")) {
+                    
                     vsAccessToken = json.getString("access_token");
-                    voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS].");
+                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS].");
                 } else {
-                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
+                    voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
                 }
             } else {
                 voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[" + vsAccessToken + "], "
