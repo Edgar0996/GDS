@@ -49,7 +49,7 @@ public class GenesysCloud {
                 if (json.has("access_token")) {
                     
                     vsAccessToken = json.getString("access_token");
-                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS].");
+                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS]. [" + vsClID + "]");
                 } else {
                     voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
                 }
