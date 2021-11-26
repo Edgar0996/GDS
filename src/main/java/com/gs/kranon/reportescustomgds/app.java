@@ -35,6 +35,7 @@ public class app {
     private GenesysCloud voPureCloud = null;
     private Utilerias voUtil = null;
     private Map<String,String> voMapConf = null;
+    private Map<String,String> voMapConfId = null;
     private String vsUUI= "1234567890";
     /*Variables de prueba */
     private DataReports voData = null;
@@ -42,37 +43,56 @@ public class app {
     
     public static void main(String[] args) {
         
-        
-        
-        System.out.println("Ejecutando el proyecto desde consola sin parametros");
-        for(int i=0; i<args.length; i++){
-            System.out.println("Valor del argumento recibido: "+args[i]);
-        }
-        GenesysCloud genesysCloud = new GenesysCloud();
-        
+               
+             
         new app();
         
     }
      
     public  app() {
-        
+       //Invocamos nuestro primer archivo de configuración 
        voUtil = new Utilerias();
        voMapConf = new HashMap<>();
-       
-        voUtil.getProperties(voMapConf);
-           String vsApps = voMapConf.get("ClientID");
        voPureCloud = new GenesysCloud();
+
        vsUUI = java.util.UUID.randomUUID().toString();
        voPureCloud.setUUI(vsUUI);
        voLogger.info("[Main  ][" + vsUUI + "] ---> Inicia ejecución de la app.");
        ConexionResponse voConexionResponse;
-        String vsToken = voPureCloud.getToken(voMapConf.get("ClientID"), voMapConf.get("ClientSecret"));
+        //String vsToken = voPureCloud.getToken(voMapConf.get("ClientID"), voMapConf.get("ClientSecret"));
+
+       voUtil.getProperties(voMapConf);
+       String clientsNum = voMapConf.get("NoClienteID");
+      
+       
+       //Invocamos nuestro segundo archivo de configuración para traer los ID's 
+       voMapConfId = new HashMap<>();
+       voUtil.getPropertiesID(voMapConfId);
+        
+        
+        int total= Integer.parseInt(clientsNum);
+            //Generamos el for para recuperar solo los ClientesId que se colocaron en la configuración
+        for (int i = 0; i < total; i++) {
+            String clientNum =   "ClientId" + i;
+            String clientSecr =   "ClientSecret" + i;
+            //Seteamos los valores recuperados
+                 String idClient =  voMapConfId.get(clientNum);
+                 String clientSecret =  voMapConfId.get(clientSecr);
+                 
+            //Generamos los Tokents  
+            
+            vsUUI = java.util.UUID.randomUUID().toString();
+            voPureCloud.setUUI(vsUUI);
+            String vsToken = voPureCloud.getToken(idClient, clientSecret);
+            
+
         if (vsToken.equals("ERROR")) {
             
-           voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT.");
+           voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
            System.out.println("Se genero un error");
                 }
         
+
         System.out.println("Esto me regreso el toke línea 63 app"  + vsToken+" vsUUI"+vsUUI);
               /* Prueba de llamado de clases */
                 
@@ -88,7 +108,20 @@ public class app {
                 
                 
         
+
+        System.out.println("Esto me regreso el toke línea 81 app con este ID"  + idClient );
+
        
 }
+        }
+			 
+      
+       
+       
+       
+       
+     
+       
+        
     
 }

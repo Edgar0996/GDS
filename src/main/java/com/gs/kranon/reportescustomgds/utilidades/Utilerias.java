@@ -22,6 +22,7 @@ public class Utilerias {
     private static final Logger voLogger = LogManager.getLogger("Reporte");
 
     private String vsPathConf = "C:/Appl/GS/ReportesCustom/Configuraciones/conf.properties";
+    private String vsPathConfId = "C:/Appl/GS/ReportesCustom/Configuraciones/confclientid.properties";
     public String vsUUI = "";
 
     @SuppressWarnings("rawtypes")
@@ -33,8 +34,8 @@ public class Utilerias {
             p.load(new FileReader(vsPathConf));
             for (Enumeration voEnum = p.keys(); voEnum.hasMoreElements();) {
                 String vsProperty = String.valueOf(voEnum.nextElement());
-                
-                if (!vsProperty.contains("//")) {
+
+                if (!vsProperty.contains("##")) {
                     voMapConfi.put(vsProperty, p.getProperty(vsProperty));
                 }
             }
@@ -47,6 +48,31 @@ public class Utilerias {
         }
     }
 
+    
+     @SuppressWarnings("rawtypes")
+    public boolean getPropertiesID(Map<String, String> voMapConfi) {
+        
+        try {
+           
+            Properties p = new Properties();
+            p.load(new FileReader(vsPathConfId));
+            for (Enumeration voEnum = p.keys(); voEnum.hasMoreElements();) {
+                String vsProperty = String.valueOf(voEnum.nextElement());
+                    
+                if (!vsProperty.contains("##")) {
+                    voMapConfi.put(vsProperty, p.getProperty(vsProperty));
+                  
+                }
+            }
+      
+            return true;
+        } catch (Exception e) {
+          
+            voLogger.error("[Utilerias][" + vsUUI + "] ---> ERROR : " + e.getMessage());
+            return false;
+        }
+    }
+    
     public String userDateGMT(String vsFecha) {
         if (vsFecha == null || vsFecha.isEmpty()) return "";
         DateTime voDateTime = new DateTime(vsFecha,DateTimeZone.UTC);
