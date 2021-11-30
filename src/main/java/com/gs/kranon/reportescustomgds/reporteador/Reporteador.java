@@ -32,7 +32,7 @@ public class Reporteador {
     }
     private static final Logger voLogger = LogManager.getLogger("Reporte");
     
-    private String vsUUI = "1234567890";
+    private String vsUUI = "";
     private String vsFechaInicio = "";
     private String vsFechaFin = "";
     private String vsFlowName = "";
@@ -43,8 +43,8 @@ public class Reporteador {
     //private DatosProgreso voDatos;
     private Utilerias voUti;
 
-    private JTextArea voTA;
-    private JProgressBar voProgreso;
+    //private JTextArea voTA;
+    //private JProgressBar voProgreso;
 
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
@@ -56,42 +56,19 @@ public class Reporteador {
     Thread voThreadProgreso;
     Thread voThreadReporte;
 
-    public Reporteador(DataReports voDataReport, JTextArea voTA, JProgressBar voProgreso) {
+    public Reporteador(DataReports voDataReport) {
         this.voDataReport = voDataReport;
-        this.voTA = voTA;
-        this.voProgreso = voProgreso;
         voMapConf = new HashMap<>();
         voPureCloud = new GenesysCloud();
         voUti = new Utilerias();
         voUti.getProperties(voMapConf);
     }
 
-    public void getDataReport() {
-        /*voDatos = new DatosProgreso();
-        voThreadProgreso = new Thread() {
-            @Override
-            public void run() {
-                while(voDatos.getProgreso() < voDatos.getTotalProgreso()) {
-                    int viTotal = voDatos.getTotalProgreso();
-                    int viAvance = voDatos.getProgreso();
-                    int viPorcentaje = (viAvance * 100) / viTotal;
-                    voProgreso.setString(String.valueOf(viPorcentaje) + "%");
-                    voProgreso.setValue(viAvance);
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                    }
-                };
-                voProgreso.setString("100%");
-                voProgreso.setValue(voProgreso.getMaximum());
-            }
-        }; */
-        
+    public void getDataReport() {        
         voThreadReporte = new Thread() {
             @Override
             public void run() {
-                vsUUI = java.util.UUID.randomUUID().toString();
-                voPureCloud.setUUI(vsUUI);
+                vsUUI = voPureCloud.getVsUUI();
                  ConexionResponse voConexionResponse;
                 
                 vsFlowName = voDataReport.getFlowName();

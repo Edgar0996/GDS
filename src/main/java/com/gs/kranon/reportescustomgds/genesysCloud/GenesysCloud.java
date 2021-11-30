@@ -27,6 +27,10 @@ public class GenesysCloud {
         this.vsUUI = vsUUI;
     }
 
+    public String getVsUUI() {
+        return vsUUI;
+    }
+
     public String getToken(String vsClID, String vsClSec) {
         String vsAccessToken = "ERROR";
         String encodeData;

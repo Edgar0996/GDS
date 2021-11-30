@@ -12,14 +12,26 @@ import java.util.HashMap;
 import java.util.Map;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
+import com.gs.kranon.reportescustomgds.mail.SendingMailTLS;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
+import java.util.Properties;
+import java.util.logging.Level;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
+
 /**
  *
  * @author VFG
@@ -48,8 +60,9 @@ public class app {
         new app();
         
     }
+    
      
-    public  app() {
+    public  app()  {
        //Invocamos nuestro primer archivo de configuración 
        voUtil = new Utilerias();
        voMapConf = new HashMap<>();
@@ -63,6 +76,7 @@ public class app {
 
        voUtil.getProperties(voMapConf);
        String clientsNum = voMapConf.get("NoClienteID");
+       String pathArchivo = voMapConf.get("PathReporteFinal");
       
        
        //Invocamos nuestro segundo archivo de configuración para traer los ID's 
@@ -91,19 +105,18 @@ public class app {
            voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
            System.out.println("Se genero un error");
                 }
-        
-
-        System.out.println("Esto me regreso el toke línea 63 app"  + vsToken+" vsUUI"+vsUUI);
               /* Prueba de llamado de clases */
                 
            
                 voData = new DataReports();
                 voData.setFlowName("bbva_bbvamxap_ivr");
-                voData.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+                //voData.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+                voData.setFechaInicio("2021-01-01");
                 voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+                voLogger.info("[Main  ][" + vsUUI + "] ---> Fecha del reporte final."+"[ "+voData.getFechaInicio()+"]");
                 JProgressBar voProgreso = null;
                 JTextArea voTextArea = null;
-                voReporte = new Reporteador(voData,voTextArea,voProgreso);
+                voReporte = new Reporteador(voData);
                 voReporte.getDataReport();
                 
                 
@@ -111,17 +124,12 @@ public class app {
 
         System.out.println("Esto me regreso el toke línea 81 app con este ID"  + idClient );
 
-       
-}
+       voLogger.info("[Main  ][" + vsUUI + "] ---> Path donde se guarda el reporte final."+"[ "+pathArchivo+"]");
+}   
+        SendingMailTLS enviarcorreo = new SendingMailTLS();
+        boolean result = enviarcorreo.sendMailKranon("vfrancisco@kranon.com","Reporte de la ejecución del servicio de GDS", vsUUI);
+        System.out.print("El resultado del envio del correo fue: "+result);
+   
         }
-			 
-      
-       
-       
-       
-       
-     
-       
-        
-    
+  
 }
