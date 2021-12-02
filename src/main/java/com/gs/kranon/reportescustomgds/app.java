@@ -44,6 +44,7 @@ public class app {
         System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
     }
     private static final Logger voLogger = LogManager.getLogger("Reporte");
+    static String pathArchivo;
     private GenesysCloud voPureCloud = null;
     private Utilerias voUtil = null;
     private Map<String,String> voMapConf = null;
@@ -78,8 +79,8 @@ public class app {
 
        voUtil.getProperties(voMapConf);
        String clientsNum = voMapConf.get("NoClienteID");
-       String pathArchivo = voMapConf.get("PathReporteFinal");
-      
+       pathArchivo = voMapConf.get("PathReporteFinal");
+       
        
        //Invocamos nuestro segundo archivo de configuración para traer los ID's 
        voMapConfId = new HashMap<>();

@@ -50,6 +50,7 @@ public class Reporteador {
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
     private List<String> vlContactId = null;
+    private Map<String, String> voDetailsConversations;
 
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean vbActivo = true;
@@ -114,7 +115,7 @@ public class Reporteador {
                     }
 
                     if (voConexionResponse.getCodigoRespuesta() == 200) {
-                        Map<String, String> voDetailsConversations;
+                        
                         String vsJsonResponse = voConexionResponse.getMensajeRespuesta();
                         // voLogger.info("[Reporteador][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
                         //       + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
@@ -154,7 +155,7 @@ public class Reporteador {
                                 voDetailsConversations.put("comentarioCTI", "");
                                 voDetailsConversations.put("UUI", "");
                                 voConversations.put(vsIdConversation, voDetailsConversations);
-
+                              
                             }
 
                         } else {
@@ -165,7 +166,7 @@ public class Reporteador {
                         }
                     }
                 } while (true);
-                //
+                
                 
                 voLogger.info("[Reporteador][" + vsUUI + "] TOTAL DE ID'S [" + vlContactId.size() + "]");
                 //voDatos.setTotalProgreso(vlContactId.size());
@@ -183,12 +184,12 @@ public class Reporteador {
                 Integer viContadorEncontrados = 0;
                 String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/calls/";
                 ConexionResponse voConexionResponseCall = null;
-                System.out.println("Esto esta en la línea 186" + voConversations);
+                //System.out.println("Esto esta en la línea 186" + voConversations);
                 for (String vsContactId : vlContactId) {
                    //Genero los archivos TXT
-                // GenraTXT = new GeneradorTXT();
-                // GenraTXT.GeneraTXT(vlContactId);
-                    System.out.println("ESto esta en la línea 191 " + vsContactId);
+                GenraTXT = new GeneradorTXT();
+                GenraTXT.GeneraTXT(vsContactId, voConversations);
+                    
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     viContadorEncontrados++;
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
