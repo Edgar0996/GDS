@@ -49,9 +49,11 @@ public class app {
     private Map<String,String> voMapConf = null;
     private Map<String,String> voMapConfId = null;
     private String vsUUI= "1234567890";
+    private String vsToken =  null;
     /*Variables de prueba */
     private DataReports voData = null;
-     private Reporteador voReporte;
+     /*Variables para mandar a llamadar mi reporte */
+    private Reporteador voReporte;
     
     public static void main(String[] args) {
         
@@ -97,17 +99,32 @@ public class app {
             
             vsUUI = java.util.UUID.randomUUID().toString();
             voPureCloud.setUUI(vsUUI);
-            String vsToken = voPureCloud.getToken(idClient, clientSecret);
+            vsToken = voPureCloud.getToken(idClient, clientSecret);
             
-
+            // Invocamos el metodo para recuperar los id's
+           voData = new DataReports();
+ 
+                //voData.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+                voData.setFechaInicio("2021-01-01");
+                voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+               
+                voLogger.info("[Main  ][" + vsUUI + "] ---> Fecha del reporte final."+"[ "+voData.getFechaInicio()+"]");
+                voReporte = new Reporteador(voData);
+                voReporte.getDataReport(vsToken);
+                  
         if (vsToken.equals("ERROR")) {
             
            voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
            System.out.println("Se genero un error");
                 }
-              /* Prueba de llamado de clases */
-                
-           
+             
+        
+     }   
+        
+             
+        
+                      
+           /*
                 voData = new DataReports();
                 voData.setFlowName("bbva_bbvamxap_ivr");
                 //voData.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
@@ -117,19 +134,14 @@ public class app {
                 JProgressBar voProgreso = null;
                 JTextArea voTextArea = null;
                 voReporte = new Reporteador(voData);
-                voReporte.getDataReport();
+                voReporte.getDataReport(vsToken);
                 
-                
+               
         
-
-        System.out.println("Esto me regreso el toke línea 81 app con este ID"  + idClient );
-
-       voLogger.info("[Main  ][" + vsUUI + "] ---> Path donde se guarda el reporte final."+"[ "+pathArchivo+"]");
-}   
-        SendingMailTLS enviarcorreo = new SendingMailTLS();
-        boolean result = enviarcorreo.sendMailKranon("vfrancisco@kranon.com","Reporte de la ejecución del servicio de GDS", vsUUI);
-        System.out.print("El resultado del envio del correo fue: "+result);
-   
+                SendingMailTLS enviarcorreo = new SendingMailTLS();
+                 boolean result = enviarcorreo.sendMailKranon("vfrancisco@kranon.com","Reporte de la ejecución del servicio de GDS", vsUUI);
+                System.out.print("El resultado del envio del correo fue: "+result);
+*/
         }
   
 }

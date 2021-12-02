@@ -31,28 +31,29 @@ public class Reporteador {
         System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
     }
     private static final Logger voLogger = LogManager.getLogger("Reporte");
-    
+
     private String vsUUI = "";
     private String vsFechaInicio = "";
     private String vsFechaFin = "";
     private String vsFlowName = "";
+    private String vsFlowName1 = "";
 
     private DataReports voDataReport = null;
     private ConexionHttp voConexionHttp = null;
     private GenesysCloud voPureCloud = null;
+    private GeneradorTXT GenraTXT=null;
     //private DatosProgreso voDatos;
     private Utilerias voUti;
 
     //private JTextArea voTA;
     //private JProgressBar voProgreso;
-
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
     private List<String> vlContactId = null;
 
-    private Map<String,Object> voMapHeaderCSV = new HashMap<String,Object>();
+    private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean vbActivo = true;
-    
+
     Thread voThreadProgreso;
     Thread voThreadReporte;
 
@@ -64,44 +65,29 @@ public class Reporteador {
         voUti.getProperties(voMapConf);
     }
 
-    public void getDataReport() {        
+    public void getDataReport(String vsToken) {
+
         voThreadReporte = new Thread() {
+
             @Override
             public void run() {
+
                 vsUUI = voPureCloud.getVsUUI();
-                 ConexionResponse voConexionResponse;
-                
+                ConexionResponse voConexionResponse;
+                //recuperamos las variables a comparar para ir por nuestros ID's
+
                 vsFlowName = voDataReport.getFlowName();
-                vsFechaInicio = voDataReport.getFechaInicio();
-                vsFechaFin = voDataReport.getFechaFin();
+                vsFlowName1 = voDataReport.getFlowName1();
+                vsFechaInicio = "2021-11-17";
+                vsFechaFin = "2021-11-17";
 
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> ******************** STARTING REPORT *******************");
-
-                Date voDateInicio, voDateFin;
-
-                try {
-                    voDateInicio = new SimpleDateFormat("yyyy-MM-dd").parse(vsFechaInicio);
-                    voDateFin = new SimpleDateFormat("yyyy-MM-dd").parse(vsFechaFin);
-                } catch (ParseException ex) {
-                    voLogger.error("[Reporteador][" + vsUUI + "] ---> ERROR : " + ex.getMessage());
-                    vbActivo = false;
-                    return;
-                }
 
                 /*if (voDateInicio.equals(voDateFin) || voDateInicio.after(voDateFin)) {
                     voLogger.error("[Reporteador][" + vsUUI + "] ---> THE DATES ARE INCORRECT.");
                     vbActivo = false;
                     return;
                 }*/
-
-                String vsToken = voPureCloud.getToken(voMapConf.get("ClientID"), voMapConf.get("ClientSecret"));
-                if (vsToken.equals("ERROR")) {
-                    voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT.");
-                    vbActivo = false;
-                    return;
-                }
-
-                
                 String vsURLPCDetails = "https://api.mypurecloud.com/api/v2/analytics/conversations/details/query";
                 voConexionHttp = new ConexionHttp();
                 voConversations = new HashMap<>();
@@ -112,7 +98,7 @@ public class Reporteador {
 
                 //voTA.setText("Espere...");
                 //OBTENIENDO TODOS LOS CONVERSATION ID DEL RANGO DE HORAS EN EL DIA
-                 do {
+                do {
                     viPag++;
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
@@ -126,11 +112,12 @@ public class Reporteador {
                         voLogger.error("[Reporteador][" + vsUUI + "] ERROR : " + e.getMessage());
                         break;
                     }
+
                     if (voConexionResponse.getCodigoRespuesta() == 200) {
                         Map<String, String> voDetailsConversations;
                         String vsJsonResponse = voConexionResponse.getMensajeRespuesta();
-                       // voLogger.info("[Reporteador][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
-                         //       + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
+                        // voLogger.info("[Reporteador][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
+                        //       + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
 
                         JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
 
@@ -138,72 +125,70 @@ public class Reporteador {
                             voLogger.info("[Reporteador][" + vsUUI + "] ---> CONVERSATIONS FOUND [0]");
                             break;
                         }
-
+                        voLogger.info("[Reporteador][" + vsUUI + "Cadena JSON" + voJsonConversations);
                         if (voJsonConversations.has("conversations")) {
                             JSONArray voJsonArrayConversations = voJsonConversations.getJSONArray("conversations");
                             voLogger.info("[Reporteador][" + vsUUI + "] ---> CONVERSATIONS FOUND[" + voJsonArrayConversations.length() + "]");
                             for (int i = 0; i < voJsonArrayConversations.length(); i++) {
+
                                 voDetailsConversations = new HashMap<>();
                                 String vsIdConversation = voJsonArrayConversations.getJSONObject(i).getString("conversationId");
                                 String vsConversationStart = voUti.userDateGMT(voJsonArrayConversations.getJSONObject(i).getString("conversationStart"));
                                 String vsConversationEnd = (voJsonArrayConversations.getJSONObject(i).has("conversationEnd"))
-                                        ? voUti.userDateGMT(voJsonArrayConversations.getJSONObject(i).getString("conversationEnd")) : "";                      
+                                        ? voUti.userDateGMT(voJsonArrayConversations.getJSONObject(i).getString("conversationEnd")) : "";
                                 voDetailsConversations.put("conversationStart", vsConversationStart.substring(0, 23).replace("T", " "));
-                                voDetailsConversations.put("conversationEnd", (vsConversationEnd == null || "".equals(vsConversationEnd)) ?
-                                                "" : vsConversationEnd.substring(0, 23).replace("T", " "));
+                                voDetailsConversations.put("conversationEnd", (vsConversationEnd == null || "".equals(vsConversationEnd))
+                                        ? "" : vsConversationEnd.substring(0, 23).replace("T", " "));
+
                                 JSONArray voJSONParticipants = voJsonArrayConversations.getJSONObject(i).getJSONArray("participants");
-                                for (int j = 0; j < voJSONParticipants.length(); j++) {
-                                    if (voJSONParticipants.getJSONObject(j).getString("purpose").equals("ivr")) {
-                                        JSONArray voJSONSessions = voJSONParticipants.getJSONObject(j).getJSONArray("sessions");
-                                        for (int k = 0; k < voJSONSessions.length(); k++) {
-                                            if (voJSONSessions.getJSONObject(k).has("flow")) {
-                                                JSONObject voJSONFlows = voJSONSessions.getJSONObject(k).getJSONObject("flow");
-                                                if (voJSONFlows.getString("flowName").equals(vsFlowName)) {
-                                                    vlContactId.add(vsIdConversation);
-                                                    voDetailsConversations.put("flowName", voJSONFlows.getString("flowName"));
-                                                    voDetailsConversations.put("flowType", voJSONFlows.getString("flowType"));
-                                                    voDetailsConversations.put("ani", voJSONSessions.getJSONObject(k).getString("ani").replace("tel:", ""));
-                                                    voDetailsConversations.put("dnis", voJSONSessions.getJSONObject(k).getString("dnis").replace("tel:", ""));
-                                                    voDetailsConversations.put("breadCrumbs","");
-                                                    voDetailsConversations.put("comentarioCTI","");
-                                                    voDetailsConversations.put("UUI", "");
-                                                    voConversations.put(vsIdConversation, voDetailsConversations);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    }
-                                }
+
+                                JSONArray voJSONSesions = voJSONParticipants.getJSONObject(0).getJSONArray("sessions");
+
+                                String vsDnis = voJSONSesions.getJSONObject(0).getString("dnis");
+                                String vsAni = voJSONSesions.getJSONObject(0).getString("ani");
+
+                                vlContactId.add(vsIdConversation);
+                                voDetailsConversations.put("ani", vsAni);
+                                voDetailsConversations.put("dnis", vsDnis);
+                                voDetailsConversations.put("breadCrumbs", "");
+                                voDetailsConversations.put("comentarioCTI", "");
+                                voDetailsConversations.put("UUI", "");
+                                voConversations.put(vsIdConversation, voDetailsConversations);
+
                             }
+
+                        } else {
+                            voLogger.error("[Reporteador][" + vsUUI + "] ---> CODE[" + voConexionResponse.getCodigoRespuesta()
+                                    + "], MESSAGE ERROR[" + voConexionResponse.getMensajeError() + "]");
+                            vbActivo = false;
+                            break;
                         }
-                    } else {
-                        voLogger.error("[Reporteador][" + vsUUI + "] ---> CODE[" + voConexionResponse.getCodigoRespuesta()
-                                + "], MESSAGE ERROR[" + voConexionResponse.getMensajeError() + "]");
-                        vbActivo = false;
-                        break;
                     }
                 } while (true);
-
-                voLogger.info("[Reporteador][" + vsUUI + "] ---> FLOWS FOUND WITH THE NAME [" + vsFlowName + "][" + vlContactId.size() + "]");
+                //
+                
+                voLogger.info("[Reporteador][" + vsUUI + "] TOTAL DE ID'S [" + vlContactId.size() + "]");
                 //voDatos.setTotalProgreso(vlContactId.size());
                 //voProgreso.setMinimum(0);
                 //voProgreso.setMaximum(vlContactId.size());
-                
+
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     voLogger.error("[Reporteador][" + vsUUI + "] ---> " + ex.getMessage());
                 }
-                
+
                 //voThreadProgreso.start();
-                
-                
                 //COMENZAREMOS A ANALIZAR CADA ID DE CONVERSACION PARA EXTRAER SUS BREADCRUMBS
                 Integer viContadorEncontrados = 0;
                 String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/calls/";
-                ConexionResponse voConexionResponseCall = null; 
+                ConexionResponse voConexionResponseCall = null;
+                System.out.println("Esto esta en la línea 186" + voConversations);
                 for (String vsContactId : vlContactId) {
+                   //Genero los archivos TXT
+                // GenraTXT = new GeneradorTXT();
+                // GenraTXT.GeneraTXT(vlContactId);
+                    System.out.println("ESto esta en la línea 191 " + vsContactId);
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     viContadorEncontrados++;
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
@@ -224,18 +209,18 @@ public class Reporteador {
 
                                 Map<String, String> voDetails = voConversations.get(vsContactId);
                                 JSONObject voJSONAttributes = voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes");
-                                
+
                                 if (voJSONAttributes.has("vsBreadCrumbs")) {
                                     String vsBreadCrumbs = voJSONAttributes.getString("vsBreadCrumbs");
                                     voDetails.replace("breadCrumbs", vsBreadCrumbs.replace(",", ">"));
                                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + viContadorEncontrados + "] BREADCRUMBS[" + vsBreadCrumbs + "]");
-                                    
-                                    if(voJSONAttributes.has("vsComentarioCTI")){
+
+                                    if (voJSONAttributes.has("vsComentarioCTI")) {
                                         String vsComentarioCTI = voJSONAttributes.getString("vsComentarioCTI");
                                         voDetails.replace("comentarioCTI", vsComentarioCTI.replace(",", ">"));
                                         voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + viContadorEncontrados + "] COMENTARIO_CTI[" + vsComentarioCTI + "]");
                                     }
-                                    if(voJSONAttributes.has("vsUUI")){
+                                    if (voJSONAttributes.has("vsUUI")) {
                                         String vsUUILlamada = voJSONAttributes.getString("vsUUI");
                                         voDetails.replace("UUI", vsUUILlamada);
                                         voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + viContadorEncontrados + "] UUI[" + vsUUILlamada + "]");
@@ -245,9 +230,9 @@ public class Reporteador {
                                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados)
                                             + "] BREADCRUMBS[NOT FOUND] IN CONTACT ATTRIBUTES[" + voJSONAttributes.toString() + "]");
                                 }
-                                
+
                                 voConversations.replace(vsContactId, voDetails);
-                                
+
                                 break;
                             }
                         }
@@ -259,10 +244,12 @@ public class Reporteador {
                         voLogger.error("[Reporteador][" + vsUUI + "] ---> " + ex.getMessage());
                     }
                 }
-                
                 //voDatos.setTotalProgreso(vlContactId.size());
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voConversations.size() + "]");
-                voLogger.info("[Reporteador][" + vsUUI + "] ---> ANALIZANDO E INTERPRETANDO BREADCRUMBS PARA LA APP [" + vsFlowName + "]");
+                voLogger.info("[Reporteador][" + vsUUI + "] ---> ANALIZANDO E INTERPRETANDO BREADCRUMBS PARA LA APP [" + vsFlowName + "  ]  [" + vsFlowName1 + "  ]");
+                /*
+                
+                
                 switch(vsFlowName){
                     case "bbva2_bbvamxap_ivr":
                         DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
@@ -290,15 +277,16 @@ public class Reporteador {
                         voLogger.info("[Reporteador][" + vsUUI + "] ---> APP SIN METRICAS [" + vsFlowName + "]");
                     break;
                 }
+                 */
                 vbActivo = false;
             };
         };
         
         voThreadReporte.start();
-    }    
-    
+    }
+
     public boolean GeneraReportCSV(String vsPathExcel) {
-        if(voMapHeaderCSV.size() <= 0){
+        if (voMapHeaderCSV.size() <= 0) {
             voLogger.warn("[Reporteador][" + vsUUI + "] ---> NO HAY DATOS PARA REALIZAR LA EXPORTACION.");
             return false;
         }
@@ -306,13 +294,17 @@ public class Reporteador {
             voLogger.info("[Reporteador][" + vsUUI + "] ---> GENERANDO CSV[" + vsPathExcel + ".csv]");
             Excel voExcel = new Excel(vsUUI);
             voExcel.addInfo(voMapHeaderCSV, voConversations);
-            if (voExcel.createCSV(vsPathExcel  + ".csv")) 
+            if (voExcel.createCSV(vsPathExcel + ".csv")) {
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> ARCHIVO CSV CREADO EXITOSAMENTE");
-             else voLogger.error("[Reporteador][" + vsUUI + "] ---> ERROR : NO SE CREO EL ARCHIVO CSV");
+            } else {
+                voLogger.error("[Reporteador][" + vsUUI + "] ---> ERROR : NO SE CREO EL ARCHIVO CSV");
+            }
             return true;
-        } else  return false;
+        } else {
+            return false;
+        }
     }
-    
+
     public boolean GenerarReportTXT(String vsPath) {
         PrintWriter pw = null;
         voLogger.info("[Reporteador][" + vsUUI + "] ---> GENERANDO TXT[" + vsPath + ".txt]");
@@ -327,8 +319,8 @@ public class Reporteador {
             return false;
         }
     }
-    
-    public boolean getGenerado(){
+
+    public boolean getGenerado() {
         return !vbActivo;
     }
 }

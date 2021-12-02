@@ -22,6 +22,8 @@ public class GenesysCloud {
     private ConexionResponse conexionResponse = null;
     private String vsUUI = "";
     public String vsHorarioInterval = "T05:00:00.000Z";
+    public String vsHorarioIntervalInicio = "T17:00:00.000Z";
+    public String vsHorarioIntervalTermino = "T18:00:00.000Z";
 
     public void setUUI(String vsUUI) {
         this.vsUUI = vsUUI;
@@ -94,7 +96,7 @@ public class GenesysCloud {
                 + "	\"nTransferred\",\"tTalk\",\"tHeld\",\"nOutboundAttempted\",\"tContacting\",\"tDialing\",\"tHandle\",\r\n"
                 + "	\"nBlindTransferred\",\"nConsult\",\"nConsultTransferred\",\"oMediaCount\",\"oExternalMediaCount\",\r\n"
                 + "	\"tVoicemail\",\"tMonitoring\",\"tFlowOut\" ],\r\n"
-                + "	\"interval\": \"" + vsFecha + vsHorarioInterval + "/" + vsFechaInt + vsHorarioInterval + "\"\r\n"
+                + "	\"interval\": \"" + vsFecha + vsHorarioIntervalInicio + "/" + vsFechaInt + vsHorarioIntervalTermino + "\"\r\n"
                 + "}";
     }
 }
