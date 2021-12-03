@@ -101,7 +101,7 @@ public class app {
             vsUUI = java.util.UUID.randomUUID().toString();
             voPureCloud.setUUI(vsUUI);
             vsToken = voPureCloud.getToken(idClient, clientSecret);
-            
+            //System.out.println("Tokents 104 " + vsToken);
             // Invocamos el metodo para recuperar los id's
            voData = new DataReports();
  

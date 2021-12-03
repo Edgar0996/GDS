@@ -50,10 +50,12 @@ public class Reporteador {
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
     private List<String> vlContactId = null;
+    private List<String> nameTxt;
     private Map<String, String> voDetailsConversations;
 
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean vbActivo = true;
+  
 
     Thread voThreadProgreso;
     Thread voThreadReporte;
@@ -79,8 +81,8 @@ public class Reporteador {
 
                 vsFlowName = voDataReport.getFlowName();
                 vsFlowName1 = voDataReport.getFlowName1();
-                vsFechaInicio = "2021-11-17";
-                vsFechaFin = "2021-11-17";
+                vsFechaInicio = "2021-11-30";
+                vsFechaFin = "2021-11-30";
 
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> ******************** STARTING REPORT *******************");
 
@@ -106,7 +108,7 @@ public class Reporteador {
                     voPureCloud.vsHorarioInterval = (voMapConf.get("HorarioVerano").trim().toUpperCase().contentEquals("TRUE")) ? "T05:00:00.000Z" : "T06:00:00.000Z";
                     String vsBody = voPureCloud.getBody(viPag, vsFechaInicio, vsFechaFin);
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "], REQUEST[" + vsBody.replace("\r\n", "") + "]");
-
+                    //System.out.println("El valor a retornar para apuntar mi primer API es " + vsBody);
                     try {
                         voConexionResponse = voConexionHttp.executePost(vsURLPCDetails, 15000, vsBody, voHeader);
                     } catch (Exception e) {
@@ -184,13 +186,25 @@ public class Reporteador {
                 Integer viContadorEncontrados = 0;
                 String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/calls/";
                 ConexionResponse voConexionResponseCall = null;
-                //System.out.println("Esto esta en la línea 186" + voConversations);
+               
+                /*
+				 * Genero los archivos TXT GenraTXT = new GeneradorTXT();
+			    */
+                
+            	GenraTXT = new GeneradorTXT();
+            	nameTxt = new ArrayList<>();
+            	nameTxt.addAll(GenraTXT.GeneraTXT(vlContactId, voConversations)); 
+                System.out.println("a ver que me regresa" + nameTxt.size() );
+                
+                
                 for (String vsContactId : vlContactId) {
-                   //Genero los archivos TXT
-                GenraTXT = new GeneradorTXT();
-                GenraTXT.GeneraTXT(vsContactId, voConversations);
+                	
+					
+				
+					 
                     
                     String vsURLConversation = vsURLPCCall + vsContactId;
+                    
                     viContadorEncontrados++;
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
                     try {
@@ -199,9 +213,10 @@ public class Reporteador {
                         voLogger.error("[Reporteador][" + vsUUI + "] ---> CONTACT_ID [" + vsContactId + "] : " + e.getMessage());
                     }
                     JSONObject voJsonResponseCall = new JSONObject(voConexionResponseCall.getMensajeRespuesta());
+                    
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] "
                             + "RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
-
+                    voLogger.info("[Reporteador][" + vsUUI + "] Mi Segundo JASON es ["+ viContadorEncontrados + "consecutivo " +  voConexionResponseCall.getMensajeRespuesta() + "]");
                     if (voJsonResponseCall.has("participants")) {
                         JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
                         for (int j = 0; j < voJsonArrayResponseCall.length(); j++) {
