@@ -138,11 +138,11 @@ public class app {
                 voReporte.getDataReport(vsToken);
                 
                
-        
+        */      String destinatario= voMapConf.get("MailDestinatario");
                 SendingMailTLS enviarcorreo = new SendingMailTLS();
-                 boolean result = enviarcorreo.sendMailKranon("vfrancisco@kranon.com","Reporte de la ejecución del servicio de GDS", vsUUI);
+                 boolean result = enviarcorreo.sendMailKranon(destinatario,"Reporte de la ejecución del servicio de GDS", vsUUI);
                 System.out.print("El resultado del envio del correo fue: "+result);
-*/
+
         }
   
 }

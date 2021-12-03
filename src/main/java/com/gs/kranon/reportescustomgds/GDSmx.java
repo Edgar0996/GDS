@@ -243,21 +243,98 @@ public class GDSmx {
     public Map<String, Object> getHeaderCSV(){
         Integer i = 0;
         Map<String, Object> voHeaders = new HashMap<>();
-        voHeaders.put("conversationId", i++);
-        voHeaders.put("conversationStart", i++);
-        voHeaders.put("conversationEnd", i++);
-        voHeaders.put("ani", i++);
-        voHeaders.put("dnis", i++);
-        voHeaders.put("flowName", i++);
-        voHeaders.put("flowType", i++);
-        voHeaders.put("incomingCall", i++);
-        voHeaders.put("generalSchedule", i++);
-        voHeaders.put("languageSelection", i++);
-        voHeaders.put("endType", i++);
-        voHeaders.put("vdnTransfer", i++);
-        voHeaders.put("UUI", i++);
-        voHeaders.put("comentarioCTI", i++);
-        voHeaders.put("breadCrumbs", i++);
+        voHeaders.put("IDLlamada", i++);//Datos de la llamada - conversationID
+        voHeaders.put("Campania", i++);//Datos de la llamada
+        voHeaders.put("Agente", i++);//Datos de la llamada
+        voHeaders.put("DID", i++);//Datos de la llamada - dnis
+        voHeaders.put("Numero", i++);//Datos de la llamada - ani
+        voHeaders.put("InicioLlamada", i++);//Datos de la llamada - conversationStart
+        voHeaders.put("FechaContestacion", i++);//Datos de la llamada
+        voHeaders.put("TiempoEspera", i++);//Datos de la llamada
+        voHeaders.put("FinLlamada", i++);//Datos de la llamada - conversationEnd
+        voHeaders.put("DuracionLlamada", i++);//Datos de la llamada
+        voHeaders.put("FechaDefinicion", i++);//Datos de la llamada
+        voHeaders.put("TiempoDefinicion", i++);//Datos de la llamada
+        voHeaders.put("Calificacion", i++);//Datos de la llamada
+        voHeaders.put("ENDOSO_Calificacion", i++);//Tipificaciones para la calificación ENDOSO
+        voHeaders.put("ENDOSO_NombreSolicitante", i++);//Tipificaciones para la calificación ENDOSO
+        voHeaders.put("ENDOSO_Poliza", i++);//Tipificaciones para la calificación ENDOSO
+        voHeaders.put("ENDOSO_ProcedeEndoso", i++);//Tipificaciones para la calificación ENDOSO
+        voHeaders.put("ENDOSO_MotivoNoEndoso", i++);//Tipificaciones para la calificación ENDOSO
+        voHeaders.put("INCIDENCIA_Calificacion", i++);//Tipificaciones para la calificación INCIDENCIA
+        voHeaders.put("INCIDENCIA_NombreQuienHabla", i++);//Tipificaciones para la calificación INCIDENCIA
+        voHeaders.put("INCIDENCIA_OrigenIncidencia", i++);//Tipificaciones para la calificación INCIDENCIA
+        voHeaders.put("INCIDENCIA_ProcesoAfectado", i++);//Tipificaciones para la calificación INCIDENCIA
+        voHeaders.put("LLAMADACORTADA_Calificacion", i++);//Tipificaciones para la calificación LLAMADA CORTADA
+        voHeaders.put("LLAMADACORTADA_Comentarios", i++);//Tipificaciones para la calificación LLAMADA CORTADA
+        voHeaders.put("LLAMADAOTRAAREA_Calificacion", i++);//Tipificaciones para la calificación LLAMADA A OTRA ÁREA
+        voHeaders.put("LLAMADAOTRAAREA_NombreQuienHabla", i++);//Tipificaciones para la calificación LLAMADA A OTRA ÁREA
+        voHeaders.put("LLAMADAOTRAAREA_AreaSolicitada", i++);//Tipificaciones para la calificación LLAMADA A OTRA ÁREA
+        voHeaders.put("ENVIODOCUMENTOS_Calificacion", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
+        voHeaders.put("ENVIODOCUMENTOS_NombreQuienHabla", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
+        voHeaders.put("ENVIODOCUMENTOS_CorreoElectronico", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
+        voHeaders.put("ENVIODOCUMENTOS_DocumentoSolicitado", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
+        voHeaders.put("CONSULTAPROCESODEYEL_Calificacion", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
+        voHeaders.put("CONSULTAPROCESODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
+        voHeaders.put("CONSULTAPROCESODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
+        voHeaders.put("CONSULTA_Calificacion", i++);//Tipificaciones para la calificación CONSULTA
+        voHeaders.put("CONSULTA_NombreQuienHabla", i++);//Tipificaciones para la calificación CONSULTA
+        voHeaders.put("CONSULTA_MotivoConsulta", i++);//Tipificaciones para la calificación CONSULTA
+        voHeaders.put("ACTUALIZACIONCORREODEYEL_Calificacion", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
+        voHeaders.put("ACTUALIZACIONCORREODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
+        voHeaders.put("ACTUALIZACIONCORREODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
+        voHeaders.put("SOLICITUDREFERENCIADEYEL_Calificacion", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
+        voHeaders.put("SOLICITUDREFERENCIADEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
+        voHeaders.put("SOLICITUDREFERENCIADEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
+        voHeaders.put("SOLICITUDUSUARIODEYEL_Calificacion", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
+        voHeaders.put("SOLICITUDUSUARIODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
+        voHeaders.put("SOLICITUDUSUARIODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
+        voHeaders.put("DOMICILIACION_Calificacion", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("DOMICILIACION_NombreQuienHabla", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("DOMICILIACION_ClaveAgente", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("DOMICILIACION_NumSucursal", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("DOMICILIACION_NumRamo", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("DOMICILIACION_NumPoliza", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("DOMICILIACION_Movimiento", i++);//Tipificaciones para la calificación DOMICILIACIÓN
+        voHeaders.put("CARGORECURRENTE_Calificacion", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_NombreQuienHabla", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_ClaveAgente", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_NumSucursal", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_NumRamo", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_NumPoliza", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_Rehabilitacion", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_Cancelacion", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_CobroExitoso", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("CARGORECURRENTE_Motivo", i++);//Tipificaciones para la calificación CARGO RECURRENTE
+        voHeaders.put("EMISION_Calificacion", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_NombreQuienHabla", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_ClaveAgente", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_NumCotizacion", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_NumSucursal", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_NumRamo", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_NumPoliza", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_PagoAceptado", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_Importe", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("EMISION_Motivo", i++);//Tipificaciones para la calificación EMISIÓN
+        voHeaders.put("COTIZACION_Calificacion", i++);//Tipificaciones para la calificación COTIZACIÓN
+        voHeaders.put("COTIZACION_NombreQuienHabla", i++);//Tipificaciones para la calificación COTIZACIÓN
+        voHeaders.put("COTIZACION_ClaveAgente", i++);//Tipificaciones para la calificación COTIZACIÓN
+        voHeaders.put("COTIZACION_CorreoElectronico", i++);//Tipificaciones para la calificación COTIZACIÓN
+        voHeaders.put("COTIZACION_NumeroCotizacion", i++);//Tipificaciones para la calificación COTIZACIÓN
+        voHeaders.put("ENVIOLINK_Calificacion", i++);//Tipificaciones para la calificación ENVÍO DE LINK
+        voHeaders.put("ENVIOLINK_NombreQuienHabla", i++);//Tipificaciones para la calificación ENVÍO DE LINK
+        voHeaders.put("ENVIOLINK_CorreoElectronico", i++);//Tipificaciones para la calificación ENVÍO DE LINK
+        voHeaders.put("TRANSFERENCIAIVR_Calificacion", i++);//Tipificaciones para la calificación TRANSFERENCIA IVR
+        voHeaders.put("TRANSFERENCIAIVR_NombreQuienHabla", i++);//Tipificaciones para la calificación TRANSFERENCIA IVR
+        voHeaders.put("PAGO_Calificacion", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_NombreQuienHabla", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_ClaveAgente", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_NumSucursal", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_NumRamo", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_NumPoliza", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_NumImporte", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_PagoAceptado", i++);//Tipificaciones para la calificación PAGO
+        voHeaders.put("PAGO_Motivo", i++);//Tipificaciones para la calificación PAGO
         return voHeaders;
     }
 
