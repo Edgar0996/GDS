@@ -23,7 +23,7 @@ public class GDSmx {
         voDetails.put("generalSchedule", getGeneralSchedule(vsBreadCrumbs));
         voDetails.put("languageSelection", LanguageSelection(voDetails.get("generalSchedule"), vsBreadCrumbs));
         voDetails.put("endType", getEngType(voDetails.get("languageSelection"), vsBreadCrumbs));
-        voDetails.put("vdnTransfer", getVDNTranfer(vsBreadCrumbs));
+        //voDetails.put("vdnTransfer", getVDNTranfer(vsBreadCrumbs));
 
         if (voDetails.get("incomingCall").equals("1")) {
             voDataReport.setTotalLlamadas(voDataReport.getTotalLlamadas() + 1);

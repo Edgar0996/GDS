@@ -8,6 +8,8 @@ import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
 import com.gs.kranon.reportescustomgds.genesysCloud.GenesysCloud;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
+import java.util.Scanner;
+import java.util.logging.Level;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import org.json.JSONArray;
@@ -190,19 +194,59 @@ public class Reporteador {
                 /*
 				 * Genero los archivos TXT GenraTXT = new GeneradorTXT();
 			    */
-                
+                String pathCSV =voMapConf.get("PathReporteFinal");
             	GenraTXT = new GeneradorTXT();
             	nameTxt = new ArrayList<>();
             	nameTxt.addAll(GenraTXT.GeneraTXT(vlContactId, voConversations)); 
-                System.out.println("a ver que me regresa" + nameTxt.size() );
+                System.out.println("a ver que me regresa  a reporteador  " + nameTxt.get(0));
+                //Leemos el txt recibido por parametro
+                List content = new ArrayList();
+                File doc = new File(pathCSV+ "temp\\Reporte_"+nameTxt.get(0)+"\\"+nameTxt.get(0)+".txt");
+                Scanner obj;
+                String lineContent = "";
+                try {
+                    obj = new Scanner(doc);
+                    while (obj.hasNextLine()){
+                    
+                    lineContent=obj.nextLine();
+                    String[] lineElements = lineContent.split(",");
+                    System.out.println("Dato recuperado "+lineContent);
+                    content.add(lineElements);
+
+                    }
+                } catch (FileNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Tamanio de content  " + content.size());
                 
+                        for(int i = 0; i < content.size(); i++) {
+            String[] lineElements = (String[]) content.get(i);
+            for (String lineElement : lineElements) {
+                System.out.print(lineElement + " ");
+            }
+            System.out.println();
+        }
+                //Generando excel
+               
+                String Archivo;
+                Archivo = pathCSV + "temp\\Reporte_"+nameTxt.get(0)+"\\ReporteFinal";
+                System.out.println("Path enviado a la funcion de Csv: "+Archivo);
+                vbActivo = false;
+                System.out.println("Valor de vActivo: "+vbActivo);
+                //Obteniendo los encabezados
+                DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
+                GDSmx voAppBBVAMx = new GDSmx(voMapConf, voDataBBVAmx);
+                    for(String vsContactId : vlContactId) {
+                            Map<String, String> voDetails = voConversations.get(vsContactId);
+                            voAppBBVAMx.analizar(voDetails);
+                            voConversations.replace(vsContactId, voDetails);
+                            voMapHeaderCSV = voAppBBVAMx.getHeaderCSV();
+                        }
+                boolean resultadoCsv= GeneraReportCSV(Archivo);
+                System.out.println("Valor devuelto por la funcion resultadoCsv: "+resultadoCsv);
                 
                 for (String vsContactId : vlContactId) {
-                	
-					
-				
-					 
-                    
+ 
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     
                     viContadorEncontrados++;
@@ -216,7 +260,7 @@ public class Reporteador {
                     
                     voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] "
                             + "RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
-                    voLogger.info("[Reporteador][" + vsUUI + "] Mi Segundo JASON es ["+ viContadorEncontrados + "consecutivo " +  voConexionResponseCall.getMensajeRespuesta() + "]");
+                    voLogger.info("[Reporteador][" + vsUUI + "] Mi Segundo JSON es ["+ viContadorEncontrados + "consecutivo " +  voConexionResponseCall.getMensajeRespuesta() + "]");
                     if (voJsonResponseCall.has("participants")) {
                         JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
                         for (int j = 0; j < voJsonArrayResponseCall.length(); j++) {
@@ -253,7 +297,6 @@ public class Reporteador {
                             }
                         }
                     }
-                    //voDatos.setProgreso(viContadorEncontrados);
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException ex) {

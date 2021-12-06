@@ -4,27 +4,17 @@
  */
 package com.gs.kranon.reportescustomgds.reporteador;
 
-import com.gs.kranon.reportescustomgds.DataReports;
-import com.gs.kranon.reportescustomgds.app;
-import com.gs.kranon.reportescustomgds.genesysCloud.GenesysCloud;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.poi.util.SystemOutLogger;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -34,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 public class GeneradorTXT {
 	
-	private Map<String,String> voMapConf = null;
+    private Map<String,String> voMapConf = null;
     private Utilerias voUtil = null;
     private String  conversationId;
     private String pathArchivo;
@@ -42,7 +32,7 @@ public class GeneradorTXT {
     private String timeStamp;
     private String Archivo;
     private String Temporal;
-    private List<String> nameTxt;
+    private List<String> nameTxt= new ArrayList<>();
     
 	static {
 	        System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
@@ -53,47 +43,37 @@ public class GeneradorTXT {
     Thread voThreadReporte;
     
      public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations) {
-    	 
-    	 
+    	 timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
+         nameTxt.add(timeStamp);
       voThreadReporte = new Thread() {
     	  
           @Override
           
             public void run() {
         	  
-        	  voUtil = new Utilerias();
-              voMapConf = new HashMap<>();
-              voUtil.getProperties(voMapConf);
-              pathArchivo = voMapConf.get("PathReporteFinal");
+            voUtil = new Utilerias();
+            voMapConf = new HashMap<>();
+            voUtil.getProperties(voMapConf);
+            pathArchivo = voMapConf.get("PathReporteFinal");
               
         	  
         	//Creamos nuestro archivo TXT
               try { 
            
-            	timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
-            	
-            	Archivo = pathArchivo + "temp\\Reporte" + timeStamp;
+            	//timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
+            	System.out.println("Nombre del archivo que se usara: "+timeStamp);
+            	Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
             	boolean Ruta = createTempDirectory(Archivo);
             	if (Ruta == true) {
             		Temporal = Archivo;
-            	}else {
-            		voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" );         
-            	}
-            	//Genero mi archivo temporal
+                //Genero mi archivo temporal
             	Archivo =	Temporal + "\\" + timeStamp;
-  				File files = new File(timeStamp); 
-  				write = new FileWriter(Temporal + "\\" + timeStamp);
+  				File files = new File(timeStamp+".txt"); 
+  				write = new FileWriter(Temporal + "\\" + timeStamp+".txt");
+                System.out.println("La ruta se creo estamos en true: "+timeStamp);
+                
   				//files.deleteOnExit();
-  				
-  				
-  				
-  				
-          		}catch(Exception e)  { 
-          			voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE CREO EL ARCHIVO TXT");              
-          		}
-        	  
-        	 
-        	  //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
+                        	  //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
         	  voLogger.info("[GeneradorTXT][" + conversationId + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
         	  for(String vsContactId : vlContactId) {
@@ -115,8 +95,8 @@ public class GeneradorTXT {
     	        		//Escribir sobre el archivo
     	        		try {
     	        			//Leemos nuestro archivo creado
-    	        			Writer  output = new BufferedWriter(new FileWriter(Archivo, true));
-    	        			output.append("conversationStart= " + conversationStart + ", conversationEnd=  " + conversationEnd + ", ani= " + ani + ", dnis= " + dnis + "\n");
+    	        			Writer  output = new BufferedWriter(new FileWriter(Archivo+".txt", true));
+    	        			output.append("conversationId= "+vsContactId+", conversationStart= " + conversationStart + ", conversationEnd=  " + conversationEnd + ", ani= " + ani + ", dnis= " + dnis + "\n");
     	        			output.close(); 	
   	  				
     	        		}catch(Exception e)  { 
@@ -127,13 +107,31 @@ public class GeneradorTXT {
         		}
     		  i ++;
         	  }
-        	 
+        	 nameTxt = new ArrayList<>();
+                 nameTxt.add(timeStamp);
         	  voLogger.info("[GeneradorTXT][" + conversationId + "] ---> Se Generaron [\\" +   voConversations.size() + "\\]" );
-            };
+                                
+            	}else {
+            		voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" ); 
+                        //Se tendria que terminar el programa aquí con algun return o break
+            	}
+            	
+  				
+  				
+  				
+  				
+          		}catch(Exception e)  { 
+          			voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE CREO EL ARCHIVO TXT");              
+          		}
+        	  
+        	 
+
+            }; //Termina run
       }; 
       voThreadReporte.start();
-      nameTxt = new ArrayList<>();
-	  nameTxt.add(timeStamp);
+      
+          System.out.println("Imprimiendo timeStamp desde GeneradorTXT es: "+timeStamp);
+          System.out.println("El nombre a regresar desde GeneradorTXT es: "+nameTxt.get(0));
       return nameTxt;
   }
      
