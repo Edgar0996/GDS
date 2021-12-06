@@ -73,7 +73,7 @@ public class GeneradorTXT {
                 System.out.println("La ruta se creo estamos en true: "+timeStamp);
                 
   				//files.deleteOnExit();
-                        	  //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
+                //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
         	  voLogger.info("[GeneradorTXT][" + conversationId + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
         	  for(String vsContactId : vlContactId) {
@@ -108,8 +108,8 @@ public class GeneradorTXT {
     		  i ++;
         	  }
         	 nameTxt = new ArrayList<>();
-                 nameTxt.add(timeStamp);
-        	  voLogger.info("[GeneradorTXT][" + conversationId + "] ---> Se Generaron [\\" +   voConversations.size() + "\\]" );
+             nameTxt.add(timeStamp);
+        	 voLogger.info("[GeneradorTXT][" + conversationId + "] ---> Se Generaron [\\" +   voConversations.size() + "\\]" );
                                 
             	}else {
             		voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" ); 
