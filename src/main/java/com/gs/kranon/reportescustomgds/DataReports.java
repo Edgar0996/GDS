@@ -9,6 +9,7 @@ public class DataReports {
     private String vsFechaInicio = "";
     private String vsFechaFin = "";
     private String vsFlowName1 = "";
+    private String vsOrigination= "";
     
     public String getFlowName() {
         return vsFlowName;
@@ -40,6 +41,14 @@ public class DataReports {
 
     public void setFlowName1(String vsFlowName1) {
         this.vsFlowName1 = vsFlowName1;
+    }
+
+    public String getVsOrigination() {
+        return vsOrigination;
+    }
+
+    public void setVsOrigination(String vsOrigination) {
+        this.vsOrigination = vsOrigination;
     }
     
 }

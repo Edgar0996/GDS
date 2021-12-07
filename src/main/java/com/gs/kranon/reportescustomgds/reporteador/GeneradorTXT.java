@@ -53,7 +53,7 @@ public class GeneradorTXT {
         	  
             voUtil = new Utilerias();
             voMapConf = new HashMap<>();
-            voUtil.getProperties(voMapConf);
+            voUtil.getProperties(voMapConf,"");
             pathArchivo = voMapConf.get("PathReporteFinal");
               
         	  

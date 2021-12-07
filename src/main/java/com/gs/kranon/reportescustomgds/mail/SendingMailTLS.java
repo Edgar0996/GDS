@@ -35,7 +35,7 @@ public class SendingMailTLS {
     public boolean sendMailKranon(String destinatario, String asunto, String vsUUI){
                 /***********************************************************/
     /* Leemos la configuracion del archivo de configuracion */
-    voUtil.getProperties(voMapConf);
+    voUtil.getProperties(voMapConf, "");
     final String username = voMapConf.get("MailUsername");
     final String password = voMapConf.get("MailPassword");
     final String mailAuth= voMapConf.get("MailAuth");

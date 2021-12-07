@@ -69,7 +69,7 @@ public class Reporteador {
         voMapConf = new HashMap<>();
         voPureCloud = new GenesysCloud();
         voUti = new Utilerias();
-        voUti.getProperties(voMapConf);
+        voUti.getProperties(voMapConf,"");
     }
 
     public void getDataReport(String vsToken) {

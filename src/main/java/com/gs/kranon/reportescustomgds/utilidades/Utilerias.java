@@ -26,7 +26,7 @@ public class Utilerias {
     public String vsUUI = "";
 
     @SuppressWarnings("rawtypes")
-    public boolean getProperties(Map<String, String> voMapConfi) {
+    public boolean getProperties(Map<String, String> voMapConfi, String vsUUI) {
         
         try {
            
