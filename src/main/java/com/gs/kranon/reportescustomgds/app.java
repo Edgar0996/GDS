@@ -84,15 +84,15 @@ public class app {
     			voLogger.error("[Reporteador][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
     	}else {
     			 /* Genero los token's */
-    			List<String> GeneraCadenaUUI = GeneraCadenaUUI(voMapConf, voMapConfId, vsUUI);
-    			 System.out.println("Tokents 142 " + GeneraCadenaUUI.size());
+    			List<String> GeneraToken = GeneraToken(voMapConf, voMapConfId, vsUUI);
+    			 System.out.println("Tokents 142 " + GeneraToken.size());
     			 int i = 0;
     		DataReports voData = new DataReports();
     	    voData.setFechaInicio("2021-01-01");
     	    voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
     	    
     	    
-    	for (String vsToKen : GeneraCadenaUUI) {
+    	for (String vsToKen : GeneraToken) {
     		
     					 
     		
@@ -145,7 +145,7 @@ public class app {
         return vsUUI;
     }
     
-   public static List<String>  GeneraCadenaUUI(Map<String,String> voMapConf, Map<String,String> voMapConfId, String vsUUI){
+   public static List<String>  GeneraToken(Map<String,String> voMapConf, Map<String,String> voMapConfId, String vsUUI){
     	
 	   List<String> Token= new ArrayList<>();
 	   String clientsNum = voMapConf.get("NoClienteID");

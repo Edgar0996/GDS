@@ -198,7 +198,7 @@ public class Reporteador {
             	GenraTXT = new GeneradorTXT();
             	nameTxt = new ArrayList<>();
             	nameTxt.addAll(GenraTXT.GeneraTXT(vlContactId, voConversations)); 
-                System.out.println("a ver que me regresa  a reporteador  " + nameTxt.get(0));
+                //System.out.println("a ver que me regresa  a reporteador  " + nameTxt.get(0));
                 //Leemos el txt recibido por parametro
                 List content = new ArrayList();
                 File doc = new File(pathCSV+ "temp\\Reporte_"+nameTxt.get(0)+"\\"+nameTxt.get(0)+".txt");
@@ -217,7 +217,7 @@ public class Reporteador {
                 } catch (FileNotFoundException ex) {
                     java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Tamanio de content  " + content.size());
+               // System.out.println("Tamanio de content  " + content.size());
                 
                         for(int i = 0; i < content.size(); i++) {
             String[] lineElements = (String[]) content.get(i);
