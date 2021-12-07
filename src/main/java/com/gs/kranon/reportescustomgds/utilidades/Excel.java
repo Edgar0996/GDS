@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.log4j.LogManager;
@@ -19,7 +20,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 public class Excel {
-    
+
     static {
         System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
     }
@@ -38,7 +39,7 @@ public class Excel {
         this.vsUUI = vsUUI;
     }
 
-    public void addInfo(Map<String, Object> voHeaders, Map<String, Map<String, String>> voContents) {
+    public void addInfo(Map<String, Object> voHeaders, Map<String, Map<String, String>> voContents, List content) {
         row = sheet.createRow(++rowCount);
         voLogger.info("[Excel      ][" + vsUUI + "] ---> ADD HEADERS");
         for (Entry<String, Object> voEntry : voHeaders.entrySet()) {
@@ -50,22 +51,15 @@ public class Excel {
             }
         }
         voLogger.info("[Excel      ][" + vsUUI + "] ---> ADDING INFORMATION FROM CONVERSATIONS");
-        for (Map.Entry<String, Map<String, String>> voMapContent : voContents.entrySet()) {
+        for (int i = 0; i < content.size(); i++) {
             row = sheet.createRow(++rowCount);
-            for (Entry<String, Object> voHead : voHeaders.entrySet()) {
-                String key = voHead.getKey();
-                Object index = voHead.getValue();
-                String id = voMapContent.getKey();
-                Map<String, String> value = voMapContent.getValue();
-                Object valor = value.get(key);
-                cell = row.createCell((Integer) index);
-                if ((Integer) index == 0) {
-                    cell.setCellValue((String) id);
-                } else if (valor instanceof String) {
-                    cell.setCellValue((String) valor);
-                } else if (valor instanceof Integer) {
-                    cell.setCellValue((Integer) valor);
-                }
+            String[] lineElements = (String[]) content.get(i);
+            int k=0;
+            for (String lineElement : lineElements) {           
+                    HSSFCell cell = row.createCell(k);
+                    cell.setCellValue(lineElement);
+                    k++;
+
             }
         }
     }
@@ -121,7 +115,7 @@ public class Excel {
         } catch (FileNotFoundException e) {
             voLogger.error("[Excel      ][" + vsUUI + "] ---> ERROR : " + e.getMessage());
         } catch (IOException ex) {
-             voLogger.error("[Excel      ][" + vsUUI + "] ---> ERROR : " + ex.getMessage());
+            voLogger.error("[Excel      ][" + vsUUI + "] ---> ERROR : " + ex.getMessage());
         }
         return false;
     }

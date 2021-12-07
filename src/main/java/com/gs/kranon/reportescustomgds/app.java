@@ -93,10 +93,11 @@ public class app {
                     DataReports voData = new DataReports();
                     voData.setFechaInicio("2021-01-01");
                     voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+                    voData.setVsOrigination(originationDirection);
 
                     for (String vsToKen : GeneraCadenaUUI) {
 
-                        Reporteador voReporte = new Reporteador(voData);
+                        Reporteador voReporte = new Reporteador(voData,vsUUI );
                         voReporte.getDataReport(vsToKen);
 
                         System.out.println("Si entro aquí ");
@@ -208,7 +209,7 @@ public class app {
             voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 
             voLogger.info("[Main  ][" + vsUUI + "] ---> Fecha del reporte final." + "[ " + voData.getFechaInicio() + "]");
-            voReporte = new Reporteador(voData);
+            voReporte = new Reporteador(voData, vsUUI);
             voReporte.getDataReport(vsToken);
 
             if (vsToken.equals("ERROR")) {

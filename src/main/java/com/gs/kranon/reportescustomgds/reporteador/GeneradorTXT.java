@@ -70,7 +70,7 @@ public class GeneradorTXT {
             	Archivo =	Temporal + "\\" + timeStamp;
   				File files = new File(timeStamp+".txt"); 
   				write = new FileWriter(Temporal + "\\" + timeStamp+".txt");
-                System.out.println("La ruta se creo estamos en true: "+timeStamp);
+                
                 
   				//files.deleteOnExit();
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
