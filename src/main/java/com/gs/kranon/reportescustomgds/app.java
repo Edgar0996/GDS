@@ -87,7 +87,7 @@ public class app {
                     voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
                 } else {
                     /* Genero los token's */
-                    List<String> GeneraCadenaUUI = GeneraCadenaUUI(voMapConf, voMapConfId, vsUUI);
+                    List<String> GeneraCadenaUUI = GeneraToken(voMapConf, voMapConfId, vsUUI);
                     System.out.println("Tokents 142 " + GeneraCadenaUUI.size());
                     int i = 0;
                     DataReports voData = new DataReports();
@@ -136,36 +136,38 @@ public class app {
 
         return vsUUI;
     }
-
-    public static List<String> GeneraCadenaUUI(Map<String, String> voMapConf, Map<String, String> voMapConfId, String vsUUI) {
-
-        List<String> Token = new ArrayList<>();
-        String clientsNum = voMapConf.get("NoClienteID");
-        int total = Integer.parseInt(clientsNum);
-
-        for (int i = 0; i < total; i++) {
-
-            String clientNum = "ClientId" + i;
-            String clientSecr = "ClientSecret" + i;
-            //Seteamos los valores recuperados
-            String idClient = voMapConfId.get(clientNum);
-            String clientSecret = voMapConfId.get(clientSecr);
-
-            //Generamos los Tokents  
-            GenesysCloud voPureCloud = new GenesysCloud();
-            String vsToken = voPureCloud.getToken(idClient, clientSecret);
-
-            Token.add(vsToken);
-
-            if (vsToken.equals("ERROR")) {
-
-                voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
-
-            }
-
-        }
-
-        return Token;
+    
+   public static List<String>  GeneraToken(Map<String,String> voMapConf, Map<String,String> voMapConfId, String vsUUI){
+    	
+	   List<String> Token= new ArrayList<>();
+	   String clientsNum = voMapConf.get("NoClienteID");
+	   int total= Integer.parseInt(clientsNum);
+	   
+	   for (int i = 0; i < total; i++) {
+		   
+           String clientNum =   "ClientId" + i;
+           String clientSecr =   "ClientSecret" + i;
+           //Seteamos los valores recuperados
+           String idClient =  voMapConfId.get(clientNum);
+           String clientSecret =  voMapConfId.get(clientSecr);
+        
+           //Generamos los Tokents  
+           GenesysCloud voPureCloud = new GenesysCloud();
+           String vsToken = voPureCloud.getToken(idClient, clientSecret);
+           
+           Token.add(vsToken);
+           
+                 
+       if (vsToken.equals("ERROR")) {
+           
+          voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
+          
+               }
+            
+       
+    }   
+	  
+    return Token;
     }
 
     public app() {
