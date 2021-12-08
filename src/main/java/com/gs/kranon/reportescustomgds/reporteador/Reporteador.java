@@ -42,6 +42,7 @@ public class Reporteador extends  Thread  {
     private static final Logger voLogger = LogManager.getLogger("Reporte");
 
     private String vsUUI = "";
+    private String vsToken= "";
     private String vsFechaInicio = "";
     private String vsFechaFin = "";
     private String vsFlowName = "";
@@ -60,24 +61,29 @@ public class Reporteador extends  Thread  {
     private Map<String, Map<String, String>> voConversations;
     private List<String> vlContact = null;
     private List<String> nameTxt;
+    private List<String> vlContactId;
     private Map<String, String> voDetailsConversations;
-
+    private String urlArchivoTemp =null;
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean vbActivo = true;
 
     
 
-    public Reporteador(DataReports voDataReport, String uui) {
+    public Reporteador(DataReports voDataReport, String uui,String vsTokens,String vsUUI,List<String> vlContactIds,String urlArchivoTem) {
         this.voDataReport = voDataReport;
         voMapConf = new HashMap<>();
         voPureCloud = new GenesysCloud();
         voUti = new Utilerias();
         vsUUI = uui;
+        vsToken = vsTokens;
+        vlContactId=vlContactIds;
         voUti.getProperties(voMapConf, uui);
+        urlArchivoTemp=urlArchivoTem;
+        
     }
    
  
-    public synchronized void run(String vsToken,String vsUUI,List<String> vlContactId) {
+    public synchronized void run() {
 
     	 
      
@@ -149,7 +155,7 @@ public class Reporteador extends  Thread  {
           
                 GenraTXT = new GeneradorTXT();
                 nameTxt = new ArrayList<>();
-                nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUI));
+                nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUI,urlArchivoTemp));
                 
                 
         

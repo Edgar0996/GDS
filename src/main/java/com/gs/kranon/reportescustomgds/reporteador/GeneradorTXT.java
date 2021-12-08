@@ -42,13 +42,10 @@ public class GeneradorTXT  {
 	       
     
     
-     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI) {
+     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI,String urlArchivoTemp) {
     	 timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
          nameTxt.add(timeStamp);
-         
-          
-        
-        	  
+	  
             voUtil = new Utilerias();
             voMapConf = new HashMap<>();
             voUtil.getProperties(voMapConf,"");
@@ -59,10 +56,8 @@ public class GeneradorTXT  {
               try { 
            
             	
-            	Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
-            	boolean Ruta = createTempDirectory(Archivo);
-            	if (Ruta == true) {
-            		Temporal = Archivo;
+            	
+            	Temporal = urlArchivoTemp;
                 //Genero mi archivo temporal
             	Archivo =	Temporal + "\\" + timeStamp;
   				File files = new File(timeStamp+".txt"); 
@@ -234,10 +229,7 @@ public class GeneradorTXT  {
              
         	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> Se Generaron [\\" +   voConversations.size() + "\\] Archivos TXT" );
                                 
-            	}else {
-            		voLogger.error("[Generador][" + UUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" ); 
-                        //Se tendria que terminar el programa aquí con algun return o break
-            	}
+            	
             	
   				
   				
@@ -255,19 +247,7 @@ public class GeneradorTXT  {
       
   }
      
-     public static boolean createTempDirectory(String ruta){
-    	
-    		 
-    		    File Directory = new File(ruta);
-    		    if (Directory.mkdirs()) {
-    		    	return true;	
-    		    }else {
-    		    	return false;	
-    		    }
-    		    	
-    		   
-    		   
-    		}
+    
      
        
          

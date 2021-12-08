@@ -22,6 +22,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
 import static java.lang.System.exit;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Properties;
 import java.util.logging.Level;
 import javax.mail.Message;
@@ -74,11 +77,11 @@ public class app {
             voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
             exit(0);
         } else {
-            //String Threads = voMapConf.get("Threads");
-            //String NoClienteID = voMapConf.get("NoClienteID");
+          
             int totalThreads = Integer.parseInt(voMapConf.get("Threads"));
             int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
             String originationDirection = voMapConf.get("OriginationDirection");
+            String pathArchivo = voMapConf.get("PathReporteFinal");
             //SAM - Hay que revisar esta validacion ya que dice Efra que se puede usar un token en dos hilos al mismo tiempo
             if (totalThreads > totalNoClienteID) {
                 voLogger.error("[app][" + vsUUI + "] ---> LA CONFIGURACIÓN DE CLIENTES Y HILOS NO ES CORRECTA");
@@ -89,6 +92,12 @@ public class app {
                 if (voMapConf.size() <= 0) {
                     voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
                 } else {
+					
+                	/* Genero la carpeta temporal */
+                	String timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
+                	String Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
+                	boolean Ruta = createTempDirectory(Archivo);
+                	if (Ruta == true) {	
                     /* Genero los token's */
                     List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
                     
@@ -111,29 +120,33 @@ public class app {
                 	List<String> listConversationThreads = new ArrayList<>();
                 	List<String> listConversationThreads2 = new ArrayList<>();
                 	
-                	for(int j =0 ;j  <= 11; j++ ) {
+                	for(int j =0 ;j  <= 10; j++ ) {
                 		listConversationThreads.add(listConversationID.get(j));
+                		
                 	}
-                	for(int j =11 ;j == 21; j++ ) {
+                	for(int j =11 ;j <= 21; j++ ) {
                 		listConversationThreads2.add(listConversationID.get(j));
                 	}
-                	
+                	System.out.println("Estro trae mi primer arreglo " +listConversationThreads.size() + " Esto trae mi segundo arreglo" + listConversationThreads2.size() );
                 	
                 	
                       
-                    	Reporteador voReporte = new Reporteador(voData,vsUUI);
-                        voReporte.run(tokenList.get(0),vsUUI,listConversationThreads);
-                    	
+                    	Reporteador voReporte = new Reporteador(voData,vsUUI,tokenList.get(0),vsUUI,listConversationThreads,Archivo );
+                        voReporte.start();
+                        Reporteador voReporte1 = new Reporteador(voData,vsUUI,tokenList.get(0),vsUUI,listConversationThreads2,Archivo);
+                        voReporte1.start();
                         
 
                      
 
                     
                 }
+                	voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" ); 
+                    //Se tendria que terminar el programa aquí con algun return o break
             }
 
         }
-
+        }
         //new app();
     }
 
@@ -196,6 +209,21 @@ public class app {
 	 
     return Token;
     }
+   
+   
+   public static boolean createTempDirectory(String ruta){
+   	
+		 
+	    File Directory = new File(ruta);
+	    if (Directory.mkdirs()) {
+	    	return true;	
+	    }else {
+	    	return false;	
+	    }
+	    	
+	   
+	   
+	}
 
     
 
