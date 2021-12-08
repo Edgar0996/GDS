@@ -40,16 +40,14 @@ public class GeneradorTXT {
 	    private static final Logger voLogger = LogManager.getLogger("Reporte");
 	    
 	       
-    Thread voThreadReporte;
     
-     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations) {
+    
+     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI) {
     	 timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
          nameTxt.add(timeStamp);
-      voThreadReporte = new Thread() {
-    	  
-          @Override
+         
           
-            public void run() {
+        
         	  
             voUtil = new Utilerias();
             voMapConf = new HashMap<>();
@@ -74,7 +72,7 @@ public class GeneradorTXT {
                 
   				//files.deleteOnExit();
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
-        	  voLogger.info("[GeneradorTXT][" + conversationId + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
+        	  voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
         	  for(String vsContactId : vlContactId) {
         		  
@@ -203,7 +201,7 @@ public class GeneradorTXT {
         	        				
       	  				
         	        		}catch(Exception e)  { 
-        	          			voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE [" + timeStamp + "]" );              
+        	          			voLogger.error("[Generador][" + UUI + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE [" + timeStamp + "]" );              
         	          		}
 
     	        			a++;
@@ -219,15 +217,26 @@ public class GeneradorTXT {
     	        				
     	                   
     	        		  }
+    			  
+    			  
         		}
     		  i ++;
         	  }
+        	  
+        	  try {
+                  Thread.sleep(5000);
+                  } catch (InterruptedException ex) {
+                  voLogger.error("[Generador][" + UUI + "] ---> ERROR : en la interrupción [" + ex.getMessage() + "]" );
+                  }
+			 
+        	 
         	 nameTxt = new ArrayList<>();
              nameTxt.add(timeStamp);
-        	 voLogger.info("[GeneradorTXT][" + conversationId + "] ---> Se Generaron [\\" +   voConversations.size() + "\\]" );
+             
+        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> Se Generaron [\\" +   voConversations.size() + "\\] Archivos TXT" );
                                 
             	}else {
-            		voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" ); 
+            		voLogger.error("[Generador][" + UUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL" ); 
                         //Se tendria que terminar el programa aquí con algun return o break
             	}
             	
@@ -236,16 +245,15 @@ public class GeneradorTXT {
   				
   				
           		}catch(Exception e)  { 
-          			voLogger.error("[Generador][" + vlContactId + "] ---> ERROR : NO SE CREO EL ARCHIVO TXT");              
+          			voLogger.error("[Generador][" + UUI + "] ---> ERROR : NO SE CREO EL ARCHIVO TXT");              
           		}
         	  
         	 
 
-            }; //Termina run
-      }; 
-      voThreadReporte.start();
-
+            
+     
       return nameTxt;
+      
   }
      
      public static boolean createTempDirectory(String ruta){

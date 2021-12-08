@@ -51,6 +51,7 @@ public class Reporteador {
     private ConexionHttp voConexionHttp = null;
     private GenesysCloud voPureCloud = null;
     private GeneradorTXT GenraTXT = null;
+    private GeneradorCSV GenraCSV = null;
     //private DatosProgreso voDatos;
     private Utilerias voUti;
 
@@ -64,8 +65,7 @@ public class Reporteador {
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean vbActivo = true;
 
-    Thread voThreadProgreso;
-    Thread voThreadReporte;
+    
 
     public Reporteador(DataReports voDataReport, String uui) {
         this.voDataReport = voDataReport;
@@ -76,14 +76,12 @@ public class Reporteador {
         voUti.getProperties(voMapConf, uui);
     }
 
-    public void getDataReport(String vsToken) {
+    public void getDataReport(String vsToken,String vsUUI) {
 
-        voThreadReporte = new Thread() {
-
-            @Override
-            public void run() {
-
-                vsUUI = voPureCloud.getVsUUI();
+      
+            
+    	
+                
                 ConexionResponse voConexionResponse;
                 //recuperamos las variables a comparar para ir por nuestros ID's
 
@@ -178,9 +176,7 @@ public class Reporteador {
                 } while (true);
 
                 voLogger.info("[Reporteador][" + vsUUI + "] TOTAL DE ID'S [" + vlContactId.size() + "]");
-                //voDatos.setTotalProgreso(vlContactId.size());
-                //voProgreso.setMinimum(0);
-                //voProgreso.setMaximum(vlContactId.size());
+
 
                 try {
                     Thread.sleep(500);
@@ -200,48 +196,15 @@ public class Reporteador {
                 String pathCSV = voMapConf.get("PathReporteFinal");
                 GenraTXT = new GeneradorTXT();
                 nameTxt = new ArrayList<>();
-                nameTxt.addAll(GenraTXT.GeneraTXT(vlContactId, voConversations));
-                //Leemos el txt recibido por parametro
-                FileReader fileReaderConversations = null;
-                String lineContent = "";
-                List content = new ArrayList();
-                try {
-                    sleep(3000);
-                    fileReaderConversations = new FileReader(pathCSV + "temp\\Reporte_" + nameTxt.get(0) + "\\" + nameTxt.get(0) + ".txt");
-                    BufferedReader buffer = new BufferedReader(fileReaderConversations);
-                    while((lineContent = buffer.readLine()) != null){
-                    String[] lineElements = lineContent.split(",");
-                     content.add(lineElements);
-                    }
-                    buffer.close();
-                } catch (FileNotFoundException ex) {
-                    java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
-                } finally{
-                    try {
-                        if(null != fileReaderConversations)
-                        fileReaderConversations.close();
-                    } catch (IOException ex) {
-                        java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                //Generando excel
-                String Archivo;
-                Archivo = pathCSV + "temp\\Reporte_" + nameTxt.get(0) + "\\ReporteFinal";
-                vbActivo = false;
-                //Obteniendo los encabezados
-                DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
-                GDSmx voAppBBVAMx = new GDSmx(voMapConf, voDataBBVAmx);
-                for (String vsContactId : vlContactId) {
-                    Map<String, String> voDetails = voConversations.get(vsContactId);
-                    voAppBBVAMx.analizar(voDetails);
-                    voConversations.replace(vsContactId, voDetails);
-                    voMapHeaderCSV = voAppBBVAMx.getHeaderCSV();
-                }
-                boolean resultadoCsv = GeneraReportCSV(Archivo, content);
+                nameTxt.addAll(GenraTXT.GeneraTXT(vlContactId, voConversations,vsUUI));
+                
+                
+                /*
+				 * Genero el CSV
+                 */
+                GenraCSV = new  GeneradorCSV();
+                GenraCSV.GeneraCSV(nameTxt, pathCSV, vlContactId, voConversations, vsUUI);
+                
 
                 for (String vsContactId : vlContactId) {
 
@@ -296,57 +259,23 @@ public class Reporteador {
                         }
                     }
                     try {
-                        Thread.sleep(500);
+                    Thread.sleep(500);
                     } catch (InterruptedException ex) {
-                        voLogger.error("[Reporteador][" + vsUUI + "] ---> " + ex.getMessage());
+                    voLogger.error("[Reporteador][" + vsUUI + "] ---> " + ex.getMessage());
                     }
                 }
                 //voDatos.setTotalProgreso(vlContactId.size());
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voConversations.size() + "]");
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> ANALIZANDO E INTERPRETANDO BREADCRUMBS PARA LA APP [" + vsFlowName + "  ]  [" + vsFlowName1 + "  ]");
                 vbActivo = false;
-            }
-        ;
-        };
+            
         
-        voThreadReporte.start();
+        
+        
     }
 
-    public boolean GeneraReportCSV(String vsPathExcel, List content) {
-        if (voMapHeaderCSV.size() <= 0) {
-            voLogger.warn("[Reporteador][" + vsUUI + "] ---> NO HAY DATOS PARA REALIZAR LA EXPORTACION.");
-            return false;
-        }
-        if (!vbActivo) {
-            voLogger.info("[Reporteador][" + vsUUI + "] ---> GENERANDO CSV[" + vsPathExcel + ".csv]");
-            Excel voExcel = new Excel(vsUUI);
-            voExcel.addInfo(voMapHeaderCSV, voConversations, content);
-            if (voExcel.createCSV(vsPathExcel + ".csv")) {
-                voLogger.info("[Reporteador][" + vsUUI + "] ---> ARCHIVO CSV CREADO EXITOSAMENTE");
-            } else {
-                voLogger.error("[Reporteador][" + vsUUI + "] ---> ERROR : NO SE CREO EL ARCHIVO CSV");
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-/*
-    public boolean GenerarReportTXT(String vsPath) {
-        PrintWriter pw = null;
-        voLogger.info("[Reporteador][" + vsUUI + "] ---> GENERANDO TXT[" + vsPath + ".txt]");
-        try {
-            pw = new PrintWriter(new FileWriter(vsPath + ".txt", true));
-            //pw.println(voTA.getText());
-            pw.close();
-            voLogger.info("[Reporteador][" + vsUUI + "] ---> ARCHIVO TXT CREADO EXITOSAMENTE");
-            return true;
-        } catch (Exception e) {
-            voLogger.error("[Utilerias][" + vsUUI + "] ---> ERROR : " + e.getMessage());
-            return false;
-        }
-    }
-*/
+
+
     public boolean getGenerado() {
         return !vbActivo;
     }
