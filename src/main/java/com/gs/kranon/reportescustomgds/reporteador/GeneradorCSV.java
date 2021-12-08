@@ -29,7 +29,7 @@ public class GeneradorCSV {
     private boolean vbActivo = true;
     private Map<String, String> voMapConf = null;
     private List<String> vlContactId = null;
-    
+
     
     public void GeneraCSV(List<String> nameTxt,String pathCSV,List<String> vlContactId,Map<String, Map<String, String>> voConversations,String vsUUI){
     	//Leemos el txt recibido por parametro
@@ -76,12 +76,14 @@ public class GeneradorCSV {
             voConversations.replace(vsContactId, voDetails);
             voMapHeaderCSV = voAppBBVAMx.getHeaderCSV();
         }
-        boolean resultadoCsv = GeneraReportCSV(Archivo, content,vsUUI,voConversations);
+       // boolean resultadoCsv = GeneraReportCSV(Archivo, content,vsUUI);
                                                                       
     }
     
     
-    public boolean GeneraReportCSV(String vsPathExcel, List content,String vsUUI,Map<String, Map<String, String>> voConversations) {
+    public boolean GeneraReportCSV(String vsPathExcel, List content,String vsUUI, Map<String, Object> voMapHeadersCSVs) {
+        voMapHeaderCSV = voMapHeadersCSVs;
+        vbActivo = false;
         if (voMapHeaderCSV.size() <= 0) {
             voLogger.warn("[Reporteador][" + vsUUI + "] ---> NO HAY DATOS PARA REALIZAR LA EXPORTACION.");
             return false;
@@ -89,7 +91,7 @@ public class GeneradorCSV {
         if (!vbActivo) {
             voLogger.info("[Reporteador][" + vsUUI + "] ---> GENERANDO CSV[" + vsPathExcel + ".csv]");
             Excel voExcel = new Excel(vsUUI);
-            voExcel.addInfo(voMapHeaderCSV, voConversations, content);
+            voExcel.addInfo(voMapHeaderCSV, content);
             if (voExcel.createCSV(vsPathExcel + ".csv")) {
                 voLogger.info("[Reporteador][" + vsUUI + "] ---> ARCHIVO CSV CREADO EXITOSAMENTE");
             } else {
