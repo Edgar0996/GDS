@@ -33,7 +33,7 @@ public class GenesysCloud {
         return vsUUI;
     }
 
-    public String getToken(String vsClID, String vsClSec) {
+    public String getToken(String vsClID, String vsClSec,String vsUUI) {
         String vsAccessToken = "ERROR";
         String encodeData;
         String URLServicio = "https://login.mypurecloud.com/oauth/token?grant_type=client_credentials";

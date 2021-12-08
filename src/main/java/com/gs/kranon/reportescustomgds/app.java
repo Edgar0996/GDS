@@ -88,7 +88,7 @@ public class app {
                 } else {
                     /* Genero los token's */
                     List<String> GeneraCadenaUUI = GeneraToken(voMapConf, voMapConfId, vsUUI);
-                    System.out.println("Tokents 142 " + GeneraCadenaUUI.size());
+                    
                     int i = 0;
                     DataReports voData = new DataReports();
                     voData.setFechaInicio("2021-01-01");
@@ -96,11 +96,11 @@ public class app {
                     voData.setVsOrigination(originationDirection);
 
                     for (String vsToKen : GeneraCadenaUUI) {
+                    	
+                        Reporteador voReporte = new Reporteador(voData,vsUUI);
+                        voReporte.getDataReport(vsToKen,vsUUI);
 
-                        Reporteador voReporte = new Reporteador(voData,vsUUI );
-                        voReporte.getDataReport(vsToKen);
-
-                        System.out.println("Si entro aquí ");
+                     
 
                     }
                 }
@@ -154,7 +154,7 @@ public class app {
         
            //Generamos los Tokents  
            GenesysCloud voPureCloud = new GenesysCloud();
-           String vsToken = voPureCloud.getToken(idClient, clientSecret);
+           String vsToken = voPureCloud.getToken(idClient, clientSecret,vsUUI);
            
            Token.add(vsToken);
            
@@ -171,72 +171,6 @@ public class app {
     return Token;
     }
 
-    public app() {
-        //Invocamos nuestro primer archivo de configuración 
-
-        voMapConf = new HashMap<>();
-        voPureCloud = new GenesysCloud();
-
-        vsUUI = java.util.UUID.randomUUID().toString();
-        voPureCloud.setUUI(vsUUI);
-        voLogger.info("[Main  ][" + vsUUI + "] ---> Inicia ejecución de la app.");
-
-        voUtil.getProperties(voMapConf, vsUUI);
-        String clientsNum = voMapConf.get("NoClienteID");
-        pathArchivo = voMapConf.get("PathReporteFinal");
-
-        //Invocamos nuestro segundo archivo de configuración para traer los ID's 
-        voMapConfId = new HashMap<>();
-        voUtil.getPropertiesID(voMapConfId);
-
-        int total = Integer.parseInt(clientsNum);
-        //Generamos el for para recuperar solo los ClientesId que se colocaron en la configuración
-        for (int i = 0; i < total; i++) {
-            String clientNum = "ClientId" + i;
-            String clientSecr = "ClientSecret" + i;
-            //Seteamos los valores recuperados
-            String idClient = voMapConfId.get(clientNum);
-            String clientSecret = voMapConfId.get(clientSecr);
-
-            //Generamos los Tokents  
-            vsUUI = java.util.UUID.randomUUID().toString();
-            voPureCloud.setUUI(vsUUI);
-            vsToken = voPureCloud.getToken(idClient, clientSecret);
-            //System.out.println("Tokents 104 " + vsToken);
-            // Invocamos el metodo para recuperar los id's
-            voData = new DataReports();
-            voData.setFechaInicio("2021-01-01");
-            voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-
-            voLogger.info("[Main  ][" + vsUUI + "] ---> Fecha del reporte final." + "[ " + voData.getFechaInicio() + "]");
-            voReporte = new Reporteador(voData, vsUUI);
-            voReporte.getDataReport(vsToken);
-
-            if (vsToken.equals("ERROR")) {
-
-                voLogger.error("[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
-                System.out.println("Se genero un error");
-            }
-
-        }
-
-        /*
-                voData = new DataReports();
-                voData.setFlowName("bbva_bbvamxap_ivr");
-                //voData.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-                voData.setFechaInicio("2021-01-01");
-                voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
-                voLogger.info("[Main  ][" + vsUUI + "] ---> Fecha del reporte final."+"[ "+voData.getFechaInicio()+"]");
-                JProgressBar voProgreso = null;
-                JTextArea voTextArea = null;
-                voReporte = new Reporteador(voData);
-                voReporte.getDataReport(vsToken);
-                
-               
-             String destinatario= voMapConf.get("MailDestinatario");
-                SendingMailTLS enviarcorreo = new SendingMailTLS();
-                 boolean result = enviarcorreo.sendMailKranon(destinatario,"Reporte de la ejecución del servicio de GDS", vsUUI);
-                System.out.print("El resultado del envio del correo fue: "+result);*/
-    }
+    
 
 }
