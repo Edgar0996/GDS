@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Random;
 import java.io.*;
 import java.text.SimpleDateFormat;
 
@@ -52,16 +52,19 @@ public class GeneradorTXT  {
             pathArchivo = voMapConf.get("PathReporteFinal");
               
         	  
-        	//Creamos nuestro archivo TXT
+        	
               try { 
            
             	
-            	
+                int min = 1;
+          		int max = 100;
+          		Random random = new Random();
+          		int value = random.nextInt(max + min) + min;
             	Temporal = urlArchivoTemp;
                 //Genero mi archivo temporal
-            	Archivo =	Temporal + "\\" + timeStamp;
-  				File files = new File(timeStamp+".txt"); 
-  				write = new FileWriter(Temporal + "\\" + timeStamp+".txt");
+            	Archivo =	Temporal + "\\" + timeStamp +"_" + value;
+  				File files = new File(timeStamp+"_" + value +".txt"); 
+  				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
   				//files.deleteOnExit();
                 
   				
@@ -74,8 +77,7 @@ public class GeneradorTXT  {
         		  //Comparo mis Id's para crear el TXt y pintar el contenido de cada llamada
     			 
     			  if( entry.getKey().equals(vsContactId)) {
-    		        	
-    		          
+    				  
     	        		Map<String, String> voDetails = voConversations.get(vsContactId);
     	        		String  conversationStart = String.valueOf(voDetails.get("ConversationStart"));
     	        		String  conversationEnd = String.valueOf(voDetails.get("vsConversationEnd"));
@@ -225,7 +227,7 @@ public class GeneradorTXT  {
 			 
         	 
         	 nameTxt = new ArrayList<>();
-             nameTxt.add(timeStamp);
+             nameTxt.add(files.getName());
              
         	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> Se Generaron [\\" +   voConversations.size() + "\\] Archivos TXT" );
                                 
@@ -242,7 +244,7 @@ public class GeneradorTXT  {
         	 
 
             
-     
+     System.out.println("Que pasa aquí " + nameTxt.get(0));
       return nameTxt;
       
   }
