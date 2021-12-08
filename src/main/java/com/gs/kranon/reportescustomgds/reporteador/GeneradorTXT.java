@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  *
  * @author kranoncloud
  */
-public class GeneradorTXT {
+public class GeneradorTXT  {
 	
     private Map<String,String> voMapConf = null;
     private Utilerias voUtil = null;
@@ -58,8 +58,7 @@ public class GeneradorTXT {
         	//Creamos nuestro archivo TXT
               try { 
            
-            	//timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
-            	//System.out.println("Nombre del archivo que se usara: "+timeStamp);
+            	
             	Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
             	boolean Ruta = createTempDirectory(Archivo);
             	if (Ruta == true) {
@@ -68,9 +67,9 @@ public class GeneradorTXT {
             	Archivo =	Temporal + "\\" + timeStamp;
   				File files = new File(timeStamp+".txt"); 
   				write = new FileWriter(Temporal + "\\" + timeStamp+".txt");
-                
-                
   				//files.deleteOnExit();
+                
+  				
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
         	  voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
@@ -83,8 +82,8 @@ public class GeneradorTXT {
     		        	
     		          
     	        		Map<String, String> voDetails = voConversations.get(vsContactId);
-    	        		String  conversationStart = String.valueOf(voDetails.get("conversationStart"));
-    	        		String  conversationEnd = String.valueOf(voDetails.get("conversationEnd"));
+    	        		String  conversationStart = String.valueOf(voDetails.get("ConversationStart"));
+    	        		String  conversationEnd = String.valueOf(voDetails.get("vsConversationEnd"));
     	        		String  ani = String.valueOf(voDetails.get("ani"));
     	        		String  dnis = String.valueOf(voDetails.get("dnis"));
     	        		List<String> dataComplet = new ArrayList<>();

@@ -6,6 +6,7 @@
 package com.gs.kranon.reportescustomgds;
 
 import com.gs.kranon.reportescustomgds.genesysCloud.GenesysCloud;
+import com.gs.kranon.reportescustomgds.genesysCloud.RecuperaConversationID;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 import java.util.HashMap;
 import java.util.List;
@@ -54,10 +55,12 @@ public class app {
     private Map<String, String> voMapConfId = null;
     private String vsUUI = "1234567890";
     private String vsToken = null;
+    
     /*Variables de prueba */
     private DataReports voData = null;
     /*Variables para mandar a llamar mi reporte */
     private Reporteador voReporte;
+    private RecuperaConversationID RecuperaId;
 
     public static void main(String[] args) {
 
@@ -87,22 +90,45 @@ public class app {
                     voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
                 } else {
                     /* Genero los token's */
-                    List<String> GeneraCadenaUUI = GeneraToken(voMapConf, voMapConfId, vsUUI);
+                    List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
                     
                     int i = 0;
                     DataReports voData = new DataReports();
                     voData.setFechaInicio("2021-01-01");
                     voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
                     voData.setVsOrigination(originationDirection);
-
-                    for (String vsToKen : GeneraCadenaUUI) {
+                    
+					/*
+					 * Recupero los ConversationID'S
+					 */              
+                    
+                    List<String> listConversationID= new ArrayList<>();
+                	RecuperaConversationID recuperaId = new  RecuperaConversationID(voData,vsUUI);
+                	listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI, originationDirection));
+                    
+                	int viConversationIdThreads = listConversationID.size()/totalThreads;
+                	
+                	List<String> listConversationThreads = new ArrayList<>();
+                	List<String> listConversationThreads2 = new ArrayList<>();
+                	
+                	for(int j =0 ;j  <= 11; j++ ) {
+                		listConversationThreads.add(listConversationID.get(j));
+                	}
+                	for(int j =11 ;j == 21; j++ ) {
+                		listConversationThreads2.add(listConversationID.get(j));
+                	}
+                	
+                	
+                	
+                      
+                    	Reporteador voReporte = new Reporteador(voData,vsUUI);
+                        voReporte.run(tokenList.get(0),vsUUI,listConversationThreads);
                     	
-                        Reporteador voReporte = new Reporteador(voData,vsUUI);
-                        voReporte.getDataReport(vsToKen,vsUUI);
+                        
 
                      
 
-                    }
+                    
                 }
             }
 
@@ -167,7 +193,7 @@ public class app {
             
        
     }   
-	  
+	 
     return Token;
     }
 
