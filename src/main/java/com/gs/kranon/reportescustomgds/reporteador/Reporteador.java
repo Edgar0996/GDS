@@ -54,7 +54,6 @@ public class Reporteador {
     //private DatosProgreso voDatos;
     private Utilerias voUti;
 
-    //private JTextArea voTA;
     //private JProgressBar voProgreso;
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
