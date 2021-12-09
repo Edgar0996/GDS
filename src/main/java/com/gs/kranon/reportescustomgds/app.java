@@ -65,7 +65,7 @@ public class app {
     private Map<String, String> voMapConfId = null;
     private String vsUUI = "1234567890";
     private String vsToken = null;
- 
+
     /*Variables de prueba */
     private DataReports voData = null;
     /*Variables para mandar a llamar mi reporte */
@@ -233,7 +233,6 @@ public class app {
                         } else {
                             System.out.println("El directorio no contiene extensiones de tipo '.txt'");
                         }
-
                     }
                     voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
                     //Se tendria que terminar el programa aquí con algun return o break
