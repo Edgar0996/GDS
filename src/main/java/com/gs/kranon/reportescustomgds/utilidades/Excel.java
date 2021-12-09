@@ -39,7 +39,7 @@ public class Excel {
         this.vsUUI = vsUUI;
     }
 
-    public void addInfo(Map<String, Object> voHeaders, Map<String, Map<String, String>> voContents, List content) {
+    public void addInfo(Map<String, Object> voHeaders, List content) {
         row = sheet.createRow(++rowCount);
         voLogger.info("[Excel      ][" + vsUUI + "] ---> ADD HEADERS");
         for (Entry<String, Object> voEntry : voHeaders.entrySet()) {

@@ -244,7 +244,7 @@ public class GeneradorTXT  {
         	 
 
             
-     System.out.println("Que pasa aquí " + nameTxt.get(0));
+  
       return nameTxt;
       
   }

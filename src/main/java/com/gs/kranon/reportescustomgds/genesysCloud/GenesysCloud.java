@@ -22,8 +22,8 @@ public class GenesysCloud {
     private ConexionResponse conexionResponse = null;
     private String vsUUI = "";
     public String vsHorarioInterval = "T05:00:00.000Z";
-    public String vsHorarioIntervalInicio = "T17:00:00.000Z";
-    public String vsHorarioIntervalTermino = "T18:00:00.000Z";
+    public String vsHorarioIntervalInicio = "T01:00:00.000Z";
+    public String vsHorarioIntervalTermino = "T23:59:00.000Z";
 
     public void setUUI(String vsUUI) {
         this.vsUUI = vsUUI;

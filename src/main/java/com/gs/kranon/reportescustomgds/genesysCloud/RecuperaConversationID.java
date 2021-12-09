@@ -59,7 +59,7 @@ public class RecuperaConversationID {
 		 ConexionResponse voConexionResponse;
          //recuperamos las variables a comparar para ir por nuestros ID's
 
-         vsFechaInicio = "2021-11-30";
+         vsFechaInicio = "2021-11-25";
          vsFechaFin = "2021-11-30";
 
          voLogger.info("[Reporteador][" + vsUUI + "] ---> ******************** STARTING REPORT *******************");
@@ -81,7 +81,7 @@ public class RecuperaConversationID {
              String vsBody = voPureCloud.getBody(viPag, vsFechaInicio, vsFechaFin);
              
              voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "], REQUEST[" + vsBody.replace("\r\n", "") + "]");
-             //System.out.println("El valor a retornar para apuntar mi primer API es " + vsBody);
+             System.out.println("El valor a retornar para apuntar mi primer API es " + vsBody);
              try {
                  voConexionResponse = voConexionHttp.executePost(vsURLPCDetails, 15000, vsBody, voHeader);
              } catch (Exception e) {
