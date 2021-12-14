@@ -41,7 +41,7 @@ public class Reporteador extends  Thread  {
     }
     private static final Logger voLogger = LogManager.getLogger("Reporte");
 
-    private String vsUUI = "";
+    private String vsUUi = "";
     private String vsToken= "";
     private String vsFechaInicio = "";
     private String vsFechaFin = "";
@@ -55,7 +55,7 @@ public class Reporteador extends  Thread  {
     private GeneradorCSV GenraCSV = null;
     //private DatosProgreso voDatos;
     private Utilerias voUti;
-
+   
     //private JProgressBar voProgreso;
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
@@ -74,12 +74,12 @@ public class Reporteador extends  Thread  {
         voMapConf = new HashMap<>();
         voPureCloud = new GenesysCloud();
         voUti = new Utilerias();
-        vsUUI = uui;
+        vsUUi = vsUUI;
         vsToken = vsTokens;
         vlContactId=vlContactIds;
         voUti.getProperties(voMapConf, uui);
         urlArchivoTemp=urlArchivoTem;
-        
+       
     }
    
  
@@ -94,7 +94,7 @@ public class Reporteador extends  Thread  {
                 vlContact = new ArrayList<>();
                 voConversations = new HashMap<>();
                 voHeader.put("Authorization", "bearer " + vsToken);
-                //voThreadProgreso.start();
+                
                 //COMENZAREMOS A ANALIZAR CADA ID DE CONVERSACION PARA EXTRAER SUS BREADCRUMBS
                 int viContadorEncontrados = 0;
                 String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/calls/";
@@ -104,18 +104,18 @@ public class Reporteador extends  Thread  {
 
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     viContadorEncontrados++;
-                    voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
+                    voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
                     try {
                         voConexionResponseCall = voConexionHttp.executeGet(vsURLConversation, 15000, voHeader, null);
                     } catch (Exception e) {
-                        voLogger.error("[Reporteador][" + vsUUI + "] ---> CONTACT_ID [" + vsContactId + "] : " + e.getMessage());
+                        voLogger.error("[Reporteador][" + vsUUi + "] ---> CONTACT_ID [" + vsContactId + "] : " + e.getMessage());
                     }
                     
                     String vsJsonResponse = voConexionResponseCall.getMensajeRespuesta();
                     JSONObject voJsonResponseCall = new JSONObject(vsJsonResponse);
-                    voLogger.info("[Reporteador][" + vsUUI + "] ---> [" + (viContadorEncontrados) + "] "
+                    voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] "
                             + "RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
-                    voLogger.info("[Reporteador][" + vsUUI + "] Mi Segundo JSON es [" + viContadorEncontrados + "consecutivo " + voConexionResponseCall.getMensajeRespuesta() + "]");
+                    voLogger.info("[Reporteador][" + vsUUi + "] Mi Segundo JSON es [" + viContadorEncontrados + "consecutivo " + voConexionResponseCall.getMensajeRespuesta() + "]");
                     if (voJsonResponseCall.has("participants")) {
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
                     	
@@ -144,8 +144,8 @@ public class Reporteador extends  Thread  {
                 
                
                 //voDatos.setTotalProgreso(vlContactId.size());
-                voLogger.info("[Reporteador][" + vsUUI + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voConversations.size() + "]");
-                voLogger.info("[Reporteador][" + vsUUI + "] ---> ANALIZANDO E INTERPRETANDO BREADCRUMBS PARA LA APP [" + vsFlowName + "  ]  [" + vsFlowName1 + "  ]");
+                voLogger.info("[Reporteador][" + vsUUi + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voConversations.size() + "]");
+                voLogger.info("[Reporteador][" + vsUUi + "] ---> ANALIZANDO E INTERPRETANDO BREADCRUMBS PARA LA APP [" + vsFlowName + "  ]  [" + vsFlowName1 + "  ]");
                 vbActivo = false;
             
                 /*
@@ -155,7 +155,7 @@ public class Reporteador extends  Thread  {
           
                 GenraTXT = new GeneradorTXT();
                 nameTxt = new ArrayList<>();
-                nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUI,urlArchivoTemp));
+                nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUi,urlArchivoTemp));
                 
                 
         

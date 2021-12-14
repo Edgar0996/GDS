@@ -54,13 +54,12 @@ public class RecuperaConversationID {
 	        voUti.getProperties(voMapConf, uui);
 	    }
 	    
-	 public List<String> RecuperaConverStatID(String vsToken,String vsUUI,String originationDirection){
+	 public List<String> RecuperaConverStatID(String vsToken,String vsUUI,String originationDirection,String vsFecha,String strStartTime,String strFinalTime){
 		 
 		 ConexionResponse voConexionResponse;
          //recuperamos las variables a comparar para ir por nuestros ID's
 
-         vsFechaInicio = "2021-11-25";
-         vsFechaFin = "2021-11-30";
+         
 
          voLogger.info("[Reporteador][" + vsUUI + "] ---> ******************** STARTING REPORT *******************");
 
@@ -78,8 +77,8 @@ public class RecuperaConversationID {
              voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
              voPureCloud.vsHorarioInterval = (voMapConf.get("HorarioVerano").trim().toUpperCase().contentEquals("TRUE")) ? "T05:00:00.000Z" : "T06:00:00.000Z";
-             String vsBody = voPureCloud.getBody(viPag, vsFechaInicio, vsFechaFin);
-             
+             String vsBody = voPureCloud.getBody(viPag, vsFecha, vsFecha,originationDirection,strStartTime,strFinalTime);
+             //System.out.println(vsBody);
              voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "], REQUEST[" + vsBody.replace("\r\n", "") + "]");
              
              try {
@@ -94,7 +93,7 @@ public class RecuperaConversationID {
                  String vsJsonResponse = voConexionResponse.getMensajeRespuesta();
                  voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
                          + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
-
+                 
                  JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
 
                  if (vsJsonResponse.equals("{}") || !voJsonConversations.has("conversations")) {
