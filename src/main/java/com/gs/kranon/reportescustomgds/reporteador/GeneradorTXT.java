@@ -60,6 +60,7 @@ public class GeneradorTXT  {
           		int max = 100;
           		Random random = new Random();
           		int value = random.nextInt(max + min) + min;
+                        System.out.println("Valor random para el archivo: "+value);
             	Temporal = urlArchivoTemp;
                 //Genero mi archivo temporal
             	Archivo =	Temporal + "\\" + timeStamp +"_" + value;
@@ -197,7 +198,7 @@ public class GeneradorTXT  {
         	        				
       	  				
         	        		}catch(Exception e)  { 
-        	          			voLogger.error("[Generador][" + UUI + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE [" + timeStamp + "]" );              
+        	          			voLogger.error("[GeneradorTXT][" + UUI + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE [" + timeStamp + "]" );              
         	          		}
 
     	        			a++;
@@ -219,17 +220,17 @@ public class GeneradorTXT  {
     		  i ++;
         	  }
         	  
-        	  try {
-                  Thread.sleep(5000);
-                  } catch (InterruptedException ex) {
-                  voLogger.error("[Generador][" + UUI + "] ---> ERROR : en la interrupción [" + ex.getMessage() + "]" );
-                  }
+        	  //try {
+                  //Thread.sleep(5000);
+                  //} catch (InterruptedException ex) {
+                  //voLogger.error("[Generador][" + UUI + "] ---> ERROR : en la interrupción [" + ex.getMessage() + "]" );
+                  //}
 			 
         	 
         	 nameTxt = new ArrayList<>();
              nameTxt.add(files.getName());
              
-        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> Se Generaron [\\" +   voConversations.size() + "\\] Archivos TXT" );
+        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> Se Generaron [\\" +   voConversations.size() + "\\] ConversationsID en el TXT" );
                                 
             	
             	
@@ -238,7 +239,7 @@ public class GeneradorTXT  {
   				
   				
           		}catch(Exception e)  { 
-          			voLogger.error("[Generador][" + UUI + "] ---> ERROR : NO SE CREO EL ARCHIVO TXT");              
+          			voLogger.error("[GeneradorTXT][" + UUI + "] ---> ERROR : NO SE CREO EL ARCHIVO TXT");              
           		}
         	  
         	 

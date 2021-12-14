@@ -59,126 +59,228 @@ public class SendingMailTLS {
       message.setRecipients(Message.RecipientType.TO,
         InternetAddress.parse(destinatario)); //vfrancisco@kranon.com
       message.setSubject(asunto); //Bitacora de ejecución del reporte customizado de GDS
-      message.setContent("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
-"<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
-"<head>\n" +
-"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n" +
-"  <title>Reporte de GDS</title>\n" +
-"  <link href=\"bitnami.css\" media=\"all\" rel=\"Stylesheet\" type=\"text/css\" /> \n" +
-"  <link href=\"/dashboard/stylesheets/all.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
-"</head>\n" +
-"<body>\n" +
-"  <div id=\"wrapper\">\n" +
-"    <div class=\"hero\">\n" +
-"       <div class=\"row\">\n" +
-"	   <div style=\"height:100%!important;width:100%!important;background-color:#f4f5f9;margin:0;padding:0\">\n" +
-"<table style=\"font-size:13px;color:#39394d;font-family:Arial;background-color:#f4f5f9;width:100%;height:100%;padding-bottom:10px\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\">\n" +
-"    <tbody><tr>\n" +
-"        <td style=\"vertical-align:top\">\n" +
-"            <table id=\"m_-5819779775643716667table-new-registration\" style=\"width:592px\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\">\n" +
-"                <tbody><tr>\n" +
-"                    <td style=\"vertical-align:top;padding:0px;background-color:#f4f5f9\">\n" +
-"                        <table style=\"margin-left:0px;margin-right:0px;width:100%;background-color:#ffffff;padding-bottom:37px\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\">\n" +
-"                            <tbody>\n" +
-"                            <tr>\n" +
-"                                <td id=\"m_-5819779775643716667td1\" style=\"padding-left:28px;padding-right:28px\">\n" +
-"                                    <table style=\"width:100%;font-size:13px;color:#39394d;font-family:Arial\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\">\n" +
-"\n" +
-"                                        <tbody><tr>\n" +
-"                                            <td style=\"height:40px\"></td>\n" +
-"                                        </tr>\n" +
-"\n" +
-"                                        <tr style=\"height:12px\"></tr>\n" +
-"\n" +
-"                                                <tr>\n" +
-"                                                    <td colspan=\"2\" style=\"font-size:13px;color:#39394d;font-family:Arial;vertical-align:top;line-height:20px\">\n" +
-"                                                        Estimad@ colega de Promotora Kranon, Te enviamos las estadísticas de la ejecución del reporte customizado de General de Seguros!\n" +
-"                                                    </td>\n" +
-"                                                </tr>\n" +
-"\n" +
-"                                        <tr style=\"height:16px\"></tr>\n" +
-"\n" +
-"                                        <tr>\n" +
-"                                            <td colspan=\"2\">\n" +
-"                                                <table style=\"width:100%;border-radius:10px;background-color:#f7f7fc\">\n" +
-"                                                        <tbody><tr>\n" +
-"                                                            <td colspan=\"3\" style=\"padding-left:16px;vertical-align:top;padding-top:18px\"><strong>Ejecución del Reporte de General de Seguros</strong></td>\n" +
-"                                                        </tr>\n" +
-"\n" +
-"                                                            <tr>\n" +
-"                                                                <td style=\"padding-left:16px;padding-top:16px;height:18px;width:22%;vertical-align:top;color:#747487\">Fecha y hora de inicio:</td>\n" +
-"                                                                <td style=\"vertical-align:top;padding-top:16px\">2 dic. 2021 06:00 p.&nbsp;m. </td>\n" +
-"\n" +
-"                                                            </tr>\n" +
-"\n" +
-"                                                        <tr>\n" +
-"                                                            <td style=\"padding-left:16px;padding-top:16px;height:18px;width:22%;vertical-align:top;color:#747487\">Número de registros:</td>\n" +
-"                                                            <td style=\"vertical-align:top;padding-top:16px\">852 7677 8087</td>\n" +
-"                                                        </tr>\n" +
-"                                                        <tr>\n" +
-"                                                            <td style=\"padding-left:16px;padding-top:16px;height:18px;width:22%;vertical-align:top;color:#747487\">Registros procesados:</td>\n" +
-"                                                            <td style=\"vertical-align:top;padding-top:16px\">852 7677 8087</td>\n" +
-"                                                        </tr>\n" +
-"														<tr>\n" +
-"                                                            <td style=\"padding-left:16px;padding-top:16px;height:18px;width:22%;vertical-align:top;color:#747487\">Path del reporte generado:</td>\n" +
-"                                                            <td style=\"vertical-align:top;padding-top:16px\">C:\\\\Appl\\\\GS\\\\ReportesCustom\\\\</td>\n" +
-"                                                        </tr>\n" +
-"														<tr>\n" +
-"                                                                <td style=\"padding-left:16px;padding-top:16px;height:18px;width:22%;vertical-align:top;color:#747487\">Fecha y hora de termino:</td>\n" +
-"                                                                <td style=\"vertical-align:top;padding-top:16px\">2 dic. 2021 07:00 p.&nbsp;m. </td>\n" +
-"\n" +
-"                                                        </tr>\n" +
-"                                                    <tr>\n" +
-"                                                        <td style=\"height:16px;width:22%\"></td>\n" +
-"                                                        <td></td>\n" +
-"                                                    </tr>\n" +
-"\n" +
-"                                                </tbody></table>\n" +
-"                                            </td>\n" +
-"\n" +
-"                                        </tr>\n" +
-"\n" +
-"\n" +
-"                                    </tbody></table>\n" +
-" \n" +
-"                                </td>\n" +
-"                            </tr>\n" +
-"\n" +
-"                        </tbody></table>\n" +
-"                    </td>\n" +
-"                </tr>\n" +
-"            </tbody></table>\n" +
-"        </td>\n" +
-"    </tr>\n" +
-"</tbody></table>\n" +
-"</div>\n" +
-"	   \n" +
-"	   \n" +
-"\n" +
-"       </div>\n" +
-"    </div>\n" +
-"    <div id=\"lowerContainer\" class=\"row\">\n" +
-"      <div id=\"content\" class=\"large-12 columns\">\n" +
-"          <!-- @@BITNAMI_MODULE_PLACEHOLDER@@ -->\n" +
-"      </div>\n" +
-"	  \n" +
-"    </div>\n" +
-"  </div>\n" +
-"  <footer>\n" +
-"    <div class=\"row\">\n" +
-"      <div class=\"large-12 columns\">\n" +
-"        <div class=\"row\">\n" +
-"\n" +
-"          <div class=\"large-4 columns\">\n" +
-"            <p class=\"text-right\">Copyright (c) 2021, Promotora Kranon</p>\n" +
-"          </div>\n" +
-"        </div>\n" +
-"      </div>\n" +
-"    </div>\n" +
-"  </footer>\n" +
-"\n" +
-"</body>\n" +
-"</html>","text/html");
+      message.setContent("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n"
+      		+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n"
+      		+ "<head>\r\n"
+      		+ "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n"
+      		+ "  <title>Reporte de GDS</title>\r\n"
+      		+ "  <link href=\"bitnami.css\" media=\"all\" rel=\"Stylesheet\" type=\"text/css\" /> \r\n"
+      		+ "  <link href=\"/dashboard/stylesheets/all.css\" rel=\"stylesheet\" type=\"text/css\" />\r\n"
+      		+ "</head>\r\n"
+      		+ "<body>\r\n"
+      		+ "  <div id=\"wrapper\">\r\n"
+      		+ "    <div class=\"hero\">\r\n"
+      		+ "       <div class=\"row\">\r\n"
+      		+ "	   <div style=\"height:100%!important;width:100%!important;background-color:#f4f5f9;margin:0;padding:0\">\r\n"
+      		+ "<table class=\"demoTable\" style=\"height: 165px; width: 659px;\">\r\n"
+      		+ "<thead>\r\n"
+      		+ "<tr style=\"height: 18px;\">\r\n"
+      		+ "<td style=\"width: 236.719px; height: 18px;\" colspan=\"4\"><span style=\"color: #c82828;\">&nbsp;</span><span style=\"color: #c82828;\">&nbsp;</span>Configuración de ejecución</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</thead>\r\n"
+      		+ "<tbody>\r\n"
+      		+ "<tr style=\"height: 36px;\">\r\n"
+      		+ "<td style=\"width: 310.938px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>Fecha de Ejecuci&oacute;n del Reporte</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 46px; width: 341.062px;\" colspan=\"2\"><span style=\"color: #c82828;\">2021-12-09</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 46px;\">\r\n"
+      		+ "<td style=\"width: 236.719px; height: 46px;\">\r\n"
+      		+ "<p>Intervalos de Tiempo</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 71.2188px; height: 46px;\"><span style=\"color: #c82828;\">24</span></td>\r\n"
+      		+ "<td style=\"width: 182.547px; height: 46px;\">\r\n"
+      		+ "<p>Duraci&oacute;n de Intervalo</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 155.516px; height: 46px;\"><span style=\"color: #c82828;\">60 min</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 55px;\">\r\n"
+      		+ "<td style=\"width: 310.938px; height: 55px;\" colspan=\"2\">\r\n"
+      		+ "<p>Tipo de Interacciones Consultadas</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 341.062px; height: 55px;\" colspan=\"2\"><span style=\"color: #c82828;\">Inbound</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</tbody>\r\n"
+      		+ "</table>\r\n"
+      		+ "<hr color=\"\" />\r\n"
+      		+ "<table class=\"demoTable\" style=\"height: 165px; width: 659px;\">\r\n"
+      		+ "<thead>\r\n"
+      		+ "<tr style=\"height: 18px;\">\r\n"
+      		+ "<td style=\"width: 236.719px; height: 18px;\" colspan=\"4\"><span style=\"color: #c82828;\">&nbsp;</span>Tiempos de ejecución</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</thead>\r\n"
+      		+ "<tbody>\r\n"
+      		+ "<tr style=\"height: 36px;\">\r\n"
+      		+ "<td style=\"width: 310.938px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>Fecha-Hora Inicio del Proceso</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 46px; width: 341.062px;\" colspan=\"2\"><span style=\"color: #c82828;\">2021-12-09 14:00:00</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 46px;\">\r\n"
+      		+ "<td style=\"width: 236.719px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>Fecha-Hora Fin del Proceso</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 182.547px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p><span style=\"color: #c82828;\">2021-12-09 14:10:00</span></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 55px;\">\r\n"
+      		+ "<td style=\"height: 55px;\" colspan=\"2\">\r\n"
+      		+ "<p>Tiempo de Ejecuci&oacute;n</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 55px;\" colspan=\"2\"><span style=\"color: #c82828;\">00h 10' 03''</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr>\r\n"
+      		+ "<td style=\"width: 310.938px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de Hits</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 341.062px;\" colspan=\"2\"><span style=\"color: #c82828;\">1010</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</tbody>\r\n"
+      		+ "</table>\r\n"
+      		+ "<hr color=\"\" />\r\n"
+      		+ "<table class=\"demoTable\" style=\"height: 98px; width: 659px;\">\r\n"
+      		+ "<thead>\r\n"
+      		+ "<tr style=\"height: 18px;\">\r\n"
+      		+ "<td style=\"width: 236.719px; height: 18px;\" colspan=\"4\"><span style=\"color: #c82828;\">&nbsp;</span>Analytics</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</thead>\r\n"
+      		+ "<tbody>\r\n"
+      		+ "<tr style=\"height: 36px;\">\r\n"
+      		+ "<td style=\"width: 439.312px; height: 37px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de P&aacute;ginas Retornadas por el Analytics</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 37px; width: 212.688px;\" colspan=\"2\"><span style=\"color: #c82828;\">3</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 46px;\">\r\n"
+      		+ "<td style=\"width: 439.312px; height: 43px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de P&aacute;ginas Retornadas con Error</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 212.688px; height: 43px;\" colspan=\"2\">\r\n"
+      		+ "<p><span style=\"color: #c82828;\">0</span></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</tbody>\r\n"
+      		+ "</table>\r\n"
+      		+ "<hr color=\"\" />\r\n"
+      		+ "<table class=\"demoTable\" style=\"height: 165px; width: 659px;\">\r\n"
+      		+ "<thead>\r\n"
+      		+ "<tr style=\"height: 18px;\">\r\n"
+      		+ "<td style=\"width: 236.719px; height: 18px;\" colspan=\"4\"><span style=\"color: #c82828;\">&nbsp;</span>Excepciones generadas</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</thead>\r\n"
+      		+ "<tbody>\r\n"
+      		+ "<tr style=\"height: 36px;\">\r\n"
+      		+ "<td style=\"width: 440.328px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de ConversationIDs Obtenidos Exitosamente</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 46px; width: 211.672px;\" colspan=\"2\"><span style=\"color: #c82828;\">1009</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 46px;\">\r\n"
+      		+ "<td style=\"width: 440.328px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de Excepciones (300, 400, 500)</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 211.672px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p><span style=\"color: #c82828;\">1</span></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 55px;\">\r\n"
+      		+ "<td style=\"height: 55px; width: 440.328px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de Excepciones TimeOut</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 55px; width: 211.672px;\" colspan=\"2\"><span style=\"color: #c82828;\">1</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr>\r\n"
+      		+ "<td style=\"width: 440.328px;\" colspan=\"2\">\r\n"
+      		+ "<p>N&uacute;mero de Excepciones Generales</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 211.672px;\" colspan=\"2\"><span style=\"color: #c82828;\">0</span></td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</tbody>\r\n"
+      		+ "</table>\r\n"
+      		+ "<hr color=\"\" />\r\n"
+      		+ "<table class=\"demoTable\" style=\"height: 165px; width: 1065px;\">\r\n"
+      		+ "<thead>\r\n"
+      		+ "<tr style=\"height: 18px;\">\r\n"
+      		+ "<td style=\"width: 215.656px; height: 18px;\" colspan=\"7\"><span style=\"color: #c82828;\">&nbsp;</span>Archivos generados</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</thead>\r\n"
+      		+ "<tbody>\r\n"
+      		+ "<tr style=\"height: 36px;\">\r\n"
+      		+ "<td style=\"width: 223.469px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>Archivo Final CSV</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 46px; width: 351.047px;\" colspan=\"2\"><b>C:\\appl\\GDS\\Reportes\\CSVFinales\\##-##-##-##.csv</b></td>\r\n"
+      		+ "<td style=\"width: 151.453px;\"><span style=\"color: #c82828;\">&nbsp;</span></td>\r\n"
+      		+ "<td style=\"width: 225.688px;\">\r\n"
+      		+ "<p>N&uacute;mero de L&iacute;neas</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 97.3438px;\">1009</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 46px;\">\r\n"
+      		+ "<td style=\"width: 223.469px; height: 46px;\" colspan=\"2\">\r\n"
+      		+ "<p>P&aacute;ginas NO Procesadas</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 46px; width: 351.047px;\" colspan=\"2\">\r\n"
+      		+ "<p><b>C:\\appl\\GDS\\Reportes\\CSVFinales\\##-##-##-##_PE.csv</b></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 151.453px;\">\r\n"
+      		+ "<p><span style=\"color: #c82828;\">&nbsp;</span></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 225.688px;\">\r\n"
+      		+ "<p>N&uacute;mero de L&iacute;neas<span style=\"color: #c82828;\"></span></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 97.3438px;\">\r\n"
+      		+ "<p>0</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "<tr style=\"height: 55px;\">\r\n"
+      		+ "<td style=\"height: 55px; width: 223.469px;\" colspan=\"2\">\r\n"
+      		+ "<p>Interacciones NO Procesadas</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"height: 55px; width: 351.047px;\" colspan=\"2\">\r\n"
+      		+ "<p><b>C:\\appl\\GDS\\Reportes\\CSVFinales\\##-##-##-##_IE.csv</b></p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 151.453px;\"><span style=\"color: #c82828;\">&nbsp;</span></td>\r\n"
+      		+ "<td style=\"width: 225.688px;\">\r\n"
+      		+ "<p>N&uacute;mero de L&iacute;neas</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "<td style=\"width: 97.3438px;\">\r\n"
+      		+ "<p>1</p>\r\n"
+      		+ "</td>\r\n"
+      		+ "</tr>\r\n"
+      		+ "</tbody>\r\n"
+      		+ "</table>\r\n"
+      		+ "</div>\r\n"
+      		+ "	   \r\n"
+      		+ "	   \r\n"
+      		+ "\r\n"
+      		+ "       </div>\r\n"
+      		+ "    </div>\r\n"
+      		+ "    <div id=\"lowerContainer\" class=\"row\">\r\n"
+      		+ "      <div id=\"content\" class=\"large-12 columns\">\r\n"
+      		+ "          <!-- @@BITNAMI_MODULE_PLACEHOLDER@@ -->\r\n"
+      		+ "      </div>\r\n"
+      		+ "	  \r\n"
+      		+ "    </div>\r\n"
+      		+ "  </div>\r\n"
+      		+ "  <footer>\r\n"
+      		+ "    <div class=\"row\">\r\n"
+      		+ "      <div class=\"large-12 columns\">\r\n"
+      		+ "        <div class=\"row\">\r\n"
+      		+ "\r\n"
+      		+ "          <div class=\"large-4 columns\">\r\n"
+      		+ "            <p class=\"text-right\">Copyright (c) 2021, Promotora Kranon</p>\r\n"
+      		+ "          </div>\r\n"
+      		+ "        </div>\r\n"
+      		+ "      </div>\r\n"
+      		+ "    </div>\r\n"
+      		+ "  </footer>\r\n"
+      		+ "\r\n"
+      		+ "</body>\r\n"
+      		+ "</html>\r\n"
+      		+ "","text/html");
       Transport.send(message);
       System.out.println("Correcto!");
     } catch (MessagingException e) {      
