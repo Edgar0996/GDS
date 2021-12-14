@@ -22,9 +22,7 @@ public class GenesysCloud {
     private ConexionResponse conexionResponse = null;
     private String vsUUI = "";
     public String vsHorarioInterval = "T05:00:00.000Z";
-    public String vsHorarioIntervalInicio = "T01:00:00.000Z";
-    public String vsHorarioIntervalTermino = "T23:59:00.000Z";
-
+   
     public void setUUI(String vsUUI) {
         this.vsUUI = vsUUI;
     }
@@ -71,7 +69,7 @@ public class GenesysCloud {
         return vsAccessToken;
     }
 
-    public String getBody(Integer viPag, String vsFecha, String vsFechaInt) {
+    public String getBody(Integer viPag, String vsFecha, String vsFechaInt,String OriginationDirection,String vsHorarioIntervalInicio, String vsHorarioIntervalTermino) {
         return "{\r\n"
                 + "	\"order\": \"desc\",\r\n"
                 + "	\"orderBy\": \"conversationStart\",\r\n"
@@ -87,7 +85,7 @@ public class GenesysCloud {
                 + "	{ \"type\": \"or\",\r\n"
                 + "	\"predicates\": [{\r\n"
                 + "	\"dimension\": \"direction\",\r\n"
-                + "	\"value\": \"inbound\"\r\n"
+                + "	\"value\": \""+OriginationDirection+ "\"\r\n"
                 + "	}]}],\r\n"
                 + "	\"conversationFilters\":[],\r\n"
                 + "	\"evaluationFilters\":[],\r\n"
@@ -96,7 +94,7 @@ public class GenesysCloud {
                 + "	\"nTransferred\",\"tTalk\",\"tHeld\",\"nOutboundAttempted\",\"tContacting\",\"tDialing\",\"tHandle\",\r\n"
                 + "	\"nBlindTransferred\",\"nConsult\",\"nConsultTransferred\",\"oMediaCount\",\"oExternalMediaCount\",\r\n"
                 + "	\"tVoicemail\",\"tMonitoring\",\"tFlowOut\" ],\r\n"
-                + "	\"interval\": \"" + vsFecha + vsHorarioIntervalInicio + "/" + vsFechaInt + vsHorarioIntervalTermino + "\"\r\n"
+                + "	\"interval\": \"" + vsFecha + "T" + vsHorarioIntervalInicio + ".000Z/" + vsFechaInt + "T" + vsHorarioIntervalTermino + ".000Z\"\r\n"
                 + "}";
     }
 }
