@@ -91,10 +91,9 @@ public class app {
 		Map<String, String> voMapConf = RecuperaArhivoConf(vsUUI);
 
 		/* Recupero la fecha de ayer */
-		//String strYesterda = yesterdaydate();
-		String strYesterda = "2021-12-13";
-		//Variable para ir recopilando los datos estadisticos que se enviaran por correo
-		//ReporteMail dataMail = new ReporteMail();
+
+		String strYesterda = yesterdaydate();
+		
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
@@ -159,6 +158,7 @@ public class app {
 								System.out.println("Con este horario inicial "+ strStartTime + " y horario terminal " + strFinalTime +" En mi For "+ a + " Viene este ID " +listConversationID.get(r));
 							}
 							
+
 								//Genero mis indices dependiendo de mi variables totalThreads
 	                	    List<List<String>> listConversationThrea = new ArrayList<List<String>>();
 	                	    int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
@@ -187,7 +187,7 @@ public class app {
 	                    		for(int h = 0 ; h <= totalNoClienteID; h++){
 		                    		
 	                    			
-	                    			Reporteador voReporte = new Reporteador(voData,vsUUI,tokenList.get(h),vsUUI,listConversationThrea.get(h),Archivo ); 	
+	                    			Reporteador voReporte = new Reporteador(vsUUI,tokenList.get(h),vsUUI,listConversationThrea.get(h),Archivo,false ); 	
 	                    			voReporte.start();
 	                    			voReporte.setName("Hilo"+ h);
 	                    			
@@ -214,6 +214,13 @@ public class app {
 					} catch (ParseException e1) {
 						voLogger.error("[app][" + vsUUI + "] ---> ERROR AL GENERAR LOS ARCHIVOS TXT");
 					}
+
+/*
+ * valido si existen Id's de error
+ * trabajo
+ */
+
+GenerateCsvErroIE(tokenList.get(0),vsUUI,Archivo);
 					
 					/* sleep de prueba */
 					try {
@@ -222,10 +229,13 @@ public class app {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
+
 					/*
 					 * Se empieza a generar el CSV con los archivos que existen en el directorio de
 					 * trabajo
 					 */
+					
 					File dir = new File(Archivo);
 					/* Se buscan los archivos que terminen con extension .txt */
 					File[] files = dir.listFiles(new FilenameFilter() {
@@ -381,6 +391,49 @@ public class app {
 		String dateToStr = dateFormat.format(newDate);
 		return dateToStr;
 
+	}
+	
+	public static void  GenerateCsvErroIE(String vsTokens,String vsUUI,String urlArchivoTem) {
+		
+		List<String> listConversationID = new ArrayList<>();
+		
+		String strRuta = urlArchivoTem+ "\\" + vsUUI + "_conversations_IE";
+		File dir = new File(strRuta);
+		boolean booErrores = true;
+		if(dir.exists()){
+					
+			try {	
+				String cadena;
+				FileReader f = new FileReader(dir); 
+				BufferedReader b = new BufferedReader(f); 
+				try {
+					
+					while((cadena = b.readLine())!=null) { 
+						String[] parts = cadena.split(",");
+						listConversationID.add(parts[0]);
+					} 
+					f.close();
+					Reporteador voReporte = new Reporteador(vsUUI,vsTokens,vsUUI,listConversationID,urlArchivoTem,booErrores );
+					voReporte.start();
+        			voReporte.setName("Hilonuevo");
+        			try {
+						voReporte.join(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException ex) {
+				java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null,ex);
+			} 
+			
+		}
+		
+		
 	}
 
 	/*

@@ -74,6 +74,7 @@ public class RecuperaConversationID {
 
          //OBTENIENDO TODOS LOS CONVERSATION ID DEL RANGO DE HORAS EN EL DIA
          do {
+        	 
              viPag++;
              voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
@@ -122,7 +123,10 @@ public class RecuperaConversationID {
                  }
              }
          } while (true);
-         
+			/*
+			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
+			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da013");
+			 */
          voLogger.info("[ReuperaConvetID][" + vsUUI + "] TOTAL DE ID'S [" + vlContactId.size() + "]");
          return vlContactId;
 	 }

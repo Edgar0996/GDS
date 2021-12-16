@@ -69,7 +69,45 @@ public class GenesysCloud {
         return vsAccessToken;
     }
 
-    public String getBody(Integer viPag, String vsFecha, String vsFechaInt,String OriginationDirection,String vsHorarioIntervalInicio, String vsHorarioIntervalTermino) {
+public String getBody(Integer viPag, String vsFecha, String vsFechaInt,String OriginationDirection,String vsHorarioIntervalInicio, String vsHorarioIntervalTermino) {
+    	
+    	
+    	String[] strElementsSeparado = OriginationDirection.split(",");
+    	String strPrimerDato = null;
+    	String strSegundoDato= null;
+    	String strTercerDato=null;
+    	
+    	
+    	if (strElementsSeparado.length==1) {
+    		
+    		strPrimerDato =  strElementsSeparado[0];
+    		strSegundoDato= null;
+			strTercerDato=null;
+    	}else {
+    		if  (strElementsSeparado.length==2) {
+    		
+    			strPrimerDato =  strElementsSeparado[0];
+				strSegundoDato= strElementsSeparado[1];
+				strTercerDato=null;
+    		}else {
+    			if  (strElementsSeparado.length==3) {
+    				
+    				strPrimerDato =  strElementsSeparado[0];
+    				strSegundoDato= strElementsSeparado[1];
+    				strTercerDato= strElementsSeparado[2];
+    			}else {
+    				 strPrimerDato = null;
+    		    	 strSegundoDato= null;
+    		    	 strTercerDato=null;
+    			}
+    		}
+    			
+    	}
+    	
+    	 		
+		
+		 
+    	
         return "{\r\n"
                 + "	\"order\": \"desc\",\r\n"
                 + "	\"orderBy\": \"conversationStart\",\r\n"
@@ -85,8 +123,14 @@ public class GenesysCloud {
                 + "	{ \"type\": \"or\",\r\n"
                 + "	\"predicates\": [{\r\n"
                 + "	\"dimension\": \"direction\",\r\n"
-                + "	\"value\": \""+OriginationDirection+ "\"\r\n"
-                + "	}]}],\r\n"
+                + "	\"value\": \""+strPrimerDato+ "\"\r\n"
+                + "	},{\r\n"
+                + "	\"dimension\": \"direction\",\r\n"
+                + "	\"value\": \""+strSegundoDato+ "\"\r\n"
+                + "},{\r\n"
+                + "	\"dimension\": \"direction\",\r\n"
+                + "	\"value\": \""+strTercerDato+ "\"\r\n"
+                + "}]}],\r\n"
                 + "	\"conversationFilters\":[],\r\n"
                 + "	\"evaluationFilters\":[],\r\n"
                 + "	\"surveyFilters\":[],\r\n"
