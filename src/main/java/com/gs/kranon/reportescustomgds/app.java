@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import com.gs.kranon.reportescustomgds.mail.SendingMailTLS;
 import com.gs.kranon.reportescustomgds.reporteador.GeneradorCSV;
@@ -80,6 +81,7 @@ public class app {
 
 	private RecuperaConversationID RecuperaId;
 
+
 	public static void main(String[] args) {
 
 		/* Genero mi cadena UUI */
@@ -89,7 +91,10 @@ public class app {
 		Map<String, String> voMapConf = RecuperaArhivoConf(vsUUI);
 
 		/* Recupero la fecha de ayer */
-		String strYesterda = yesterdaydate();
+		//String strYesterda = yesterdaydate();
+		String strYesterda = "2021-12-13";
+		//Variable para ir recopilando los datos estadisticos que se enviaran por correo
+		//ReporteMail dataMail = new ReporteMail();
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
@@ -109,6 +114,10 @@ public class app {
 
 				/* Genero la carpeta temporal */
 				String timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
+				//Asigno la fecha de ejecucion al datamail
+				ReporteMail.inicioProceso=timeStamp;
+				ReporteMail.fechaEjecucion=new SimpleDateFormat("yyyy_MM_dd").format(Calendar.getInstance().getTime());
+				
 				String Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
 				boolean Ruta = createTempDirectory(Archivo);
 				if (Ruta == true) {
@@ -126,9 +135,9 @@ public class app {
 
 						// Segmento las 24 horas del día dependiendo el archivo de configuración
 						String strFinalTime = "00:00:00";
-						
+						int bb=1;
 						for (int a = 0; a < 1440;a= a+intTimeFrame) {
-							
+							System.out.println("Se repite: "+bb);
 							String strStartTime = strFinalTime;
 							Date datex = new SimpleDateFormat("HH:mm:ss").parse(strFinalTime);
 							Calendar calendar = Calendar.getInstance();
@@ -143,11 +152,13 @@ public class app {
 							if(strFinalTime.equals("00:00:00")) {
 								strFinalTime="23:59:59";
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
-							}
+							}else {
 							listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
+							}
 							for(int r=0; r < listConversationID.size(); r++) {
 								System.out.println("Con este horario inicial "+ strStartTime + " y horario terminal " + strFinalTime +" En mi For "+ a + " Viene este ID " +listConversationID.get(r));
 							}
+							
 								//Genero mis indices dependiendo de mi variables totalThreads
 	                	    List<List<String>> listConversationThrea = new ArrayList<List<String>>();
 	                	    int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
@@ -157,7 +168,7 @@ public class app {
 	                    	int totalThread=0;
 	                    	totalNoClienteID--;
 	                    	//Valido que en se periodo de tiempo tenga datos datos
-	                    	if(listConversationID.size() != 0) {
+	                    	
 	                    		
 	                    		for(int b = 0 ; b < listConversationID.size(); b++){
 		                    		
@@ -193,7 +204,8 @@ public class app {
 	                    			}
 				
 	                    	}
-	                    	}
+	                    	
+	                    	bb++;
 						}
 						
 						
@@ -202,7 +214,14 @@ public class app {
 					} catch (ParseException e1) {
 						voLogger.error("[app][" + vsUUI + "] ---> ERROR AL GENERAR LOS ARCHIVOS TXT");
 					}
-
+					
+					/* sleep de prueba */
+					try {
+						sleep(10000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					/*
 					 * Se empieza a generar el CSV con los archivos que existen en el directorio de
 					 * trabajo
@@ -268,7 +287,9 @@ public class app {
 						boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal", content, vsUUI,
 								voMapHeadersCSV);
 						System.out.println("resultado de la generacion del archivo: " + resultadoCsv
-								+ " Con un tamanio de content: " + content);
+								+ " Con un tamanio de content: " + content.size());
+						ReporteMail.finProceso=new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
+						System.out.println("Valor de ReporteMail ejecucion: "+ReporteMail.fechaEjecucion +" inicioProceso: "+ReporteMail.inicioProceso+" finProceso: "+ReporteMail.finProceso+" numeroHits: "+ReporteMail.numeroHits);
 					} else {
 						System.out.println("El directorio no contiene extensiones de tipo '.txt'");
 					}

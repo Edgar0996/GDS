@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import com.gs.kranon.reportescustomgds.DataReports;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.reporteador.GeneradorCSV;
 import com.gs.kranon.reportescustomgds.reporteador.GeneradorTXT;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
@@ -93,7 +94,7 @@ public class RecuperaConversationID {
                  String vsJsonResponse = voConexionResponse.getMensajeRespuesta();
                  voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
                          + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
-                 
+                 ReporteMail.numeroHits= new JSONObject(vsJsonResponse).getInt("totalHits");
                  JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
 
                  if (vsJsonResponse.equals("{}") || !voJsonConversations.has("conversations")) {

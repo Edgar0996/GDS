@@ -4,6 +4,7 @@
  */
 package com.gs.kranon.reportescustomgds.mail;
 
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,6 +30,7 @@ public class SendingMailTLS {
     }
     private Utilerias voUtil = new Utilerias();
     private Map<String,String> voMapConf = new HashMap<>();
+    private ReporteMail datosMail = new ReporteMail();
 
     private static final org.apache.log4j.Logger voLogger = LogManager.getLogger("Reporte");
     
