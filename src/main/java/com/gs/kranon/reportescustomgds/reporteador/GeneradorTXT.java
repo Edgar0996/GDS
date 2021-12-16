@@ -71,10 +71,11 @@ public class GeneradorTXT  {
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
         	  voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
+        	//Comparo mis Id's para crear el TXt y pintar el contenido de cada llamada
         	  for(String vsContactId : vlContactId) {
         		  
     		  for (Map.Entry entry : voConversations.entrySet()) {
-        		  //Comparo mis Id's para crear el TXt y pintar el contenido de cada llamada
+        		  
     			 
     			  if( entry.getKey().equals(vsContactId)) {
     				  
@@ -178,10 +179,11 @@ public class GeneradorTXT  {
     	        		dataComplet.add("PAGO_Motivo");
     	        		
     	        		int a=0;
-    	        		
+    	        		//Rercorro mi data para pintar línea por línea en mi archivo txt
     	        		for (String data : dataComplet ) {
     	        			//Escribir sobre el archivo
         	        		try {
+        	        			
         	        			int f = a -1;
         	        			//Leemos nuestro archivo creado
         	        			Writer  output = new BufferedWriter(new FileWriter(Archivo+".txt", true));
