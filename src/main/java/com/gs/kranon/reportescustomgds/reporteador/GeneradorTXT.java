@@ -60,7 +60,6 @@ public class GeneradorTXT  {
           		int max = 100;
           		Random random = new Random();
           		int value = random.nextInt(max + min) + min;
-                        System.out.println("Valor random para el archivo: "+value);
             	Temporal = urlArchivoTemp;
                 //Genero mi archivo temporal
             	Archivo =	Temporal + "\\" + timeStamp +"_" + value;

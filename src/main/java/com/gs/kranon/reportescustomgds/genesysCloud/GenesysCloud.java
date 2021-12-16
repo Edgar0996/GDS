@@ -138,7 +138,7 @@ public String getBody(Integer viPag, String vsFecha, String vsFechaInt,String Or
                 + "	\"nTransferred\",\"tTalk\",\"tHeld\",\"nOutboundAttempted\",\"tContacting\",\"tDialing\",\"tHandle\",\r\n"
                 + "	\"nBlindTransferred\",\"nConsult\",\"nConsultTransferred\",\"oMediaCount\",\"oExternalMediaCount\",\r\n"
                 + "	\"tVoicemail\",\"tMonitoring\",\"tFlowOut\" ],\r\n"
-                + "	\"interval\": \"" + vsFecha + "T" + vsHorarioIntervalInicio + ".000Z/" + vsFechaInt + "T" + vsHorarioIntervalTermino + ".000Z\"\r\n"
+                + "	\"interval\": \"" + "2021-12-07" + "T" + vsHorarioIntervalInicio + ".000Z/" + "2021-12-07" + "T" + vsHorarioIntervalTermino + ".000Z\"\r\n"
                 + "}";
     }
 }

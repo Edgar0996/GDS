@@ -81,9 +81,8 @@ public class app {
 
 	private RecuperaConversationID RecuperaId;
 
-
 	public static void main(String[] args) {
-
+		
 		/* Genero mi cadena UUI */
 		String vsUUI = GeneraCadenaUUI("1234567890");
 
@@ -93,7 +92,6 @@ public class app {
 		/* Recupero la fecha de ayer */
 
 		String strYesterda = yesterdaydate();
-		
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
@@ -101,7 +99,7 @@ public class app {
 		} else {
 
 			int intTimeFrame = Integer.parseInt(voMapConf.get("TimeFrame"));
-			
+
 			String originationDirection = voMapConf.get("OriginationDirection");
 			String pathArchivo = voMapConf.get("PathReporteFinal");
 
@@ -113,30 +111,30 @@ public class app {
 
 				/* Genero la carpeta temporal */
 				String timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
-				//Asigno la fecha de ejecucion al datamail
-				ReporteMail.inicioProceso=timeStamp;
-				ReporteMail.fechaEjecucion=new SimpleDateFormat("yyyy_MM_dd").format(Calendar.getInstance().getTime());
-				
+				// Asigno la fecha de ejecucion al datamail
+				ReporteMail.inicioProceso = timeStamp;
+				ReporteMail.fechaEjecucion = new SimpleDateFormat("yyyy_MM_dd")
+						.format(Calendar.getInstance().getTime());
+
 				String Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
 				boolean Ruta = createTempDirectory(Archivo);
 				if (Ruta == true) {
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
 
-					int i = 0;
+					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
 					voData.setFechaInicio("2021-01-01");
 					voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 					voData.setVsOrigination(originationDirection);
 
 					try {
-						
 
 						// Segmento las 24 horas del día dependiendo el archivo de configuración
 						String strFinalTime = "00:00:00";
-						int bb=1;
-						for (int a = 0; a < 1440;a= a+intTimeFrame) {
-							System.out.println("Se repite: "+bb);
+						int bb = 1;
+						for (int a = 0; a < 1440; a = a + intTimeFrame) {
+							//System.out.println("Se repite: " + bb);
 							String strStartTime = strFinalTime;
 							Date datex = new SimpleDateFormat("HH:mm:ss").parse(strFinalTime);
 							Calendar calendar = Calendar.getInstance();
@@ -144,98 +142,109 @@ public class app {
 							calendar.add(calendar.MINUTE, intTimeFrame);
 							strFinalTime = new SimpleDateFormat("HH:mm:ss").format(calendar.getTime());
 							/*
-							* Recupero los ConversationID'S
+							 * Recupero los ConversationID'S
 							 */
 							List<String> listConversationID = new ArrayList<>();
 							RecuperaConversationID recuperaId = new RecuperaConversationID(voData, vsUUI);
-							if(strFinalTime.equals("00:00:00")) {
-								strFinalTime="23:59:59";
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
-							}else {
-							listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
+							if (strFinalTime.equals("00:00:00")) {
+								strFinalTime = "23:59:59";
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
+										originationDirection, strYesterda, strStartTime, strFinalTime));
+								sumTotalHits =sumTotalHits + listConversationID.size();
+							} else {
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
+										originationDirection, strYesterda, strStartTime, strFinalTime));
+								sumTotalHits =sumTotalHits + listConversationID.size();
 							}
-							for(int r=0; r < listConversationID.size(); r++) {
-								System.out.println("Con este horario inicial "+ strStartTime + " y horario terminal " + strFinalTime +" En mi For "+ a + " Viene este ID " +listConversationID.get(r));
-							}
-							
+							/*
+							 * for (int r = 0; r < listConversationID.size(); r++) {
+							 * System.out.println("Con este horario inicial " + strStartTime +
+							 * " y horario terminal " + strFinalTime + " En mi For " + a + " Viene este ID "
+							 * + listConversationID.get(r)); }
+							 */
 
-								//Genero mis indices dependiendo de mi variables totalThreads
-	                	    List<List<String>> listConversationThrea = new ArrayList<List<String>>();
-	                	    int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
-	                    	for(int h = 0 ; h < totalNoClienteID; h++){
-	                    		listConversationThrea.add(new ArrayList<String>());
-	                    	}
-	                    	int totalThread=0;
-	                    	totalNoClienteID--;
-	                    	//Valido que en se periodo de tiempo tenga datos datos
-	                    	
-	                    		
-	                    		for(int b = 0 ; b < listConversationID.size(); b++){
-		                    		
-		                    		if(totalThread < totalNoClienteID) {
-		                    			
-		                    			
-		                    			listConversationThrea.get(totalThread).add(listConversationID.get(b));
-		                    			totalThread ++;
-		                    			
-		                    		}else {
-		                    			
-		                    			listConversationThrea.get(totalThread).add(listConversationID.get(b));
-		                    			totalThread=0;
-		                    		}   		
-		                    	}
-	                    		for(int h = 0 ; h <= totalNoClienteID; h++){
-		                    		
-	                    			
-	                    			Reporteador voReporte = new Reporteador(vsUUI,tokenList.get(h),vsUUI,listConversationThrea.get(h),Archivo,false ); 	
-	                    			voReporte.start();
-	                    			voReporte.setName("Hilo"+ h);
-	                    			
-	                    			if(h==totalNoClienteID) {
-	                      				voReporte.setPriority(1);
-	                    				try {
-											voReporte.join();
-												
-										} catch (InterruptedException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-	                    			
-	                    			}
-				
-	                    	}
-	                    	
-	                    	bb++;
+							// Genero mis indices dependiendo de mi variables totalThreads
+							List<List<String>> listConversationThrea = new ArrayList<List<String>>();
+							int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
+							for (int h = 0; h < totalNoClienteID; h++) {
+								listConversationThrea.add(new ArrayList<String>());
+							}
+							int totalThread = 0;
+							totalNoClienteID--;
+							// Valido que en se periodo de tiempo tenga datos datos
+							if(listConversationID.size() != 0) {
+							for (int b = 0; b < listConversationID.size(); b++) {
+
+								if (totalThread < totalNoClienteID) {
+
+									listConversationThrea.get(totalThread).add(listConversationID.get(b));
+									totalThread++;
+
+								} else {
+
+									listConversationThrea.get(totalThread).add(listConversationID.get(b));
+									totalThread = 0;
+								}
+							}
+							for (int h = 0; h <= totalNoClienteID; h++) {
+
+								Reporteador voReporte = new Reporteador(vsUUI, tokenList.get(h), vsUUI,
+										listConversationThrea.get(h), Archivo, false);
+								voReporte.start();
+								voReporte.setName("Hilo" + h);
+
+								if (h == totalNoClienteID) {
+									voReporte.setPriority(1);
+									try {
+										voReporte.join();
+
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+
+								}
+
+							}
+
+							bb++;
+							}
+							try {
+								sleep(5000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
-						
-						
-						
 
 					} catch (ParseException e1) {
 						voLogger.error("[app][" + vsUUI + "] ---> ERROR AL GENERAR LOS ARCHIVOS TXT");
 					}
+					double hits= sumTotalHits;
+					double division= (hits / 100.0);
+					ReporteMail.numeroHits = sumTotalHits;
+					ReporteMail.paginasRetornadas = (int) Math.ceil(division);
+System.err.println("Resultado de la division es: "+division);
+					System.out.println("Valor calculado de pagina: "+ReporteMail.paginasRetornadas);
+					/*
+					 * valido si existen Id's de error trabajo
+					 */
 
-/*
- * valido si existen Id's de error
- * trabajo
- */
+					GenerateCsvErroIE(tokenList.get(0), vsUUI, Archivo);
 
-GenerateCsvErroIE(tokenList.get(0),vsUUI,Archivo);
-					
-					/* sleep de prueba */
+					/* sleep de prueba 
 					try {
 						sleep(10000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
-
+					}*/
 
 					/*
 					 * Se empieza a generar el CSV con los archivos que existen en el directorio de
 					 * trabajo
 					 */
-					
+
 					File dir = new File(Archivo);
 					/* Se buscan los archivos que terminen con extension .txt */
 					File[] files = dir.listFiles(new FilenameFilter() {
@@ -256,7 +265,7 @@ GenerateCsvErroIE(tokenList.get(0),vsUUI,Archivo);
 						GeneradorCSV generaExcel = new GeneradorCSV();
 						for (int x = 0; x < files.length; x++) {
 							File file = files[x];
-							System.out.println("Archivo recuperado: " + file);
+							//System.out.println("Archivo recuperado: " + file);
 							// Leemos el txt recibido por parametro
 							FileReader fileReaderConversations = null;
 							String lineContent = "";
@@ -268,6 +277,8 @@ GenerateCsvErroIE(tokenList.get(0),vsUUI,Archivo);
 								while ((lineContent = buffer.readLine()) != null) {
 									String[] lineElements = lineContent.split(",");
 									content.add(lineElements);
+									System.out.println("content recuperado hasta el archivo: " + content.size()+" con el file"+file.getName());
+									
 								}
 								buffer.close();
 							} catch (FileNotFoundException ex) {
@@ -291,15 +302,18 @@ GenerateCsvErroIE(tokenList.get(0),vsUUI,Archivo);
 							}
 							// Enviamos el contenido del archivo a la funcion
 							String path = Archivo + "\\ReporteFinal";
-							System.out.println("El directorio a enviar es: " + path);
+							//System.out.println("El directorio a enviar es: " + path);
 
 						}
 						boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal", content, vsUUI,
 								voMapHeadersCSV);
 						System.out.println("resultado de la generacion del archivo: " + resultadoCsv
 								+ " Con un tamanio de content: " + content.size());
-						ReporteMail.finProceso=new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
-						System.out.println("Valor de ReporteMail ejecucion: "+ReporteMail.fechaEjecucion +" inicioProceso: "+ReporteMail.inicioProceso+" finProceso: "+ReporteMail.finProceso+" numeroHits: "+ReporteMail.numeroHits);
+						ReporteMail.finProceso = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss")
+								.format(Calendar.getInstance().getTime());
+						System.out.println("Valor de ReporteMail ejecucion: " + ReporteMail.fechaEjecucion
+								+ " inicioProceso: " + ReporteMail.inicioProceso + " finProceso: "
+								+ ReporteMail.finProceso + " numeroHits: " + ReporteMail.numeroHits+" paginasRetornadas: "+ReporteMail.paginasRetornadas);
 					} else {
 						System.out.println("El directorio no contiene extensiones de tipo '.txt'");
 					}
@@ -392,48 +406,48 @@ GenerateCsvErroIE(tokenList.get(0),vsUUI,Archivo);
 		return dateToStr;
 
 	}
-	
-	public static void  GenerateCsvErroIE(String vsTokens,String vsUUI,String urlArchivoTem) {
-		
+
+	public static void GenerateCsvErroIE(String vsTokens, String vsUUI, String urlArchivoTem) {
+
 		List<String> listConversationID = new ArrayList<>();
-		
-		String strRuta = urlArchivoTem+ "\\" + vsUUI + "_conversations_IE";
+
+		String strRuta = urlArchivoTem + "\\" + vsUUI + "_conversations_IE";
 		File dir = new File(strRuta);
 		boolean booErrores = true;
-		if(dir.exists()){
-					
-			try {	
+		if (dir.exists()) {
+
+			try {
 				String cadena;
-				FileReader f = new FileReader(dir); 
-				BufferedReader b = new BufferedReader(f); 
+				FileReader f = new FileReader(dir);
+				BufferedReader b = new BufferedReader(f);
 				try {
-					
-					while((cadena = b.readLine())!=null) { 
+
+					while ((cadena = b.readLine()) != null) {
 						String[] parts = cadena.split(",");
 						listConversationID.add(parts[0]);
-					} 
+					}
 					f.close();
-					Reporteador voReporte = new Reporteador(vsUUI,vsTokens,vsUUI,listConversationID,urlArchivoTem,booErrores );
+					Reporteador voReporte = new Reporteador(vsUUI, vsTokens, vsUUI, listConversationID, urlArchivoTem,
+							booErrores);
 					voReporte.start();
-        			voReporte.setName("Hilonuevo");
-        			try {
+					voReporte.setName("Hilonuevo");
+					try {
 						voReporte.join(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-        			
+
 				} catch (IOException e) {
-					
+
 					e.printStackTrace();
 				}
 			} catch (FileNotFoundException ex) {
-				java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null,ex);
-			} 
-			
+				java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
 		}
-		
-		
+
 	}
 
 	/*

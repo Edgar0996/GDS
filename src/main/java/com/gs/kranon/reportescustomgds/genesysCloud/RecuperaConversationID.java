@@ -91,11 +91,10 @@ public class RecuperaConversationID {
              }
 
              if (voConexionResponse.getCodigoRespuesta() == 200) {
-
                  String vsJsonResponse = voConexionResponse.getMensajeRespuesta();
                  voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
                          + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
-                 ReporteMail.numeroHits= new JSONObject(vsJsonResponse).getInt("totalHits");
+                
                  JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
 
                  if (vsJsonResponse.equals("{}") || !voJsonConversations.has("conversations")) {
@@ -123,11 +122,12 @@ public class RecuperaConversationID {
                  }
              }
          } while (true);
-			/*
-			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
-			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da013");
-			 */
-         voLogger.info("[ReuperaConvetID][" + vsUUI + "] TOTAL DE ID'S [" + vlContactId.size() + "]");
+			
+			  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
+			  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da013");
+			 
+         
+         voLogger.info("[ReuperaConvetID][" + vsUUI + "] TOTAL DE ID'S POR BLOQUE DE HORA [" + vlContactId.size() + "]");
          return vlContactId;
 	 }
 	

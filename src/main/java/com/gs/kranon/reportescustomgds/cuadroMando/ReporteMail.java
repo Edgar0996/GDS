@@ -24,7 +24,7 @@ public class ReporteMail {
 	public static String tiempoEjecucion="";
 	//Número de Hits
 	public static int numeroHits=0;
-	//Número de Páginas Retornadas por el Analytics
+	//Número de Páginas Retornadas por el Analytics, este varia por hora
 	public static int paginasRetornadas=0;
 	//Número de Páginas Retornadas con Error
 	public static int paginasRetornadasErr=0;
