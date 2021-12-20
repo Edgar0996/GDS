@@ -90,8 +90,9 @@ public class app {
 		Map<String, String> voMapConf = RecuperaArhivoConf(vsUUI);
 
 		/* Recupero la fecha de ayer */
-
 		String strYesterda = yesterdaydate();
+		
+		
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
@@ -121,7 +122,7 @@ public class app {
 				if (Ruta == true) {
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-
+					
 					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
 					voData.setFechaInicio("2021-01-01");
@@ -148,20 +149,20 @@ public class app {
 							RecuperaConversationID recuperaId = new RecuperaConversationID(voData, vsUUI);
 							if (strFinalTime.equals("00:00:00")) {
 								strFinalTime = "23:59:59";
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
-										originationDirection, strYesterda, strStartTime, strFinalTime));
+								voLogger.info("[Horario  ][" + vsUUI + "] --->  BLOQUE DE HORA[ "+strStartTime+ " A "+ strFinalTime+"]");
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
 								sumTotalHits =sumTotalHits + listConversationID.size();
 							} else {
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
-										originationDirection, strYesterda, strStartTime, strFinalTime));
+								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA["+strStartTime+ "A"+ strFinalTime+"]");
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
 								sumTotalHits =sumTotalHits + listConversationID.size();
 							}
-							/*
-							 * for (int r = 0; r < listConversationID.size(); r++) {
-							 * System.out.println("Con este horario inicial " + strStartTime +
-							 * " y horario terminal " + strFinalTime + " En mi For " + a + " Viene este ID "
-							 * + listConversationID.get(r)); }
-							 */
+							
+							  for (int r = 0; r < listConversationID.size(); r++) {
+							  System.out.println("Con este horario inicial " + strStartTime +
+							  " y horario terminal " + strFinalTime + " En mi For " + a + " Viene este ID "
+							  + listConversationID.get(r)); }
+							 
 
 							// Genero mis indices dependiendo de mi variables totalThreads
 							List<List<String>> listConversationThrea = new ArrayList<List<String>>();
@@ -224,7 +225,6 @@ public class app {
 					double division= (hits / 100.0);
 					ReporteMail.numeroHits = sumTotalHits;
 					ReporteMail.paginasRetornadas = (int) Math.ceil(division);
-System.err.println("Resultado de la division es: "+division);
 					System.out.println("Valor calculado de pagina: "+ReporteMail.paginasRetornadas);
 					/*
 					 * valido si existen Id's de error trabajo
@@ -232,13 +232,15 @@ System.err.println("Resultado de la division es: "+division);
 
 					GenerateCsvErroIE(tokenList.get(0), vsUUI, Archivo);
 
-					/* sleep de prueba 
+					/*
+					 * sleep de prueba
+					 */					
 					try {
 						sleep(10000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
+					}
 
 					/*
 					 * Se empieza a generar el CSV con los archivos que existen en el directorio de
@@ -265,7 +267,7 @@ System.err.println("Resultado de la division es: "+division);
 						GeneradorCSV generaExcel = new GeneradorCSV();
 						for (int x = 0; x < files.length; x++) {
 							File file = files[x];
-							//System.out.println("Archivo recuperado: " + file);
+							System.out.println("Archivo recuperado: " + file);
 							// Leemos el txt recibido por parametro
 							FileReader fileReaderConversations = null;
 							String lineContent = "";
@@ -411,7 +413,7 @@ System.err.println("Resultado de la division es: "+division);
 
 		List<String> listConversationID = new ArrayList<>();
 
-		String strRuta = urlArchivoTem + "\\" + vsUUI + "_conversations_IE";
+		String strRuta = urlArchivoTem + "\\" + vsUUI + "_conversations_IE_TEMP.csv";
 		File dir = new File(strRuta);
 		boolean booErrores = true;
 		if (dir.exists()) {
@@ -427,6 +429,7 @@ System.err.println("Resultado de la division es: "+division);
 						listConversationID.add(parts[0]);
 					}
 					f.close();
+					dir.delete();
 					Reporteador voReporte = new Reporteador(vsUUI, vsTokens, vsUUI, listConversationID, urlArchivoTem,
 							booErrores);
 					voReporte.start();

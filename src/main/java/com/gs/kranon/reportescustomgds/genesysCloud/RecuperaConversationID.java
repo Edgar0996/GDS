@@ -62,7 +62,7 @@ public class RecuperaConversationID {
 
          
 
-         voLogger.info("[Reporteador][" + vsUUI + "] ---> ******************** STARTING REPORT *******************");
+         voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ******************** RECOVER CONVERSATIONS ID *******************");
 
          String vsURLPCDetails = "https://api.mypurecloud.com/api/v2/analytics/conversations/details/query";
          voConexionHttp = new ConexionHttp();
@@ -76,12 +76,13 @@ public class RecuperaConversationID {
          do {
         	 
              viPag++;
+             System.out.println("Estoy en la pagina " + viPag );
              voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
              voPureCloud.vsHorarioInterval = (voMapConf.get("HorarioVerano").trim().toUpperCase().contentEquals("TRUE")) ? "T05:00:00.000Z" : "T06:00:00.000Z";
              String vsBody = voPureCloud.getBody(viPag, vsFecha, vsFecha,originationDirection,strStartTime,strFinalTime);
              //System.out.println(vsBody);
-             voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "], REQUEST[" + vsBody.replace("\r\n", "") + "]");
+             voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "]");
              
              try {
                  voConexionResponse = voConexionHttp.executePost(vsURLPCDetails, 15000, vsBody, voHeader);
@@ -91,17 +92,14 @@ public class RecuperaConversationID {
              }
 
              if (voConexionResponse.getCodigoRespuesta() == 200) {
-                 String vsJsonResponse = voConexionResponse.getMensajeRespuesta();
-                 voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> STATUS[" + voConexionResponse.getCodigoRespuesta() + "], "
-                         + "RESPONSE[{\"totalHits\":\"" + new JSONObject(vsJsonResponse).getInt("totalHits") + "\"}]");
-                
+                 String vsJsonResponse = voConexionResponse.getMensajeRespuesta();                
                  JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
 
                  if (vsJsonResponse.equals("{}") || !voJsonConversations.has("conversations")) {
-                     voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> CONVERSATIONS FOUND [0]");
+                     voLogger.error("[ReuperaConvetID][" + vsUUI + "] ---> CONVERSATIONS FOUND [0]");
                      break;
                  }
-                 voLogger.info("[ReuperaConvetID][" + vsUUI + "Cadena JSON" + voJsonConversations);
+        
                  if (voJsonConversations.has("conversations")) {
                      JSONArray voJsonArrayConversations = voJsonConversations.getJSONArray("conversations");
                      voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> CONVERSATIONS FOUND[" + voJsonArrayConversations.length() + "]");
@@ -123,11 +121,12 @@ public class RecuperaConversationID {
              }
          } while (true);
 			
-			  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
-			  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da013");
+			vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127");
+			
+			
 			 
          
-         voLogger.info("[ReuperaConvetID][" + vsUUI + "] TOTAL DE ID'S POR BLOQUE DE HORA [" + vlContactId.size() + "]");
+         voLogger.info("[ReuperaConvetID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
          return vlContactId;
 	 }
 	
