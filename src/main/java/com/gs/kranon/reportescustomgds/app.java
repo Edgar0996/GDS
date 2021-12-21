@@ -371,7 +371,7 @@ System.err.println("Resultado de la division es: "+division);
 			// Generamos los Tokents
 			GenesysCloud voPureCloud = new GenesysCloud();
 			String vsToken = voPureCloud.getToken(idClient, clientSecret, vsUUI);
-
+			System.out.print("Valor de token: "+vsToken);
 			Token.add(vsToken);
 
 			if (vsToken.equals("ERROR")) {

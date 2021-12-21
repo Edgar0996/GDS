@@ -123,8 +123,8 @@ public class RecuperaConversationID {
              }
          } while (true);
 			
-			  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
-			  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da013");
+			  //vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
+			  //vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da013");
 			 
          
          voLogger.info("[ReuperaConvetID][" + vsUUI + "] TOTAL DE ID'S POR BLOQUE DE HORA [" + vlContactId.size() + "]");
