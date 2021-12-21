@@ -42,7 +42,7 @@ public class GenesysCloud {
             encodeData = new String(Base64.encodeBase64((vsClID + ":" + vsClSec).getBytes("ISO-8859-1")));
             header.put("Authorization", " Basic " + encodeData);
         } catch (UnsupportedEncodingException e1) {
-            voLogger.info("[PureCloud  ][" + vsUUI + "] ---> " + e1.getMessage());
+            voLogger.error("[PureCloud  ][" + vsUUI + "] ---> " + e1.getMessage());
         }
         try {
             ConexionHttp conexionHttp = new ConexionHttp();
@@ -53,6 +53,8 @@ public class GenesysCloud {
                 if (json.has("access_token")) {
                     
                     vsAccessToken = json.getString("access_token");
+                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> *************INICIO APLICACIÓN*************** ");
+                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> *************GENERO TOKEN*************** ");
                     voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS]. [" + vsClID + "]");
                 } else {
                     voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
@@ -69,7 +71,7 @@ public class GenesysCloud {
         return vsAccessToken;
     }
 
-public String getBody(Integer viPag, String vsFecha, String vsFechaInt,String OriginationDirection,String vsHorarioIntervalInicio, String vsHorarioIntervalTermino) {
+public String getBody(Integer viPag, String vsFechaInit, String vsFechaFin,String OriginationDirection,String vsHorarioIntervalInicio, String vsHorarioIntervalTermino) {
     	
     	
     	String[] strElementsSeparado = OriginationDirection.split(",");
@@ -138,7 +140,7 @@ public String getBody(Integer viPag, String vsFecha, String vsFechaInt,String Or
                 + "	\"nTransferred\",\"tTalk\",\"tHeld\",\"nOutboundAttempted\",\"tContacting\",\"tDialing\",\"tHandle\",\r\n"
                 + "	\"nBlindTransferred\",\"nConsult\",\"nConsultTransferred\",\"oMediaCount\",\"oExternalMediaCount\",\r\n"
                 + "	\"tVoicemail\",\"tMonitoring\",\"tFlowOut\" ],\r\n"
-                + "	\"interval\": \"" + "2021-10-07" + "T" + vsHorarioIntervalInicio + ".000Z/" + "2021-10-07" + "T" + vsHorarioIntervalTermino + ".000Z\"\r\n"
+                + "	\"interval\": \"" +  vsFechaInit + "T" + vsHorarioIntervalInicio + ".000Z/" + vsFechaFin + "T" + vsHorarioIntervalTermino + ".000Z\"\r\n"
                 + "}";
     }
 }

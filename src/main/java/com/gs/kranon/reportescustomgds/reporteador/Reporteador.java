@@ -124,20 +124,348 @@ public class Reporteador extends  Thread  {
                     
                     
                     if (voJsonResponseCall.has("participants")) {
-                    	
+                    	          
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
-                    		voDetailsConversations = new HashMap<>();
-                    		String vsConversationStart = voJsonArrayResponseCall.getJSONObject(0).getString("startTime");
-                    		String vsConversationEnd = voJsonArrayResponseCall.getJSONObject(0).getString("endTime");
-                    		String vsAni = voJsonArrayResponseCall.getJSONObject(0).getString("ani");
-                    		String vsDnis = voJsonArrayResponseCall.getJSONObject(0).getString("dnis");
+                    	voDetailsConversations = new HashMap<>();
+                		String vsConversationStart = voJsonArrayResponseCall.getJSONObject(0).getString("startTime");
+                		String vsConversationEnd = voJsonArrayResponseCall.getJSONObject(0).getString("endTime");
+                		String vsAni = voJsonArrayResponseCall.getJSONObject(0).getString("ani");
+                		String vsDnis = voJsonArrayResponseCall.getJSONObject(0).getString("dnis");
+                		
+                		vlContact.add(vsContactId);
+                		voDetailsConversations.put("ani", vsAni);
+                        voDetailsConversations.put("dnis", vsDnis);
+                        voDetailsConversations.put("ConversationStart", vsConversationStart );
+                        voDetailsConversations.put("vsConversationEnd", vsConversationEnd);
+                        
+           			 
+
+                    	for (int j = 0; j < voJsonArrayResponseCall.length(); j++) {
+                    		 
+                    		 if (voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes").length() > 0) {
+                    			 JSONObject voJSONAttributes = voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes");
+                    			 
+                    			 if (voJSONAttributes.has("Endoso_Procede")) {
+                    				 String Endoso_Procede = voJSONAttributes.getString("Endoso_Procede");
+                    				 voDetailsConversations.put("Endoso_Procede", Endoso_Procede);
+                    				 
+                    			 }
+                    			 if (voJSONAttributes.has("Cotizacion_Hablante")) {
+                					 String Cotizacion_Hablante = voJSONAttributes.getString("Cotizacion_Hablante");
+                    				 voDetailsConversations.put("Cotizacion_Hablante", Cotizacion_Hablante);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Emision_No_Cobro")) {
+                					 String Emision_No_Cobro = voJSONAttributes.getString("Emision_No_Cobro");
+                    				 voDetailsConversations.put("Emision_No_Cobro", Emision_No_Cobro);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Tramites_Escala")) {
+                					 String Tramites_Escala = voJSONAttributes.getString("Tramites_Escala");
+                    				 voDetailsConversations.put("Tramites_Escala", Tramites_Escala);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_No_Cobro")) {
+                					 String Cargo_No_Cobro = voJSONAttributes.getString("Cargo_No_Cobro");
+                    				 voDetailsConversations.put("Cargo_No_Cobro", Cargo_No_Cobro);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cotizacion_NúmCoti")) {
+                					 String Cotizacion_NúmCoti = voJSONAttributes.getString("Cotizacion_NúmCoti");
+                    				 voDetailsConversations.put("Cotizacion_NúmCoti", Cotizacion_NúmCoti);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Pago_No_Cobro")) {
+                					 String Pago_No_Cobro = voJSONAttributes.getString("Pago_No_Cobro");
+                    				 voDetailsConversations.put("Pago_No_Cobro", Pago_No_Cobro);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Link_Hablante")) {
+                					 String Link_Hablante = voJSONAttributes.getString("Link_Hablante");
+                    				 voDetailsConversations.put("Link_Hablante", Link_Hablante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Endoso_Solicitante")) {
+                					 String Endoso_Solicitante = voJSONAttributes.getString("Endoso_Solicitante");
+                    				 voDetailsConversations.put("Endoso_Solicitante", Endoso_Solicitante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_Movimiento")) {
+                					 String Domiciliacion_Movimiento = voJSONAttributes.getString("Domiciliacion_Movimiento");
+                    				 voDetailsConversations.put("Domiciliacion_Movimiento", Domiciliacion_Movimiento);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("LlamadaCortada_Comentarios")) {
+                					 String LlamadaCortada_Comentarios = voJSONAttributes.getString("LlamadaCortada_Comentarios");
+                    				 voDetailsConversations.put("LlamadaCortada_Comentarios", LlamadaCortada_Comentarios);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
+                					 String Cargo_Cancelacion = voJSONAttributes.getString("Cargo_Cancelacion");
+                    				 voDetailsConversations.put("Cargo_Cancelacion", Cargo_Cancelacion);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
+                					 String Cotizacion_ClaveAgente = voJSONAttributes.getString("Cotizacion_ClaveAgente");
+                    				 voDetailsConversations.put("Cotizacion_ClaveAgente", Cotizacion_ClaveAgente);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
+                					 String Pago_Aceptado = voJSONAttributes.getString("Pago_Aceptado");
+                    				 voDetailsConversations.put("Pago_Aceptado", Pago_Aceptado);
+                    				
+                				 }	
+                    			 if (voJSONAttributes.has("TransferIVR_Hablante")) {
+                					 String TransferIVR_Hablante = voJSONAttributes.getString("TransferIVR_Hablante");
+                    				 voDetailsConversations.put("TransferIVR_Hablante", TransferIVR_Hablante);
+                    			
+                				 }
+                    			 if (voJSONAttributes.has("Pago_OtroPago")) {
+                					 String Pago_OtroPago = voJSONAttributes.getString("Pago_OtroPago");
+                    				 voDetailsConversations.put("Pago_OtroPago", Pago_OtroPago);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("EnvioDoctos_Hablante")) {
+                					 String EnvioDoctos_Hablante = voJSONAttributes.getString("EnvioDoctos_Hablante");
+                    				 voDetailsConversations.put("EnvioDoctos_Hablante", EnvioDoctos_Hablante);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Emision_Ramo")) {
+                					 String Emision_Ramo = voJSONAttributes.getString("Emision_Ramo");
+                    				 voDetailsConversations.put("Emision_Ramo", Emision_Ramo);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Emision_Cotizacion")) {
+                					 String Emision_Cotizacion = voJSONAttributes.getString("Emision_Cotizacion");
+                    				 voDetailsConversations.put("Emision_Cotizacion", Emision_Cotizacion);
+                    				 
+                				 }	
+                    			 if (voJSONAttributes.has("Cargo_Cobro")) {
+                					 String Cargo_Cobro = voJSONAttributes.getString("Cargo_Cobro");
+                    				 voDetailsConversations.put("Cargo_Cobro", Cargo_Cobro);
+                    				 
+                				 }	
+                    			 if (voJSONAttributes.has("Tramites_Consultado")) {
+                					 String Tramites_Consultado = voJSONAttributes.getString("Tramites_Consultado");
+                    				 voDetailsConversations.put("Tramites_Consultado", Tramites_Consultado);
+                    				
+                				 }	
+                    			 if (voJSONAttributes.has("Pago_Hablante")) {
+                					 String Pago_Hablante = voJSONAttributes.getString("Pago_Hablante");
+                    				 voDetailsConversations.put("Pago_Hablante", Pago_Hablante);
+                    				 
+                				 }	
+                    			 if (voJSONAttributes.has("Cotizacion_OtroCoti")) {
+                					 String Cotizacion_OtroCoti = voJSONAttributes.getString("Cotizacion_OtroCoti");
+                    				 voDetailsConversations.put("Cotizacion_OtroCoti", Cotizacion_OtroCoti);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Ramo")) {
+                					 String Cargo_Ramo = voJSONAttributes.getString("Cargo_Ramo");
+                    				 voDetailsConversations.put("Cargo_Ramo", Cargo_Ramo);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("LlamadaOtra_Hablante")) {
+                					 String LlamadaOtra_Hablante = voJSONAttributes.getString("LlamadaOtra_Hablante");
+                    				 voDetailsConversations.put("LlamadaOtra_Hablante", LlamadaOtra_Hablante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Emision_Sucursal")) {
+                					 String Emision_Sucursal = voJSONAttributes.getString("Emision_Sucursal");
+                    				 voDetailsConversations.put("Emision_Sucursal", Emision_Sucursal);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("EnvioDoctos_Solicitados")) {
+                					 String EnvioDoctos_Solicitados = voJSONAttributes.getString("EnvioDoctos_Solicitados");
+                    				 voDetailsConversations.put("EnvioDoctos_Solicitados", EnvioDoctos_Solicitados);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Consulta_Motivo")) {
+                					 String Consulta_Motivo = voJSONAttributes.getString("Consulta_Motivo");
+                    				 voDetailsConversations.put("Consulta_Motivo", Consulta_Motivo);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Pago_Sucursal")) {
+                					 String Pago_Sucursal = voJSONAttributes.getString("Pago_Sucursal");
+                    				 voDetailsConversations.put("Pago_Sucursal", Pago_Sucursal);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Incidencia_Hablante")) {
+                					 String Incidencia_Hablante = voJSONAttributes.getString("Incidencia_Hablante");
+                    				 voDetailsConversations.put("Incidencia_Hablante", Incidencia_Hablante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Endoso_No_Procede")) {
+                					 String Endoso_No_Procede = voJSONAttributes.getString("Endoso_No_Procede");
+                    				 voDetailsConversations.put("Endoso_No_Procede", Endoso_No_Procede);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Emision_Hablante")) {
+                					 String Emision_Hablante = voJSONAttributes.getString("Emision_Hablante");
+                    				 voDetailsConversations.put("Emision_Hablante", Emision_Hablante);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("EnvioDoctos_Email")) {
+                					 String EnvioDoctos_Email = voJSONAttributes.getString("EnvioDoctos_Email");
+                    				 voDetailsConversations.put("EnvioDoctos_Email", EnvioDoctos_Email);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Hablante")) {
+                					 String Cargo_Hablante = voJSONAttributes.getString("Cargo_Hablante");
+                    				 voDetailsConversations.put("Cargo_Hablante", Cargo_Hablante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Sucursal")) {
+                					 String Cargo_Sucursal = voJSONAttributes.getString("Cargo_Sucursal");
+                    				 voDetailsConversations.put("Cargo_Sucursal", Cargo_Sucursal);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_OtroMov")) {
+                					 String Cargo_OtroMov = voJSONAttributes.getString("Cargo_OtroMov");
+                    				 voDetailsConversations.put("Cargo_OtroMov", Cargo_OtroMov);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("LlamadaOtra_Area")) {
+                					 String LlamadaOtra_Area = voJSONAttributes.getString("LlamadaOtra_Area");
+                    				 voDetailsConversations.put("LlamadaOtra_Area", LlamadaOtra_Area);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_Hablante")) {
+                					 String Domiciliacion_Hablante = voJSONAttributes.getString("Domiciliacion_Hablante");
+                    				 voDetailsConversations.put("Domiciliacion_Hablante", Domiciliacion_Hablante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Rehabilitacion")) {
+                					 String Cargo_Rehabilitacion = voJSONAttributes.getString("Cargo_Rehabilitacion");
+                    				 voDetailsConversations.put("Cargo_Rehabilitacion", Cargo_Rehabilitacion);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_Sucursal")) {
+                					 String Domiciliacion_Sucursal = voJSONAttributes.getString("Domiciliacion_Sucursal");
+                    				 voDetailsConversations.put("Domiciliacion_Sucursal", Domiciliacion_Sucursal);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Pago_Importe")) {
+                					 String Pago_Importe = voJSONAttributes.getString("Pago_Importe");
+                    				 voDetailsConversations.put("Pago_Importe", Pago_Importe);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Endoso_Poliza")) {
+                					 String Endoso_Poliza = voJSONAttributes.getString("Endoso_Poliza");
+                    				 voDetailsConversations.put("Endoso_Poliza", Endoso_Poliza);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_OtroMov")) {
+                					 String Domiciliacion_OtroMov = voJSONAttributes.getString("Domiciliacion_OtroMov");
+                    				 voDetailsConversations.put("Domiciliacion_OtroMov", Domiciliacion_OtroMov);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_Ramo")) {
+                					 String Domiciliacion_Ramo = voJSONAttributes.getString("Domiciliacion_Ramo");
+                    				 voDetailsConversations.put("Domiciliacion_Ramo", Domiciliacion_Ramo);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_Poliza")) {
+                					 String Domiciliacion_Poliza = voJSONAttributes.getString("Domiciliacion_Poliza");
+                    				 voDetailsConversations.put("Domiciliacion_Poliza", Domiciliacion_Poliza);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Emision_PagoAcep")) {
+                					 String Emision_PagoAcep = voJSONAttributes.getString("Emision_PagoAcep");
+                    				 voDetailsConversations.put("Emision_PagoAcep", Emision_PagoAcep);
                     		
-                    		vlContact.add(vsContactId);
-                    		voDetailsConversations.put("ani", vsAni);
-                            voDetailsConversations.put("dnis", vsDnis);
-                            voDetailsConversations.put("ConversationStart", vsConversationStart );
-                            voDetailsConversations.put("vsConversationEnd", vsConversationEnd);
-                            voConversations.put(vsContactId, voDetailsConversations);
+                				 }
+                    			 if (voJSONAttributes.has("Domiciliacion_ClaveAgente")) {
+                					 String Domiciliacion_ClaveAgente = voJSONAttributes.getString("Domiciliacion_ClaveAgente");
+                    				 voDetailsConversations.put("Domiciliacion_ClaveAgente", Domiciliacion_ClaveAgente);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cargo_Poliza")) {
+                					 String Cargo_Poliza = voJSONAttributes.getString("Cargo_Poliza");
+                    				 voDetailsConversations.put("Cargo_Poliza", Cargo_Poliza);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Pago_Ramo")) {
+                					 String Pago_Ramo = voJSONAttributes.getString("Pago_Ramo");
+                    				 voDetailsConversations.put("Pago_Ramo", Pago_Ramo);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Emision_ClaveAgente")) {
+                					 String Emision_ClaveAgente = voJSONAttributes.getString("Emision_ClaveAgente");
+                    				 voDetailsConversations.put("Emision_ClaveAgente", Emision_ClaveAgente);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Incidencia_Afectacion")) {
+                					 String Incidencia_Afectacion = voJSONAttributes.getString("Incidencia_Afectacion");
+                    				 voDetailsConversations.put("Incidencia_Afectacion", Incidencia_Afectacion);
+                    			
+                				 }
+                    			 if (voJSONAttributes.has("Pago_ClaveAgente")) {
+                					 String Pago_ClaveAgente = voJSONAttributes.getString("Pago_ClaveAgente");
+                    				 voDetailsConversations.put("Pago_ClaveAgente", Pago_ClaveAgente);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Consulta_Hablante")) {
+                					 String Consulta_Hablante = voJSONAttributes.getString("Consulta_Hablante");
+                    				 voDetailsConversations.put("Consulta_Hablante", Consulta_Hablante);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Link_Email")) {
+                					 String Link_Email = voJSONAttributes.getString("Link_Email");
+                    				 voDetailsConversations.put("Link_Email", Link_Email);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Tramites_PersonaEscalada")) {
+                					 String Tramites_PersonaEscalada = voJSONAttributes.getString("Tramites_PersonaEscalada");
+                    				 voDetailsConversations.put("Tramites_PersonaEscalada", Tramites_PersonaEscalada);
+                    			
+                				 }
+                    			 if (voJSONAttributes.has("Emision_Importe")) {
+                					 String Emision_Importe = voJSONAttributes.getString("Emision_Importe");
+                    				 voDetailsConversations.put("Emision_Importe", Emision_Importe);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Incidencia_Origen")) {
+                					 String Incidencia_Origen = voJSONAttributes.getString("Incidencia_Origen");
+                    				 voDetailsConversations.put("Incidencia_Origen", Incidencia_Origen);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Cotizacion_Email")) {
+                					 String Cotizacion_Email = voJSONAttributes.getString("Cotizacion_Email");
+                    				 voDetailsConversations.put("Cotizacion_Email", Cotizacion_Email);
+                    				 
+                				 }
+                    			 if (voJSONAttributes.has("Tramites_ClaveAgente")) {
+                					 String Tramites_ClaveAgente = voJSONAttributes.getString("Tramites_ClaveAgente");
+                    				 voDetailsConversations.put("Tramites_ClaveAgente", Tramites_ClaveAgente);
+                    				
+                				 }
+                    			 if (voJSONAttributes.has("Pago_Poliza")) {
+                					 String Pago_Poliza = voJSONAttributes.getString("Pago_Poliza");
+                    				 voDetailsConversations.put("Pago_Poliza", Pago_Poliza);
+                    				
+                				 }	
+                    			 if (voJSONAttributes.has("Emision_Poliza")) {
+                					 String Emision_Poliza = voJSONAttributes.getString("Emision_Poliza");
+                    				 voDetailsConversations.put("Emision_Poliza", Emision_Poliza);
+                    				
+                				 }	
+                    			 if (voJSONAttributes.has("Cargo_ClaveAgente")) {
+                					 String Cargo_ClaveAgente = voJSONAttributes.getString("Cargo_ClaveAgente");
+                    				 voDetailsConversations.put("Cargo_ClaveAgente", Cargo_ClaveAgente);
+                    				 
+                				 }	
+                    			 if (voJSONAttributes.has("Emision_OtroMov")) {
+                					 String Emision_OtroMov = voJSONAttributes.getString("Emision_OtroMov");
+                    				 voDetailsConversations.put("Emision_OtroMov", Emision_OtroMov);
+                    				
+                				 }
+                    		 }
+                    	}
+                    	
+                        
+                    	voConversations.put(vsContactId, voDetailsConversations);
+                    		
                     } 
                    
                 }else {
@@ -147,20 +475,18 @@ public class Reporteador extends  Thread  {
                 		PagesNoProcessedCsv(vsContactId,voConexionResponseCall.getCodigoRespuesta(),urlArchivoTemp,vsUUi);
                 	}
                 }
-                    
+                    voLogger.info("[Reporteador][" + vsUUi + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voDetailsConversations.size() + "]");
+                    vbActivo = false; 
                 }
                
-                //voDatos.setTotalProgreso(vlContactId.size());
-                voLogger.info("[Reporteador][" + vsUUi + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voConversations.size() + "]");
-                voLogger.info("[Reporteador][" + vsUUi + "] ---> ANALIZANDO E INTERPRETANDO BREADCRUMBS PARA LA APP [" + vsFlowName + "  ]  [" + vsFlowName1 + "  ]");
-                vbActivo = false;
+               
             
                 /*
 				 * Genero los archivos TXT GenraTXT = new GeneradorTXT();
                  */
                 GenraTXT = new GeneradorTXT();
                 nameTxt = new ArrayList<>();
-              System.out.println(voConversations.size()+" del hilo: "+this.getName() + "con un total de ids: "+vlContactId.size());
+              //System.out.println(voConversations.size()+" del hilo: "+this.getName() + "con un total de ids: "+vlContactId.size());
                 	
                
                 nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUi,urlArchivoTemp));
@@ -176,7 +502,7 @@ public class Reporteador extends  Thread  {
 public  void PagesNoProcessed(String vsContactId,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi) {
     
     	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
-    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_conversations_IE";
+    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_conversations_IE_TEMP.csv";
     	   		
     		File  fw = new File (strUrlFinal);
     		//Validamos si el archivo existe
@@ -215,7 +541,7 @@ public  void PagesNoProcessed(String vsContactId,int getCodigoRespuesta, String 
 public boolean PagesNoProcessedCsv(String vsContactId,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi) {
     	
     	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
-    	strUrlFinal = "C:\\Appl\\GS\\ReportesCustom\\CSVFinales\\" + vsUUi + "_conversations_IE.CSV";
+    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_conversations_IE.csv";
     	   		
     		File  fw = new File (strUrlFinal);
     		//Validamos si el archivo existe
