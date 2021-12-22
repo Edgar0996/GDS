@@ -81,11 +81,13 @@ public class app {
 	private DataReports voData = null;
 	/* Variables para mandar a llamar mi reporte */
 	private Reporteador voReporte;
-
 	private RecuperaConversationID RecuperaId;
+	List<String> Threa;
 
 	public static void main(String[] args) {
-		
+		//Inicio de la ejecucion del proceso
+		ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
 		/* Genero mi cadena UUI */
 		String vsUUI = GeneraCadenaUUI("1234567890");
 
@@ -94,8 +96,6 @@ public class app {
 
 		/* Recupero la fecha de ayer */
 		String strYesterda = yesterdaydate();
-		
-		
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
@@ -116,33 +116,32 @@ public class app {
 				/* Genero la carpeta temporal */
 				String timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
 				// Asigno la fecha de ejecucion al datamail
-				ReporteMail.inicioProceso = timeStamp; 
-				ReporteMail.fechaEjecucion = new SimpleDateFormat("yyyy_MM_dd")
+				ReporteMail.fechaEjecucion = new SimpleDateFormat("yyyy-MM-dd")
 						.format(Calendar.getInstance().getTime());
 
 				String Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
 				boolean Ruta = createTempDirectory(Archivo);
 				if (Ruta == true) {
-					 voLogger.info("[App  ][" + vsUUI + "] ---> *************INICIO DE LA APLICACIÓN*************** ");
-					 voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: "+ strYesterda);
+					voLogger.info("[App  ][" + vsUUI + "] ---> *************INICIO DE LA APLICACIÓN*************** ");
+					voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-					
 					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
-					//voData.setFechaInicio("2021-01-01");
-					//voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+					// voData.setFechaInicio("2021-01-01");
+					// voData.setFechaFin(new
+					// SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 					voData.setVsOrigination(originationDirection);
 
 					try {
 
 						// Segmento las 24 horas del día dependiendo el archivo de configuración
 						String strFinalTime = "00:00:00";
-						ReporteMail.intervaloTiempo = String.valueOf(1440/intTimeFrame) ;
-						ReporteMail.duracionIntervalo = String.valueOf(intTimeFrame) ;
+						ReporteMail.intervaloTiempo = String.valueOf(1440 / intTimeFrame);
+						ReporteMail.duracionIntervalo = String.valueOf(intTimeFrame);
 						ReporteMail.tipoInteracciones = originationDirection;
 						for (int a = 0; a < 1440; a = a + intTimeFrame) {
-							//System.out.println("Se repite: " + bb);
+							// System.out.println("Se repite: " + bb);
 							String strStartTime = strFinalTime;
 							Date datex = new SimpleDateFormat("HH:mm:ss").parse(strFinalTime);
 							Calendar calendar = Calendar.getInstance();
@@ -156,23 +155,31 @@ public class app {
 							RecuperaConversationID recuperaId = new RecuperaConversationID(voData, vsUUI);
 							if (strFinalTime.equals("00:00:00")) {
 								strFinalTime = "23:59:59";
-								voLogger.info("[Horario  ][" + vsUUI + "] --->  BLOQUE DE HORA[ "+strStartTime+ " A "+ strFinalTime+"]");
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
-								sumTotalHits =sumTotalHits + listConversationID.size();
+								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
+								voLogger.info("[Horario  ][" + vsUUI + "] --->  BLOQUE DE HORA[ " + strStartTime + " A "
+										+ strFinalTime + "]");
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
+										originationDirection, strYesterda, strStartTime, strFinalTime));
+								sumTotalHits = sumTotalHits + listConversationID.size();
 							} else {
-								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ "+strStartTime+ " A "+ strFinalTime+"]");
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
-								sumTotalHits =sumTotalHits + listConversationID.size();
+								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
+								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + strStartTime + " A "
+										+ strFinalTime + "]");
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
+										originationDirection, strYesterda, strStartTime, strFinalTime));
+								sumTotalHits = sumTotalHits + listConversationID.size();
 							}
-							
-							  for (int r = 0; r < listConversationID.size(); r++) {
-							  System.out.println("Con este horario inicial " + strStartTime +
-							  " y horario terminal " + strFinalTime + " En mi For " + a + " Viene este ID "
-							  + listConversationID.get(r)); }
-							 
+
+							/*
+							 * for (int r = 0; r < listConversationID.size(); r++) {
+							 * System.out.println("Con este horario inicial " + strStartTime +
+							 * " y horario terminal " + strFinalTime + " En mi For " + a + " Viene este ID "
+							 * + listConversationID.get(r)); }
+							 */
 
 							// Genero mis indices dependiendo de mi variables totalThreads
 							List<List<String>> listConversationThrea = new ArrayList<List<String>>();
+							List<String> Threa = new ArrayList<String>();
 							int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
 							for (int h = 0; h < totalNoClienteID; h++) {
 								listConversationThrea.add(new ArrayList<String>());
@@ -180,60 +187,48 @@ public class app {
 							int totalThread = 0;
 							totalNoClienteID--;
 							// Valido que en se periodo de tiempo tenga datos datos
-							if(listConversationID.size() != 0) {
-							for (int b = 0; b < listConversationID.size(); b++) {
+							if (listConversationID.size() != 0) {
+								for (int b = 0; b < listConversationID.size(); b++) {
 
-								if (totalThread < totalNoClienteID) {
+									if (totalThread < totalNoClienteID) {
 
-									listConversationThrea.get(totalThread).add(listConversationID.get(b));
-									totalThread++;
+										listConversationThrea.get(totalThread).add(listConversationID.get(b));
+										totalThread++;
 
-								} else {
+									} else {
 
-									listConversationThrea.get(totalThread).add(listConversationID.get(b));
-									totalThread = 0;
+										listConversationThrea.get(totalThread).add(listConversationID.get(b));
+										totalThread = 0;
+									}
 								}
-							}
-							for (int h = 0; h <= totalNoClienteID; h++) {
-								
-								Reporteador voReporte = new Reporteador(vsUUI, tokenList.get(h), vsUUI,
-										listConversationThrea.get(h), Archivo, false);
-								voReporte.start();
-								voReporte.setName("Hilo" + h);
 
-								if (h == totalNoClienteID) {
-									voReporte.setPriority(1);
-									try {
-										voReporte.join();
+								for (int h = 0; h <= totalNoClienteID; h++) {
 
-									} catch (InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
+									Reporteador voReporte = new Reporteador(vsUUI, tokenList.get(h), vsUUI,
+											listConversationThrea.get(h), Archivo, false);
+									voReporte.start();
+									voReporte.setName("Hilo" + h);
+									Threa.add("Hilo" + h);
+
+									if (h == totalNoClienteID) {
+
+										/*
+										 * for(int t=0; t<=Threa.size();t++) {
+										 * 
+										 * Threa.i }
+										 */
+
 									}
 
 								}
 
 							}
 
-							}
-							try {
-								sleep(5000);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 						}
 
 					} catch (ParseException e1) {
 						voLogger.error("[app][" + vsUUI + "] ---> ERROR AL GENERAR LOS ARCHIVOS TXT");
 					}
-					/*
-					 * double hits= sumTotalHits; double division= (hits / 100.0);
-					 * ReporteMail.numeroHits = sumTotalHits; ReporteMail.paginasRetornadas = (int)
-					 * Math.ceil(division);
-					 * System.out.println("Valor calculado de pagina: "+ReporteMail.
-					 * paginasRetornadas);
-					 */
 					/*
 					 * valido si existen Id's de error trabajo
 					 */
@@ -242,122 +237,87 @@ public class app {
 
 					/*
 					 * sleep de prueba
-					 */					
+					 */
 					try {
 						sleep(10000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					/* Se buscan los archivos que terminen con extension .txt */
+					File[] files = FileUtils.getFilesTxt(Archivo);
+					List<String[]> content = new ArrayList<String[]>();
+					content = FileUtils.getContentForCsv(files);
+					// Creamos el csv antes de recorrer los archivos
+					// Obteniendo los encabezados
+					Map<String, Object> voMapHeadersCSV = new HashMap<String, Object>();
+					DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
+					GDSmx voAppBBVAMx = new GDSmx(voMapConf, voDataBBVAmx);
+					voMapHeadersCSV = voAppBBVAMx.getHeaderCSV();
+
+					GeneradorCSV generaExcel = new GeneradorCSV();
+					boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_" + strYesterda,
+							content, vsUUI, voMapHeadersCSV);
+					// Valores para el reporte de correo
+					ReporteMail.conversationsIdOK = content.size(); // Va ser sin duplicados
+					ReporteMail.pathCsvFinal = Archivo + "\\ReporteFinal_" + strYesterda + ".csv";
+					boolean bIE = FileUtils.searchFile(vsUUI + "_conversations_IE.csv", Archivo);
+					if(bIE) {
+						ReporteMail.pathInteraccionesNoProcesadas = Archivo + "\\" + vsUUI + "_conversations_IE.csv";
+					} else {
+						ReporteMail.pathInteraccionesNoProcesadas = "No existen interacciones sin procesar";
+					}
+					boolean bPE = FileUtils.searchFile(vsUUI + "_conversations_PE.csv", Archivo);
+					if(bPE) {
+						ReporteMail.pathPagNoProcesadas = Archivo + "\\" + vsUUI + "_conversations_PE.csv";
+						
+					} else {
+						ReporteMail.pathPagNoProcesadas = "No existen páginas sin procesar";
+						ReporteMail.paginasRetornadasErr = 0;
+					}
+					ReporteMail.numeroHits = sumTotalHits;
+					ReporteMail.lineasCsvFinal = content.size();
+					System.out.println("resultado de la generacion del archivo: " + resultadoCsv
+							+ " Con un tamanio de content: " + content.size());
+					
+					/* Calculando la duracion del programa */
+					
 
 					/*
-					 * Se empieza a generar el CSV con los archivos que existen en el directorio de
-					 * trabajo
+					 * System.out.println("Valor de ReporteMail ejecucion: " +
+					 * ReporteMail.fechaEjecucion + " inicioProceso: " + ReporteMail.inicioProceso +
+					 * " finProceso: " + ReporteMail.finProceso + " numeroHits: " +
+					 * ReporteMail.numeroHits + " paginasRetornadas: " +
+					 * ReporteMail.paginasRetornadas + " conversationsIdOK: " +
+					 * ReporteMail.conversationsIdOK + " excepcionesHttp: " +
+					 * ReporteMail.excepcionesHttp + " pathCsvFinal: " + ReporteMail.pathCsvFinal +
+					 * " pathInteraccionesNoProcesadas: " +
+					 * ReporteMail.pathInteraccionesNoProcesadas +
+					 * " lineasInteraccionesNoProcesadas: " +
+					 * ReporteMail.lineasInteraccionesNoProcesadas + " tipoInteracciones: " +
+					 * ReporteMail.tipoInteracciones);
 					 */
 
-					File dir = new File(Archivo);
-					/* Se buscan los archivos que terminen con extension .txt */
-					File[] files = dir.listFiles(new FilenameFilter() {
-						public boolean accept(File dir, String name) {
-							return name.toLowerCase().endsWith(".txt");
-						}
-					});
-					/* Recorremos el listado de los archivos recuperados */
-					if (files.length != 0) {
-						// Creamos el csv antes de recorrer los archivos
-						// Obteniendo los encabezados
-						Map<String, Object> voMapHeadersCSV = new HashMap<String, Object>();
-						DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
-						GDSmx voAppBBVAMx = new GDSmx(voMapConf, voDataBBVAmx);
-						voMapHeadersCSV = voAppBBVAMx.getHeaderCSV();
-
-						List content = new ArrayList();
-						GeneradorCSV generaExcel = new GeneradorCSV();
-						for (int x = 0; x < files.length; x++) {
-							File file = files[x];
-							//System.out.println("Archivo recuperado: " + file);
-							// Leemos el txt recibido por parametro
-							FileReader fileReaderConversations = null;
-							String lineContent = "";
-
-							try {
-								// sleep(3000);
-								fileReaderConversations = new FileReader(file);
-								BufferedReader buffer = new BufferedReader(fileReaderConversations);
-								while ((lineContent = buffer.readLine()) != null) {
-									String[] lineElements = lineContent.split(",");
-									content.add(lineElements);
-									//System.out.println("content recuperado hasta el archivo: " + content.size()+" con el file"+file.getName());
-									
-								}
-								buffer.close();
-								//file.delete();
-							} catch (FileNotFoundException ex) {
-								java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null,
-										ex);
-							} catch (IOException ex) {
-								java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null,
-										ex);
-								/*
-								
-								 */
-							} finally {
-								try {
-									if (null != fileReaderConversations) {
-										fileReaderConversations.close();
-									}
-								} catch (IOException ex) {
-									java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE,
-											null, ex);
-								}
-							}
-							// Enviamos el contenido del archivo a la funcion
-							String path = Archivo + "\\ReporteFinal";
-							//System.out.println("El directorio a enviar es: " + path);
-
-						}
-						boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_"+strYesterda, content, vsUUI,
-								voMapHeadersCSV);
-						ReporteMail.conversationsIdOK = content.size(); //Va ser sin duplicados
-						ReporteMail.pathCsvFinal = Archivo + "\\ReporteFinal_"+strYesterda+".csv";
-						ReporteMail.pathInteraccionesNoProcesadas = Archivo + "\\" + vsUUI + "_conversations_IE.csv";
-						ReporteMail.numeroHits = sumTotalHits;
-						ReporteMail.lineasCsvFinal= content.size();
-						ReporteMail.pathPagNoProcesadas = Archivo;
-						System.out.println("resultado de la generacion del archivo: " + resultadoCsv
-								+ " Con un tamanio de content: " + content.size());
-						ReporteMail.finProceso = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss")
-								.format(Calendar.getInstance().getTime());
-						/* Calculando la duracion del programa */
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss", Locale.getDefault());  
-						
-						System.out.println("Valor de ReporteMail ejecucion: " + ReporteMail.fechaEjecucion
-								+ " inicioProceso: " + ReporteMail.inicioProceso + " finProceso: "
-								+ ReporteMail.finProceso + " numeroHits: " + ReporteMail.numeroHits+" paginasRetornadas: "+ReporteMail.paginasRetornadas+ " conversationsIdOK: "+ReporteMail.conversationsIdOK+
-								" excepcionesHttp: "+ReporteMail.excepcionesHttp+" pathCsvFinal: "+ReporteMail.pathCsvFinal+ " pathInteraccionesNoProcesadas: "+ReporteMail.pathInteraccionesNoProcesadas+ " lineasInteraccionesNoProcesadas: "+ReporteMail.lineasInteraccionesNoProcesadas+
-								" tipoInteracciones: "+ReporteMail.tipoInteracciones);
-						/* Enviando el correo */
-						SendingMailTLS sendMail = new SendingMailTLS();
-						//boolean result =sendMail.sendMailKranon("vfrancisco@kranon.com", "Reporte de ejecución de GDS del "+strYesterda, vsUUI);
-						try {
-							sleep(90000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						FileUtils.deleteTemporals(Archivo+ "\\", vsUUI);
-
-					} else {
-						System.out.println("El directorio no contiene extensiones de tipo '.txt'");
-					}
+					  try { 
+						  sleep(3000); 
+						  } catch (InterruptedException e) { // TODO Auto-generated
+					  e.printStackTrace(); }
+					 
+					FileUtils.deleteTemporals(Archivo + "\\", vsUUI);
+					ReporteMail.finProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+							.format(Calendar.getInstance().getTime());
+					ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
+					/* Enviando el correo */
+					SendingMailTLS sendMail = new SendingMailTLS();
+					//boolean result =sendMail.sendMailKranon("vfrancisco@kranon.com", "Reporte de ejecución de GDS del "+strYesterda, vsUUI);
 				} else {
-				voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
-				// Se tendria que terminar el programa aquí con algun return o break
+					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
+					// Se tendria que terminar el programa aquí con algun return o break
 				}
 			}
 
-		} //Termina el Else
-		// new app();
+		} // Termina el Else
+			// new app();
 	}
 
 	public static Map<String, String> RecuperaArhivoConf(String vsUUI) {
@@ -393,7 +353,7 @@ public class app {
 		List<String> Token = new ArrayList<>();
 		String clientsNum = voMapConf.get("NoClienteID");
 		int total = Integer.parseInt(clientsNum);
-		 voLogger.info("[App  ][" + vsUUI + "] ---> GENERANDO "+total+" TOKENS");
+		voLogger.info("[App  ][" + vsUUI + "] ---> GENERANDO " + total + " TOKENS");
 		for (int i = 0; i < total; i++) {
 
 			String clientNum = "ClientId" + i;
@@ -405,13 +365,12 @@ public class app {
 			// Generamos los Tokents
 			GenesysCloud voPureCloud = new GenesysCloud();
 			String vsToken = voPureCloud.getToken(idClient, clientSecret, vsUUI);
-			//System.out.print("Valor de token: "+vsToken);
+			// System.out.print("Valor de token: "+vsToken);
 			Token.add(vsToken);
 
 			if (vsToken.equals("ERROR")) {
 
-				voLogger.error(
-						"[App ][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
+				voLogger.error("[App ][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
 
 			}
 

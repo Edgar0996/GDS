@@ -130,7 +130,7 @@ public class SendingMailTLS {
       		+ "<td style=\"height: 55px;\" colspan=\"2\">\r\n"
       		+ "<p>Tiempo de Ejecuci&oacute;n</p>\r\n"
       		+ "</td>\r\n"
-      		+ "<td style=\"height: 55px;\" colspan=\"2\"><span style=\"color: #c82828;\">00h 10' 03''</span></td>\r\n"
+      		+ "<td style=\"height: 55px;\" colspan=\"2\"><span style=\"color: #c82828;\">"+ReporteMail.tiempoEjecucion+"</span></td>\r\n"
       		+ "</tr>\r\n"
       		+ "<tr>\r\n"
       		+ "<td style=\"width: 310.938px;\" colspan=\"2\">\r\n"

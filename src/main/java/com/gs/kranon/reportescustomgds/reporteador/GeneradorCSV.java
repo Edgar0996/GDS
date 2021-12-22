@@ -81,7 +81,7 @@ public class GeneradorCSV {
     }
     
     
-    public boolean GeneraReportCSV(String vsPathExcel, List content,String vsUUI, Map<String, Object> voMapHeadersCSVs) {
+    public boolean GeneraReportCSV(String vsPathExcel, List<String[]> content,String vsUUI, Map<String, Object> voMapHeadersCSVs) {
         voMapHeaderCSV = voMapHeadersCSVs;
         vbActivo = false;
         if (voMapHeaderCSV.size() <= 0) {

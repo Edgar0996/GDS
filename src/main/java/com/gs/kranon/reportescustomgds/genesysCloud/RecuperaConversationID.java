@@ -28,8 +28,6 @@ public class RecuperaConversationID {
 	    private String vsUUI = "";
 	    private String vsFechaInicio = "";
 	    private String vsFechaFin = "";
-	    private String vsFlowName = "";
-	    private String vsFlowName1 = "";
 
 	    private DataReports voDataReport = null;
 	    private ConexionHttp voConexionHttp = null;
@@ -74,7 +72,7 @@ public class RecuperaConversationID {
          do {
         	 
              viPag++;
-             System.out.println("Estoy en la pagina " + viPag );
+             System.out.println("Pagina : " + viPag );
              
              voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
