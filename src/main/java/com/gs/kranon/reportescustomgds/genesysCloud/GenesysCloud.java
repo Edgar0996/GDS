@@ -42,7 +42,7 @@ public class GenesysCloud {
             encodeData = new String(Base64.encodeBase64((vsClID + ":" + vsClSec).getBytes("ISO-8859-1")));
             header.put("Authorization", " Basic " + encodeData);
         } catch (UnsupportedEncodingException e1) {
-            voLogger.error("[PureCloud  ][" + vsUUI + "] ---> " + e1.getMessage());
+            voLogger.error("[GenesysCloud  ][" + vsUUI + "] ---> " + e1.getMessage());
         }
         try {
             ConexionHttp conexionHttp = new ConexionHttp();
@@ -53,21 +53,22 @@ public class GenesysCloud {
                 if (json.has("access_token")) {
                     
                     vsAccessToken = json.getString("access_token");
-                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> *************INICIO APLICACIÓN*************** ");
-                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> *************GENERO TOKEN*************** ");
-                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS]. [" + vsClID + "]");
+                   
+                    //voLogger.info("[PureCloud  ][" + vsUUI + "] ---> *************GENERO TOKEN*************** ");
+                    voLogger.info("[GenesysCloud  ][" + vsUUI + "] ---> RESULTADO DE GENERACION DE TOKEN [SUCCESS]");
                 } else {
-                    voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
+                    voLogger.error("[GenesysCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
                 }
             } else {
-                voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[" + vsAccessToken + "], "
+                voLogger.error("[GenesysCloud  ][" + vsUUI + "] ---> TOKEN[" + vsAccessToken + "], "
                         + " CODIGO RESPUESTA[" + conexionResponse.getCodigoRespuesta() + "], MENSAJE RESPUESTA[" + conexionResponse.getMensajeRespuesta() + "]");
             }
         } catch (IOException e) {
-            voLogger.error("[PureCloud  ][" + vsUUI + "] --->" + e.getMessage());
+            voLogger.error("[GenesysCloud  ][" + vsUUI + "] --->" + e.getMessage());
         } catch (Exception e) {
-            voLogger.error("[PureCloud  ][" + vsUUI + "] --->" + e.getMessage());
+            voLogger.error("[GenesysCloud  ][" + vsUUI + "] --->" + e.getMessage());
         }
+        System.out.println("Token "+vsAccessToken);
         return vsAccessToken;
     }
 

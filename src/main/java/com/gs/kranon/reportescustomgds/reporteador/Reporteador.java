@@ -7,6 +7,7 @@ import com.gs.kranon.reportescustomgds.utilidades.Excel;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.genesysCloud.GenesysCloud;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,10 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
-import java.util.Scanner;
 import java.util.logging.Level;
-import javax.swing.JProgressBar;
-import javax.swing.JTextArea;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.apache.log4j.LogManager;
@@ -56,10 +54,8 @@ public class Reporteador extends  Thread  {
     private GenesysCloud voPureCloud = null;
     private GeneradorTXT GenraTXT = null;
     private GeneradorCSV GenraCSV = null;
-    //private DatosProgreso voDatos;
     private Utilerias voUti;
    
-    //private JProgressBar voProgreso;
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
     private List<String> vlContact = null;
@@ -68,7 +64,6 @@ public class Reporteador extends  Thread  {
     private Map<String, String> voDetailsConversations;
     private String urlArchivoTemp =null;
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
-    private boolean vbActivo = true;
     private boolean ReturnErro;
     
 
@@ -89,7 +84,7 @@ public class Reporteador extends  Thread  {
     public synchronized void run() {
 
     	 
-     
+    	//voLogger.info("[Reporteador][" + vsUUi + "] ---> *************CONSULTANDO EL DETALLE DE LOS CONVERSATIONSID*************** ");
                 ConexionResponse voConexionResponse;
                 voConexionHttp = new ConexionHttp();
                 HashMap<String, String> voHeader = new HashMap<>();
@@ -105,21 +100,21 @@ public class Reporteador extends  Thread  {
                 for (String vsContactId : vlContactId) {
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     viContadorEncontrados++;
-                    voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
+                    //voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
                     try {
                         voConexionResponseCall = voConexionHttp.executeGet(vsURLConversation, 15000, voHeader, null);
                     } catch (Exception e) {
                         voLogger.error("[Reporteador][" + vsUUi + "] ---> CONTACT_ID [" + vsContactId + "] : " + e.getMessage());
                     }
                     
-                    String vsJsonResponse = voConexionResponseCall.getMensajeRespuesta();
+                    //String vsJsonResponse = voConexionResponseCall.getMensajeRespuesta();
                     
                     if(voConexionResponseCall.getCodigoRespuesta() == 200) {
                     		
                    
                     JSONObject voJsonResponseCall = new JSONObject(voConexionResponseCall.getMensajeRespuesta());
-                    voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] "
-                            + "RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
+                    voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[\"" + vsURLConversation + "\"]\""
+                            + " RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
                    
                     
                     
@@ -469,14 +464,18 @@ public class Reporteador extends  Thread  {
                     } 
                    
                 }else {
+                	//Validar errores 500 (timeout), 503, 404, 204, los demas seran excepciones generales
+                	ReporteMail.excepcionesHttp = ReporteMail.excepcionesHttp + 1;
                 	if(ReturnErro==false) {
                 		PagesNoProcessed(vsContactId,voConexionResponseCall.getCodigoRespuesta(),urlArchivoTemp,vsUUi);
                 	}else {
                 		PagesNoProcessedCsv(vsContactId,voConexionResponseCall.getCodigoRespuesta(),urlArchivoTemp,vsUUi);
                 	}
                 }
+                    if(voDetailsConversations != null) {
                     voLogger.info("[Reporteador][" + vsUUi + "] ---> TOTAL CONVERSATION WITH BREADCRUMBS[" + voDetailsConversations.size() + "]");
-                    vbActivo = false; 
+                    }
+
                 }
                
                
@@ -542,7 +541,7 @@ public boolean PagesNoProcessedCsv(String vsContactId,int getCodigoRespuesta, St
     	
     	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
     	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_conversations_IE.csv";
-    	   		
+    	   	ReporteMail.lineasInteraccionesNoProcesadas = ReporteMail.lineasInteraccionesNoProcesadas + 1;
     		File  fw = new File (strUrlFinal);
     		//Validamos si el archivo existe
     		if(fw.exists()){

@@ -7,9 +7,11 @@ package com.gs.kranon.reportescustomgds;
 
 import com.gs.kranon.reportescustomgds.genesysCloud.GenesysCloud;
 import com.gs.kranon.reportescustomgds.genesysCloud.RecuperaConversationID;
+import com.gs.kranon.reportescustomgds.utilidades.FileUtils;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
 import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
@@ -20,11 +22,14 @@ import com.gs.kranon.reportescustomgds.reporteador.GeneradorCSV;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
@@ -34,7 +39,6 @@ import static java.lang.System.exit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
@@ -50,8 +54,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.swing.JProgressBar;
-import javax.swing.JTextArea;
+import javax.xml.crypto.Data;
 
 /**
  *
@@ -113,27 +116,31 @@ public class app {
 				/* Genero la carpeta temporal */
 				String timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
 				// Asigno la fecha de ejecucion al datamail
-				ReporteMail.inicioProceso = timeStamp;
+				ReporteMail.inicioProceso = timeStamp; 
 				ReporteMail.fechaEjecucion = new SimpleDateFormat("yyyy_MM_dd")
 						.format(Calendar.getInstance().getTime());
 
 				String Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
 				boolean Ruta = createTempDirectory(Archivo);
 				if (Ruta == true) {
+					 voLogger.info("[App  ][" + vsUUI + "] ---> *************INICIO DE LA APLICACIÓN*************** ");
+					 voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: "+ strYesterda);
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
 					
 					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
-					voData.setFechaInicio("2021-01-01");
-					voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+					//voData.setFechaInicio("2021-01-01");
+					//voData.setFechaFin(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 					voData.setVsOrigination(originationDirection);
 
 					try {
 
 						// Segmento las 24 horas del día dependiendo el archivo de configuración
 						String strFinalTime = "00:00:00";
-						int bb = 1;
+						ReporteMail.intervaloTiempo = String.valueOf(1440/intTimeFrame) ;
+						ReporteMail.duracionIntervalo = String.valueOf(intTimeFrame) ;
+						ReporteMail.tipoInteracciones = originationDirection;
 						for (int a = 0; a < 1440; a = a + intTimeFrame) {
 							//System.out.println("Se repite: " + bb);
 							String strStartTime = strFinalTime;
@@ -153,7 +160,7 @@ public class app {
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
 								sumTotalHits =sumTotalHits + listConversationID.size();
 							} else {
-								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA["+strStartTime+ "A"+ strFinalTime+"]");
+								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ "+strStartTime+ " A "+ strFinalTime+"]");
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime));
 								sumTotalHits =sumTotalHits + listConversationID.size();
 							}
@@ -188,7 +195,7 @@ public class app {
 								}
 							}
 							for (int h = 0; h <= totalNoClienteID; h++) {
-
+								
 								Reporteador voReporte = new Reporteador(vsUUI, tokenList.get(h), vsUUI,
 										listConversationThrea.get(h), Archivo, false);
 								voReporte.start();
@@ -208,7 +215,6 @@ public class app {
 
 							}
 
-							bb++;
 							}
 							try {
 								sleep(5000);
@@ -221,11 +227,13 @@ public class app {
 					} catch (ParseException e1) {
 						voLogger.error("[app][" + vsUUI + "] ---> ERROR AL GENERAR LOS ARCHIVOS TXT");
 					}
-					double hits= sumTotalHits;
-					double division= (hits / 100.0);
-					ReporteMail.numeroHits = sumTotalHits;
-					ReporteMail.paginasRetornadas = (int) Math.ceil(division);
-					System.out.println("Valor calculado de pagina: "+ReporteMail.paginasRetornadas);
+					/*
+					 * double hits= sumTotalHits; double division= (hits / 100.0);
+					 * ReporteMail.numeroHits = sumTotalHits; ReporteMail.paginasRetornadas = (int)
+					 * Math.ceil(division);
+					 * System.out.println("Valor calculado de pagina: "+ReporteMail.
+					 * paginasRetornadas);
+					 */
 					/*
 					 * valido si existen Id's de error trabajo
 					 */
@@ -267,7 +275,7 @@ public class app {
 						GeneradorCSV generaExcel = new GeneradorCSV();
 						for (int x = 0; x < files.length; x++) {
 							File file = files[x];
-							System.out.println("Archivo recuperado: " + file);
+							//System.out.println("Archivo recuperado: " + file);
 							// Leemos el txt recibido por parametro
 							FileReader fileReaderConversations = null;
 							String lineContent = "";
@@ -279,10 +287,11 @@ public class app {
 								while ((lineContent = buffer.readLine()) != null) {
 									String[] lineElements = lineContent.split(",");
 									content.add(lineElements);
-									System.out.println("content recuperado hasta el archivo: " + content.size()+" con el file"+file.getName());
+									//System.out.println("content recuperado hasta el archivo: " + content.size()+" con el file"+file.getName());
 									
 								}
 								buffer.close();
+								//file.delete();
 							} catch (FileNotFoundException ex) {
 								java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null,
 										ex);
@@ -307,24 +316,47 @@ public class app {
 							//System.out.println("El directorio a enviar es: " + path);
 
 						}
-						boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal", content, vsUUI,
+						boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_"+strYesterda, content, vsUUI,
 								voMapHeadersCSV);
+						ReporteMail.conversationsIdOK = content.size(); //Va ser sin duplicados
+						ReporteMail.pathCsvFinal = Archivo + "\\ReporteFinal_"+strYesterda+".csv";
+						ReporteMail.pathInteraccionesNoProcesadas = Archivo + "\\" + vsUUI + "_conversations_IE.csv";
+						ReporteMail.numeroHits = sumTotalHits;
+						ReporteMail.lineasCsvFinal= content.size();
+						ReporteMail.pathPagNoProcesadas = Archivo;
 						System.out.println("resultado de la generacion del archivo: " + resultadoCsv
 								+ " Con un tamanio de content: " + content.size());
 						ReporteMail.finProceso = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss")
 								.format(Calendar.getInstance().getTime());
+						/* Calculando la duracion del programa */
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss", Locale.getDefault());  
+						
 						System.out.println("Valor de ReporteMail ejecucion: " + ReporteMail.fechaEjecucion
 								+ " inicioProceso: " + ReporteMail.inicioProceso + " finProceso: "
-								+ ReporteMail.finProceso + " numeroHits: " + ReporteMail.numeroHits+" paginasRetornadas: "+ReporteMail.paginasRetornadas);
+								+ ReporteMail.finProceso + " numeroHits: " + ReporteMail.numeroHits+" paginasRetornadas: "+ReporteMail.paginasRetornadas+ " conversationsIdOK: "+ReporteMail.conversationsIdOK+
+								" excepcionesHttp: "+ReporteMail.excepcionesHttp+" pathCsvFinal: "+ReporteMail.pathCsvFinal+ " pathInteraccionesNoProcesadas: "+ReporteMail.pathInteraccionesNoProcesadas+ " lineasInteraccionesNoProcesadas: "+ReporteMail.lineasInteraccionesNoProcesadas+
+								" tipoInteracciones: "+ReporteMail.tipoInteracciones);
+						/* Enviando el correo */
+						SendingMailTLS sendMail = new SendingMailTLS();
+						//boolean result =sendMail.sendMailKranon("vfrancisco@kranon.com", "Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+						try {
+							sleep(90000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						FileUtils.deleteTemporals(Archivo+ "\\", vsUUI);
+
 					} else {
 						System.out.println("El directorio no contiene extensiones de tipo '.txt'");
 					}
-				}
+				} else {
 				voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 				// Se tendria que terminar el programa aquí con algun return o break
+				}
 			}
 
-		}
+		} //Termina el Else
 		// new app();
 	}
 
@@ -361,7 +393,7 @@ public class app {
 		List<String> Token = new ArrayList<>();
 		String clientsNum = voMapConf.get("NoClienteID");
 		int total = Integer.parseInt(clientsNum);
-
+		 voLogger.info("[App  ][" + vsUUI + "] ---> GENERANDO "+total+" TOKENS");
 		for (int i = 0; i < total; i++) {
 
 			String clientNum = "ClientId" + i;
@@ -373,13 +405,13 @@ public class app {
 			// Generamos los Tokents
 			GenesysCloud voPureCloud = new GenesysCloud();
 			String vsToken = voPureCloud.getToken(idClient, clientSecret, vsUUI);
-			System.out.print("Valor de token: "+vsToken);
+			//System.out.print("Valor de token: "+vsToken);
 			Token.add(vsToken);
 
 			if (vsToken.equals("ERROR")) {
 
 				voLogger.error(
-						"[Reporteador][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
+						"[App ][" + vsUUI + "] ---> [ClientID] AND [ClientSecret] ARE INCORRECT." + idClient);
 
 			}
 

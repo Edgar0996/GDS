@@ -16,8 +16,6 @@ import com.gs.kranon.reportescustomgds.DataReports;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
 import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
-import com.gs.kranon.reportescustomgds.reporteador.GeneradorCSV;
-import com.gs.kranon.reportescustomgds.reporteador.GeneradorTXT;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
 public class RecuperaConversationID {
@@ -62,7 +60,7 @@ public class RecuperaConversationID {
 
          
 
-         voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ******************** RECOVER CONVERSATIONS ID *******************");
+         voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> ******************** RECUPERA CONVERSATIONS ID *******************");
 
          String vsURLPCDetails = "https://api.mypurecloud.com/api/v2/analytics/conversations/details/query";
          voConexionHttp = new ConexionHttp();
@@ -77,17 +75,18 @@ public class RecuperaConversationID {
         	 
              viPag++;
              System.out.println("Estoy en la pagina " + viPag );
-             voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
+             
+             voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
              voPureCloud.vsHorarioInterval = (voMapConf.get("HorarioVerano").trim().toUpperCase().contentEquals("TRUE")) ? "T05:00:00.000Z" : "T06:00:00.000Z";
              String vsBody = voPureCloud.getBody(viPag, vsFecha, vsFecha,originationDirection,strStartTime,strFinalTime);
              //System.out.println(vsBody);
-             voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "]");
+             voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "]");
              
              try {
                  voConexionResponse = voConexionHttp.executePost(vsURLPCDetails, 15000, vsBody, voHeader);
              } catch (Exception e) {
-                 voLogger.error("[ReuperaConvetID][" + vsUUI + "] ERROR : " + e.getMessage());
+                 voLogger.error("[RecuperaConversationID][" + vsUUI + "] ERROR : " + e.getMessage());
                  break;
              }
 
@@ -96,13 +95,13 @@ public class RecuperaConversationID {
                  JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
 
                  if (vsJsonResponse.equals("{}") || !voJsonConversations.has("conversations")) {
-                     voLogger.error("[ReuperaConvetID][" + vsUUI + "] ---> CONVERSATIONS FOUND [0]");
+                     voLogger.error("[RecuperaConversationID][" + vsUUI + "] ---> CONVERSATIONS FOUND [0]");
                      break;
                  }
         
                  if (voJsonConversations.has("conversations")) {
                      JSONArray voJsonArrayConversations = voJsonConversations.getJSONArray("conversations");
-                     voLogger.info("[ReuperaConvetID][" + vsUUI + "] ---> CONVERSATIONS FOUND[" + voJsonArrayConversations.length() + "]");
+                     voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> CONVERSATIONS FOUND[" + voJsonArrayConversations.length() + "]");
                      for (int i = 0; i < voJsonArrayConversations.length(); i++) {
 
                          voDetailsConversations = new HashMap<>();
@@ -113,16 +112,17 @@ public class RecuperaConversationID {
                      
                  } else {
                 	 
-                     voLogger.error("[ReuperaConvetID][" + vsUUI + "] ---> CODE[" + voConexionResponse.getCodigoRespuesta()
+                     voLogger.error("[RecuperaConversationID][" + vsUUI + "] ---> CODE[" + voConexionResponse.getCodigoRespuesta()
                              + "], MESSAGE ERROR[" + voConexionResponse.getMensajeError() + "]");
                      vbActivo = false;
                      break;
                  }
              }
          } while (true);
-			vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
-         
-         voLogger.info("[ReuperaConvetID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
+			//vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
+			//vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012"); 
+			ReporteMail.paginasRetornadas = ReporteMail.paginasRetornadas + --viPag;
+         voLogger.info("[RecuperaConversationID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
          return vlContactId;
 	 }
 	

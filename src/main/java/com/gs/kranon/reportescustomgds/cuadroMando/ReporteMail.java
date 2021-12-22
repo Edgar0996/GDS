@@ -9,45 +9,45 @@ package com.gs.kranon.reportescustomgds.cuadroMando;
  */
 public class ReporteMail {
 	//Fecha de Ejecución del Reporte
-	public static String fechaEjecucion = "";
+	public static String fechaEjecucion = ""; //OK
 	//Intervalos de Tiempo
-	public static String intervaloTiempo="";
+	public static String intervaloTiempo=""; // OK
 	//Duración de Intervalo
-	public static String duracionIntervalo="";
+	public static String duracionIntervalo=""; //OK
 	//Tipo de Interacciones Consultadas
-	public static String tipoInteracciones="";
+	public static String tipoInteracciones=""; //OK
 	//Fecha-Hora Inicio del Proceso
-	public static String inicioProceso="";
+	public static String inicioProceso=""; //OK
 	//Fecha-Hora Fin del Proceso
-	public static String finProceso="";
+	public static String finProceso=""; //OK
 	//Tiempo de Ejecución
-	public static String tiempoEjecucion="";
+	public static String tiempoEjecucion=""; //Falta calcular
 	//Número de Hits
-	public static int numeroHits=0;
+	public static int numeroHits=0; //OK
 	//Número de Páginas Retornadas por el Analytics, este varia por hora
-	public static int paginasRetornadas=0;
+	public static int paginasRetornadas=0;//OK
 	//Número de Páginas Retornadas con Error
-	public static int paginasRetornadasErr=0;
+	public static int paginasRetornadasErr=0; //Pendiente
 	//Número de ConversationIDs Obtenidos Exitosamente
-	public static int conversationsIdOK=0;
+	public static int conversationsIdOK=0; //OK, sera el mismo valor de lineas del csv sin duplicados
 	//Número de Excepciones (300, 400, 500)
-	public static int excepcionesHttp=0;
+	public static int excepcionesHttp=0;//OK
 	//Número de Excepciones TimeOut
-	public static int excepcionesTimeout=0;
+	public static int excepcionesTimeout=0;//Pendiente
 	//Número de Excepciones Generales
-	public static int excepcionesGrales=0;
+	public static int excepcionesGrales=0; //Pendiente
 	//Path del archivo final CSV
-	public static String pathCsvFinal="";
+	public static String pathCsvFinal=""; //OK
 	//Path del archivo de paginas no procesadas
-	public static String pathPagNoProcesadas="";
+	public static String pathPagNoProcesadas="";//Pendiente
 	//Path del archivo de interacciones no procesadas
-	public static String pathInteraccionesNoProcesadas="";
+	public static String pathInteraccionesNoProcesadas="";//OK
 	//No de lineas de archivo final CSV
-	public static int lineasCsvFinal=0;
+	public static int lineasCsvFinal=0; //Pendiente Va a ser el content.size
 	//No de lineas de paginas no procesadas
-	public static int lineasPagNoProcesadas=0;
+	public static int lineasPagNoProcesadas=0;//Pendiente
 	//No de lineas de Interacciones NO Procesadas
-	public static int lineasInteraccionesNoProcesadas=0; 
+	public static int lineasInteraccionesNoProcesadas=0; //OK
 
 	public ReporteMail() {
 
