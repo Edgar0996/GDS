@@ -68,7 +68,7 @@ public class GenesysCloud {
         } catch (Exception e) {
             voLogger.error("[GenesysCloud  ][" + vsUUI + "] --->" + e.getMessage());
         }
-        System.out.println("Token "+vsAccessToken);
+        //System.out.println("Token "+vsAccessToken);
         return vsAccessToken;
     }
 

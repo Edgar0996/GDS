@@ -80,6 +80,15 @@ public class GeneradorTXT  {
     			  if( entry.getKey().equals(vsContactId)) {
     				  
     	        		Map<String, String> voDetails = voConversations.get(vsContactId);
+    	        		
+    	        		String  queueName = String.valueOf(voDetails.get("queueName"));
+    	        		if(queueName==null) {
+    	        			queueName="";
+    	        		}
+    	        		String  Agente = String.valueOf(voDetails.get("Agente"));
+    	        		if(Agente==null) {
+    	        			Agente="";
+    	        		}
     	        		String  conversationStart = String.valueOf(voDetails.get("ConversationStart"));
     	        		if(conversationStart==null) {
     	        			conversationStart="";
@@ -354,8 +363,8 @@ public class GeneradorTXT  {
     	        		
     	        		List<String> dataComplet = new ArrayList<>();
     	        		dataComplet.add(vsContactId);
-    	        		dataComplet.add("Campania");
-    	        		dataComplet.add("Agente");
+    	        		dataComplet.add(queueName);
+    	        		dataComplet.add(Agente);
     	        		dataComplet.add(ani);
     	        		dataComplet.add(dnis);
     	        		dataComplet.add(conversationStart);

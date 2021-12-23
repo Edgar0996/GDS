@@ -84,6 +84,7 @@ public class app {
 	private RecuperaConversationID RecuperaId;
 	List<String> Threa;
 
+
 	public static void main(String[] args) {
 		//Inicio de la ejecucion del proceso
 		ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
@@ -152,24 +153,30 @@ public class app {
 							 * Recupero los ConversationID'S
 							 */
 							List<String> listConversationID = new ArrayList<>();
-							RecuperaConversationID recuperaId = new RecuperaConversationID(voData, vsUUI);
+							RecuperaConversationID recuperaId = new RecuperaConversationID(vsUUI);
 							if (strFinalTime.equals("00:00:00")) {
 								strFinalTime = "23:59:59";
 								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
 								voLogger.info("[Horario  ][" + vsUUI + "] --->  BLOQUE DE HORA[ " + strStartTime + " A "
 										+ strFinalTime + "]");
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
-										originationDirection, strYesterda, strStartTime, strFinalTime));
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime,Archivo, false));
+								String generaerror = " ";
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, generaerror, strFinalTime,Archivo, false));
 								sumTotalHits = sumTotalHits + listConversationID.size();
 							} else {
 								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
 								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + strStartTime + " A "
 										+ strFinalTime + "]");
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,
-										originationDirection, strYesterda, strStartTime, strFinalTime));
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime,Archivo, false));
+								String generaerror = " ";
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, generaerror, strFinalTime,Archivo, false));
 								sumTotalHits = sumTotalHits + listConversationID.size();
 							}
-
+							//Valida si se genero el archivo(paginas no recorrdidas) de error para realizar una segunda vuelta
+							
+							List<String> listPageRecuperado = new ArrayList<>();
+							listPageRecuperado.addAll(GenerateCsvErroPC(tokenList.get(0), vsUUI, Archivo, originationDirection));
+							
 							/*
 							 * for (int r = 0; r < listConversationID.size(); r++) {
 							 * System.out.println("Con este horario inicial " + strStartTime +
@@ -201,25 +208,30 @@ public class app {
 										totalThread = 0;
 									}
 								}
-
+								String strTokenAct;
 								for (int h = 0; h <= totalNoClienteID; h++) {
-
-									Reporteador voReporte = new Reporteador(vsUUI, tokenList.get(h), vsUUI,
-											listConversationThrea.get(h), Archivo, false);
+									if(tokenList.get(h)=="ERROR" || tokenList.get(h)==null) {
+										int s= h-1;
+										   strTokenAct=tokenList.get(s);
+										
+										}else {
+											 strTokenAct=tokenList.get(h);
+											
+										}
+									Reporteador voReporte = new Reporteador(vsUUI, strTokenAct, vsUUI,
+									listConversationThrea.get(h), Archivo, false);
 									voReporte.start();
 									voReporte.setName("Hilo" + h);
 									Threa.add("Hilo" + h);
-
-									if (h == totalNoClienteID) {
-
-										/*
-										 * for(int t=0; t<=Threa.size();t++) {
-										 * 
-										 * Threa.i }
-										 */
-
+									
+									try {
+										System.out.println("Se creo el hilo " + h);
+										sleep(9000);
+										System.out.println("y me espere " );
+									} catch (InterruptedException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
 									}
-
 								}
 
 							}
@@ -444,6 +456,49 @@ public class app {
 
 	}
 
+	
+	public static List<String> GenerateCsvErroPC(String vsTokens, String vsUUI, String urlArchivoTem,String originationDirection) {
+
+		List<String> listPage= new ArrayList<>();
+		String vsFecha =  null;
+		String strStartTime=  null;
+		String strFinalTime=  null;
+		boolean ReturnError=true;
+		
+		String strRuta = urlArchivoTem + "\\" + vsUUI + "_page_PC_TEMP.csv";
+		File dir = new File(strRuta);
+		boolean booErrores = true;
+		if (dir.exists()) {
+
+			try {
+				String cadena;
+				FileReader f = new FileReader(dir);
+				BufferedReader b = new BufferedReader(f);
+				try {
+
+					while ((cadena = b.readLine()) != null) {
+						String[] parts = cadena.split(",");
+						vsFecha= parts[1];
+						strStartTime= parts[2];
+						strFinalTime= parts[3];
+					}
+					f.close();
+					dir.delete();
+					RecuperaConversationID recuperaId = new RecuperaConversationID(vsUUI);
+					
+					listPage.addAll(recuperaId.RecuperaConverStatID(vsTokens, vsUUI, originationDirection, vsFecha, strStartTime, strFinalTime, urlArchivoTem, ReturnError));
+					
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException ex) {
+				java.util.logging.Logger.getLogger(Reporteador.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+		}
+		return listPage;
+	}
 	/*
 	 * public static Map<String, Object> obtenerEncabezados() { Map<String, Object>
 	 * voMapHeaderCSV = new HashMap<String, Object>(); DataReportGDSmx voDataBBVAmx

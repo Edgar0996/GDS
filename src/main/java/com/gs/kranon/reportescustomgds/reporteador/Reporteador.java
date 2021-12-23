@@ -65,6 +65,7 @@ public class Reporteador extends  Thread  {
     private String urlArchivoTemp =null;
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean ReturnErro;
+    private JSONObject voJSONAgent;
     
 
     public Reporteador(String uui,String vsTokens,String vsUUI,List<String> vlContactIds,String urlArchivoTem,boolean ReturnError) {
@@ -119,24 +120,42 @@ public class Reporteador extends  Thread  {
                     
                     
                     if (voJsonResponseCall.has("participants")) {
-                    	          
+                    	      
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
+                    	System.out.println("Este ID " + vsContactId + " Tiene este largo de participants " + voJsonArrayResponseCall.length());  
+                    	
                     	voDetailsConversations = new HashMap<>();
                 		String vsConversationStart = voJsonArrayResponseCall.getJSONObject(0).getString("startTime");
                 		String vsConversationEnd = voJsonArrayResponseCall.getJSONObject(0).getString("endTime");
                 		String vsAni = voJsonArrayResponseCall.getJSONObject(0).getString("ani");
                 		String vsDnis = voJsonArrayResponseCall.getJSONObject(0).getString("dnis");
-                		
+
                 		vlContact.add(vsContactId);
                 		voDetailsConversations.put("ani", vsAni);
                         voDetailsConversations.put("dnis", vsDnis);
                         voDetailsConversations.put("ConversationStart", vsConversationStart );
                         voDetailsConversations.put("vsConversationEnd", vsConversationEnd);
+                        //voDetailsConversations.put("queueName", queueName);
+                        //Recupero los datos del Agente
+                        for (int r = 0; r < voJsonArrayResponseCall.length(); r++) { 
+                        	JSONObject voJSONParticipants = voJsonArrayResponseCall.getJSONObject(r);
+                        	String purpose = voJSONParticipants.getString("purpose");
+                        	System.out.println("Mi primer purpose el: "+ r +" es "+ purpose);
+                        	if(purpose.equals("agent")) {
+								/*
+								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
+								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
+								 * voJSONAgent.getString("participantType") ); }
+								 */
+                        		String strAgent = voJsonArrayResponseCall.getJSONObject(2).getString("name");
+                        		System.out.println("Mis datos son " + strAgent);
+                        	}
+                        }
                         
-           			 
-
-                    	for (int j = 0; j < voJsonArrayResponseCall.length(); j++) {
-                    		 
+                       
+                        
+                        //Recupero los atributos de la llamada	
+                    	for (int j = 0; j < voJsonArrayResponseCall.length(); j++) { 
                     		 if (voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes").length() > 0) {
                     			 JSONObject voJSONAttributes = voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes");
                     			 
@@ -464,8 +483,15 @@ public class Reporteador extends  Thread  {
                     } 
                    
                 }else {
-                	//Validar errores 500 (timeout), 503, 404, 204, los demas seran excepciones generales
                 	ReporteMail.excepcionesHttp = ReporteMail.excepcionesHttp + 1;
+                	//Validar errores 500 (timeout), 503, 404, 204, los demas seran excepciones generales
+                	String strExceptimeout= String.valueOf(voConexionResponseCall.getCodigoRespuesta());
+                	if (strExceptimeout=="500" || strExceptimeout=="404" ||  strExceptimeout=="400"  ||  strExceptimeout=="408"   ||  strExceptimeout=="503" ||  strExceptimeout=="505"  ){
+                		ReporteMail.excepcionesTimeout = ReporteMail.excepcionesTimeout+1;
+                	}else {
+                		ReporteMail.excepcionesGrales = ReporteMail.excepcionesGrales + 1;
+                	}
+                	
                 	if(ReturnErro==false) {
                 		PagesNoProcessed(vsContactId,voConexionResponseCall.getCodigoRespuesta(),urlArchivoTemp,vsUUi);
                 	}else {
@@ -477,9 +503,6 @@ public class Reporteador extends  Thread  {
                     }
 
                 }
-               
-               
-            
                 /*
 				 * Genero los archivos TXT GenraTXT = new GeneradorTXT();
                  */

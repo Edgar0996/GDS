@@ -1,5 +1,12 @@
 package com.gs.kranon.reportescustomgds.genesysCloud;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,11 +35,13 @@ public class RecuperaConversationID {
 	    private String vsUUI = "";
 	    private String vsFechaInicio = "";
 	    private String vsFechaFin = "";
+	    private String vsFlowName = "";
+	    private String vsFlowName1 = "";
 
 	    private DataReports voDataReport = null;
 	    private ConexionHttp voConexionHttp = null;
 	    private GenesysCloud voPureCloud = null;
-	    
+	    private String strUrlFinal;
 	    private Utilerias voUti;
 
 
@@ -42,8 +51,7 @@ public class RecuperaConversationID {
 	    private Map<String, String> voDetailsConversations;
 	    private boolean vbActivo = true;
 	    
-	    public  RecuperaConversationID (DataReports voDataReport, String uui) {
-	    	this.voDataReport = voDataReport;
+	    public  RecuperaConversationID (String uui) {
 	        voMapConf = new HashMap<>();
 	        voPureCloud = new GenesysCloud();
 	        voUti = new Utilerias();
@@ -51,12 +59,10 @@ public class RecuperaConversationID {
 	        voUti.getProperties(voMapConf, uui);
 	    }
 	    
-	 public List<String> RecuperaConverStatID(String vsToken,String vsUUI,String originationDirection,String vsFecha,String strStartTime,String strFinalTime){
+	 public List<String> RecuperaConverStatID(String vsToken,String vsUUI,String originationDirection,String vsFecha,String strStartTime,String strFinalTime,String urlArchivoTemp,boolean ReturnError){
 		 
 		 ConexionResponse voConexionResponse;
          //recuperamos las variables a comparar para ir por nuestros ID's
-
-         
 
          voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> ******************** RECUPERA CONVERSATIONS ID *******************");
 
@@ -72,8 +78,6 @@ public class RecuperaConversationID {
          do {
         	 
              viPag++;
-             System.out.println("Pagina : " + viPag );
-             
              voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
              voPureCloud.vsHorarioInterval = (voMapConf.get("HorarioVerano").trim().toUpperCase().contentEquals("TRUE")) ? "T05:00:00.000Z" : "T06:00:00.000Z";
@@ -104,8 +108,7 @@ public class RecuperaConversationID {
 
                          voDetailsConversations = new HashMap<>();
                          String vsIdConversation = voJsonArrayConversations.getJSONObject(i).getString("conversationId");
-                         vlContactId.add(vsIdConversation);
-                         
+                         vlContactId.add(vsIdConversation); 
                      }
                      
                  } else {
@@ -115,13 +118,141 @@ public class RecuperaConversationID {
                      vbActivo = false;
                      break;
                  }
+             }else{
+            	 if(ReturnError==false) {
+            		System.err.println("Entro aquí en error de mi paginado");
+             		PagesNoProcessed(strStartTime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,strFinalTime,viPag);
+             		break;
+             	}else {
+             		PagesNoProcessedCsv(strStartTime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,strFinalTime,viPag);
+             		break;
+             	}
              }
          } while (true);
-			//vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
+			vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
 			//vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012"); 
 			ReporteMail.paginasRetornadas = ReporteMail.paginasRetornadas + --viPag;
          voLogger.info("[RecuperaConversationID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
          return vlContactId;
 	 }
+	 
+	 
+	 
+	 
+	 
+	 public  void PagesNoProcessed(String strStartTime,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi,String strFecha,String strFinalTime,int strPage) {
+		    
+	    
+	    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_page_PC_TEMP.csv";
+	    	   		
+	    		File  fw = new File (strUrlFinal);
+	    		//Validamos si el archivo existe
+	    		if(fw.exists()){
+	    			
+	    			try {
+						Writer  output = new BufferedWriter(new FileWriter(strUrlFinal, true));
+						output.append(String.valueOf(getCodigoRespuesta));
+						output.append(',');
+						output.append(strFecha);
+						output.append(',');
+						output.append(strStartTime);
+						output.append(',');
+						output.append(strFinalTime);
+						output.append(',');
+						output.append(String.valueOf(strPage));
+						output.append('\n');
+						output.close();
+					} catch (IOException e1) {
+						
+						e1.printStackTrace();
+					}
+	            }else{
+	                //Archivo NO existe, lo crea.
+				try (PrintWriter writer = new PrintWriter(new File(strUrlFinal))) {
+					StringBuilder linea = new StringBuilder();
+					linea.append(getCodigoRespuesta);
+					linea.append(',');
+					linea.append(strFecha);
+					linea.append(',');
+					linea.append(strStartTime);
+					linea.append(',');
+					linea.append(strFinalTime);
+					linea.append(',');
+					linea.append(strPage);
+					linea.append('\n');
+					writer.write(linea.toString());
+		            writer.close();
+		            
+	    	} catch (FileNotFoundException e) {
+	            System.out.println(e.getMessage());
+	        }
+	            }
+	    		
+	        
+	    }
+
+	public boolean PagesNoProcessedCsv(String strStartTime,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi,String strFecha,String strFinalTime,int strPage) {
+	    	
+	    	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
+	    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_page_PC.csv";
+	    	   	ReporteMail.lineasInteraccionesNoProcesadas = ReporteMail.lineasInteraccionesNoProcesadas + 1;
+	    		File  fw = new File (strUrlFinal);
+	    		//Validamos si el archivo existe
+	    		if(fw.exists()){
+	    			
+	    			try {
+						Writer  output = new BufferedWriter(new FileWriter(strUrlFinal, true));
+						output.append(String.valueOf(getCodigoRespuesta));
+						output.append(',');
+						output.append(strFecha);
+						output.append(',');
+						output.append(strStartTime);
+						output.append(',');
+						output.append(strFinalTime);
+						output.append(',');
+						output.append(String.valueOf(strPage));
+						output.append('\n');
+						output.close();
+					} catch (IOException e1) {
+						
+						e1.printStackTrace();
+					}
+	            }else{
+	                //Archivo NO existe, lo crea.
+				try (PrintWriter writer = new PrintWriter(new File(strUrlFinal))) {
+					
+					StringBuilder linea = new StringBuilder();
+					linea.append("Codigo Respuesta");
+					linea.append(',');
+					linea.append("Fecha ");
+					linea.append(',');
+					linea.append("StartTime ");
+					linea.append(',');
+					linea.append("FinalTime ");
+					linea.append(',');
+					linea.append("Page ");
+					linea.append('\n');
+					
+		            
+					linea.append(getCodigoRespuesta);
+					linea.append(',');
+					linea.append(strFecha);
+					linea.append(',');
+					linea.append(strStartTime);
+					linea.append(',');
+					linea.append(strFinalTime);
+					linea.append(',');
+					linea.append(strPage);
+					linea.append('\n');
+					writer.write(linea.toString());
+		            writer.close();
+		            writer.write(linea.toString());
+	    	} catch (FileNotFoundException e) {
+	            System.out.println(e.getMessage());
+	        }
+	            }
+	    		
+	        return true;
+	    } 	 
 	
 }
