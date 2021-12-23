@@ -95,7 +95,7 @@ public class Reporteador extends  Thread  {
                 voConversations = new HashMap<>();
                 //COMENZAREMOS A ANALIZAR CADA ID DE CONVERSACION PARA EXTRAER SUS BREADCRUMBS
                 int viContadorEncontrados = 0;
-                String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/calls/";
+                String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/";
                 ConexionResponse voConexionResponseCall = null;
                 
                 for (String vsContactId : vlContactId) {
@@ -147,8 +147,12 @@ public class Reporteador extends  Thread  {
 								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
 								 * voJSONAgent.getString("participantType") ); }
 								 */
-                        		String strAgent = voJsonArrayResponseCall.getJSONObject(2).getString("name");
-                        		System.out.println("Mis datos son " + strAgent);
+                        		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");
+                    				 voDetailsConversations.put("Agente", Agente);
+                    			String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
+                    				 voDetailsConversations.put("queueName", queueName);
+                    				 
+                    			
                         	}
                         }
                         
@@ -486,8 +490,10 @@ public class Reporteador extends  Thread  {
                 	ReporteMail.excepcionesHttp = ReporteMail.excepcionesHttp + 1;
                 	//Validar errores 500 (timeout), 503, 404, 204, los demas seran excepciones generales
                 	String strExceptimeout= String.valueOf(voConexionResponseCall.getCodigoRespuesta());
-                	if (strExceptimeout=="500" || strExceptimeout=="404" ||  strExceptimeout=="400"  ||  strExceptimeout=="408"   ||  strExceptimeout=="503" ||  strExceptimeout=="505"  ){
-                		ReporteMail.excepcionesTimeout = ReporteMail.excepcionesTimeout+1;
+                	if (strExceptimeout=="500" || strExceptimeout=="401" ||  strExceptimeout=="400"  ||  strExceptimeout=="403"   ||  strExceptimeout=="404" ||  strExceptimeout=="503" ||  strExceptimeout=="429"  ){
+                		ReporteMail.excepcionesHttp= ReporteMail.excepcionesHttp + 1;
+                	}else if (strExceptimeout == "504") {
+                		ReporteMail.excepcionesTimeout = ReporteMail.excepcionesTimeout + 1;
                 	}else {
                 		ReporteMail.excepcionesGrales = ReporteMail.excepcionesGrales + 1;
                 	}

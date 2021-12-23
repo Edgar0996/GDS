@@ -226,7 +226,7 @@ public class app {
 									
 									try {
 										System.out.println("Se creo el hilo " + h);
-										sleep(9000);
+										sleep(500);
 										System.out.println("y me espere " );
 									} catch (InterruptedException e1) {
 										// TODO Auto-generated catch block
@@ -279,9 +279,9 @@ public class app {
 					} else {
 						ReporteMail.pathInteraccionesNoProcesadas = "No existen interacciones sin procesar";
 					}
-					boolean bPE = FileUtils.searchFile(vsUUI + "_conversations_PE.csv", Archivo);
+					boolean bPE = FileUtils.searchFile(vsUUI + "_page_PE.csv", Archivo);
 					if(bPE) {
-						ReporteMail.pathPagNoProcesadas = Archivo + "\\" + vsUUI + "_conversations_PE.csv";
+						ReporteMail.pathPagNoProcesadas = Archivo + "\\" + vsUUI + "_page_PE.csv";
 						
 					} else {
 						ReporteMail.pathPagNoProcesadas = "No existen páginas sin procesar";
@@ -321,7 +321,7 @@ public class app {
 					ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
 					/* Enviando el correo */
 					SendingMailTLS sendMail = new SendingMailTLS();
-					//boolean result =sendMail.sendMailKranon("vfrancisco@kranon.com", "Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+					boolean result =sendMail.sendMailKranon("vfrancisco@kranon.com", "Reporte de ejecución de GDS del "+strYesterda, vsUUI);
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break

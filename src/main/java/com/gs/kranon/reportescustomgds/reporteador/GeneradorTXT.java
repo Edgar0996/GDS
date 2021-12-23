@@ -82,28 +82,28 @@ public class GeneradorTXT  {
     	        		Map<String, String> voDetails = voConversations.get(vsContactId);
     	        		
     	        		String  queueName = String.valueOf(voDetails.get("queueName"));
-    	        		if(queueName==null) {
+    	        		if(queueName=="null") {
     	        			queueName="";
     	        		}
     	        		String  Agente = String.valueOf(voDetails.get("Agente"));
-    	        		if(Agente==null) {
+    	        		if(Agente=="null") {
     	        			Agente="";
     	        		}
     	        		String  conversationStart = String.valueOf(voDetails.get("ConversationStart"));
-    	        		if(conversationStart==null) {
+    	        		if(conversationStart=="null") {
     	        			conversationStart="";
     	        		}
     	        		
     	        		String  conversationEnd = String.valueOf(voDetails.get("vsConversationEnd"));
-    	        		if(conversationEnd==null) {
+    	        		if(conversationEnd=="null") {
     	        			conversationEnd="";
     	        		}
     	        		String  ani = String.valueOf(voDetails.get("ani"));
-    	        		if(ani==null) {
+    	        		if(ani=="null") {
     	        			ani="";
     	        		}
     	        		String  dnis = String.valueOf(voDetails.get("dnis"));
-    	        		if(dnis==null) {
+    	        		if(dnis=="null") {
     	        			dnis="";
     	        		}
     	        		String Endoso_Procede = String.valueOf(voDetails.get("Endoso_Procede"));
