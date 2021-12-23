@@ -487,20 +487,27 @@ public class Reporteador extends  Thread  {
                     } 
                    
                 }else {
-                	ReporteMail.excepcionesHttp = ReporteMail.excepcionesHttp + 1;
+                	
                 	//Validar errores 500 (timeout), 503, 404, 204, los demas seran excepciones generales
                 	String strExceptimeout= String.valueOf(voConexionResponseCall.getCodigoRespuesta());
-                	if (strExceptimeout=="500" || strExceptimeout=="401" ||  strExceptimeout=="400"  ||  strExceptimeout=="403"   ||  strExceptimeout=="404" ||  strExceptimeout=="503" ||  strExceptimeout=="429"  ){
-                		ReporteMail.excepcionesHttp= ReporteMail.excepcionesHttp + 1;
-                	}else if (strExceptimeout == "504") {
-                		ReporteMail.excepcionesTimeout = ReporteMail.excepcionesTimeout + 1;
-                	}else {
-                		ReporteMail.excepcionesGrales = ReporteMail.excepcionesGrales + 1;
-                	}
+                	System.err.println("El error es " + strExceptimeout);
+                	
                 	
                 	if(ReturnErro==false) {
+                		
+                		if (strExceptimeout.equals("500" )|| strExceptimeout.equals("401") ||  strExceptimeout.equals("400")  ||  strExceptimeout.equals("403")   ||  strExceptimeout.equals("404") ||  strExceptimeout.equals("503") ||  strExceptimeout.equals("429")  ){
+                    		System.err.println("Errores excepcionesHttp " );
+                    		ReporteMail.excepcionesHttp= ReporteMail.excepcionesHttp + 1;
+                    	}else if (strExceptimeout == "504") {
+                    		ReporteMail.excepcionesTimeout = ReporteMail.excepcionesTimeout + 1;
+                    	}else {
+                    		System.err.println("Errores excepcionesGrales " );
+                    		
+                    		ReporteMail.excepcionesGrales = ReporteMail.excepcionesGrales + 1;
+                    	}
                 		PagesNoProcessed(vsContactId,voConexionResponseCall.getCodigoRespuesta(),urlArchivoTemp,vsUUi);
                 	}else {
+                		
                 		PagesNoProcessedCsv(vsContactId,voConexionResponseCall.getCodigoRespuesta(),urlArchivoTemp,vsUUi);
                 	}
                 }
