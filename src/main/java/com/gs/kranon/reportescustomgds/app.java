@@ -86,6 +86,17 @@ public class app {
 
 
 	public static void main(String[] args) {
+		String strYesterda = "";
+		if(args.length > 0) {
+			/* Asigno la fecha recibida por paramtreo */
+			strYesterda = args[0];
+		} else {
+			/* Recupero la fecha de ayer */
+			strYesterda = yesterdaydate();
+		}
+		for(int c = 0; c < args.length; c++) {
+			System.out.println("Argumento "+c+" recibido desde consola: "+args[c]);
+		}
 		//Inicio de la ejecucion del proceso
 		ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -95,8 +106,7 @@ public class app {
 		/* Invoco mi archivos de configuración */
 		Map<String, String> voMapConf = RecuperaArhivoConf(vsUUI);
 
-		/* Recupero la fecha de ayer */
-		String strYesterda = yesterdaydate();
+		
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
