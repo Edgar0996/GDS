@@ -7,6 +7,8 @@ package com.gs.kranon.reportescustomgds.mail;
 import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class SendingMailTLS {
 
     private static final org.apache.log4j.Logger voLogger = LogManager.getLogger("Reporte");
     
-    public boolean sendMailKranon(String destinatario, String asunto, String vsUUI){
+    public boolean sendMailKranon(String asunto, String vsUUI){
                 /***********************************************************/
     /* Leemos la configuracion del archivo de configuracion */
     voUtil.getProperties(voMapConf, "");
@@ -44,6 +46,7 @@ public class SendingMailTLS {
     final String mailEnable= voMapConf.get("MailEnable");
     final String mailHost= voMapConf.get("MailHost");
     final String mailPort= voMapConf.get("MailPort");
+    final String recipients = voMapConf.get("MailDestinatario");
     Properties props = new Properties();
     props.put("mail.smtp.auth", mailAuth);
     props.put("mail.smtp.starttls.enable", mailEnable);
@@ -56,10 +59,18 @@ public class SendingMailTLS {
       }
       });
     try {
+    
       Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress(username));
-      message.setRecipients(Message.RecipientType.TO,
-        InternetAddress.parse(destinatario)); //vfrancisco@kranon.com
+      String[] parts = recipients.split(",");
+      ArrayList<String> email = new ArrayList<>(Arrays.asList(parts));
+      //String[] parts = recipients.split(",");
+      InternetAddress[] address = new InternetAddress[email.size()];
+      for (int i = 0; i < email.size(); i++) {
+          address[i] = new InternetAddress(email.get(i));
+      }
+       message.setRecipients(Message.RecipientType.TO, address);
+      //message.setRecipients(Message.RecipientType.TO,
+        //InternetAddress.parse(destinatario)); //vfrancisco@kranon.com
       message.setSubject(asunto); //Bitacora de ejecución del reporte customizado de GDS
       message.setContent("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n"
       		+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n"
@@ -72,6 +83,7 @@ public class SendingMailTLS {
       		+ "  <div id=\"wrapper\">\r\n"
       		+ "    <div class=\"hero\">\r\n"
       		+ "       <div class=\"row\">\r\n"
+      		+ "<p> Resumen de la ejecución del reporte customizado de General de Seguros. </p>\r\n"
       		+ "	   <div style=\"height:80%!important;width:70%!important; margin:0;padding:0\">\r\n"
       		+ "<table class=\"demoTable\" style=\"height: 165px; width: 659px;\">\r\n"
       		+ "<thead>\r\n"
@@ -284,7 +296,7 @@ public class SendingMailTLS {
     } catch (MessagingException e) {      
       throw new RuntimeException(e);
     }
-    voLogger.info("[SendingMailTLS  ][" + vsUUI + "] ---> CORREO ENVIADO EXITOSAMENTE A: "+"[ "+destinatario+"]");
+    voLogger.info("[SendingMailTLS  ][" + vsUUI + "] ---> CORREO ENVIADO EXITOSAMENTE");
         return true;
     }
     

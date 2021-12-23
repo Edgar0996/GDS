@@ -321,7 +321,7 @@ public class app {
 					ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
 					/* Enviando el correo */
 					SendingMailTLS sendMail = new SendingMailTLS();
-					boolean result =sendMail.sendMailKranon("vfrancisco@kranon.com", "Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+					boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break
