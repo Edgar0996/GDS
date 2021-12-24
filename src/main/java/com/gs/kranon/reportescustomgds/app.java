@@ -332,6 +332,7 @@ public class app {
 					/* Enviando el correo */
 					SendingMailTLS sendMail = new SendingMailTLS();
 					boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+					System.out.println("El directorio de trabajo es: " + Archivo+"\\");
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break
@@ -387,7 +388,7 @@ public class app {
 			// Generamos los Tokents
 			GenesysCloud voPureCloud = new GenesysCloud();
 			String vsToken = voPureCloud.getToken(idClient, clientSecret, vsUUI);
-			// System.out.print("Valor de token: "+vsToken);
+			//System.out.print("Valor de token: "+vsToken);
 			Token.add(vsToken);
 
 			if (vsToken.equals("ERROR")) {
