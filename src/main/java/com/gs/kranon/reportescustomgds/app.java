@@ -235,9 +235,9 @@ public class app {
 									Threa.add("Hilo" + h);
 									
 									try {
-										System.out.println("Se creo el hilo " + h);
+										//System.out.println("Se creo el hilo " + h);
 										sleep(500);
-										System.out.println("y me espere " );
+										//System.out.println("y me espere " );
 									} catch (InterruptedException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
@@ -266,16 +266,16 @@ public class app {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					/* Se buscan los archivos que terminen con extension .txt */
-					File[] files = FileUtils.getFilesTxt(Archivo);
-					List<String[]> content = new ArrayList<String[]>();
-					content = FileUtils.getContentForCsv(files);
 					// Creamos el csv antes de recorrer los archivos
 					// Obteniendo los encabezados
 					Map<String, Object> voMapHeadersCSV = new HashMap<String, Object>();
 					DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
 					GDSmx voAppBBVAMx = new GDSmx(voMapConf, voDataBBVAmx);
 					voMapHeadersCSV = voAppBBVAMx.getHeaderCSV();
+					/* Se buscan los archivos que terminen con extension .txt */
+					File[] files = FileUtils.getFilesTxt(Archivo);
+					List<String[]> content = new ArrayList<String[]>();
+					content = FileUtils.getContentForCsv(files, voMapHeadersCSV.size());
 
 					GeneradorCSV generaExcel = new GeneradorCSV();
 					boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_" + strYesterda,

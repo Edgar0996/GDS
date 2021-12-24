@@ -91,7 +91,7 @@ public class RecuperaConversationID {
                  voLogger.error("[RecuperaConversationID][" + vsUUI + "] ERROR : " + e.getMessage());
                  break;
              }
-
+             System.out.println("Consiguiendo pagina: "+viPag+". Respuesta: "+voConexionResponse.getCodigoRespuesta());
              if (voConexionResponse.getCodigoRespuesta() == 200) {
                  String vsJsonResponse = voConexionResponse.getMensajeRespuesta();                
                  JSONObject voJsonConversations = new JSONObject(vsJsonResponse);
