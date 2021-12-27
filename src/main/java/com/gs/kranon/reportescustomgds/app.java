@@ -236,9 +236,9 @@ public class app {
 									Threa.add("Hilo" + h);
 									
 									try {
-										System.out.println("Se creo el hilo " + h);
+										//System.out.println("Se creo el hilo " + h);
 										sleep(500);
-										System.out.println("y me espere " );
+										//System.out.println("y me espere " );
 									} catch (InterruptedException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
@@ -267,16 +267,16 @@ public class app {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					/* Se buscan los archivos que terminen con extension .txt */
-					File[] files = FileUtils.getFilesTxt(Archivo);
-					List<String[]> content = new ArrayList<String[]>();
-					content = FileUtils.getContentForCsv(files);
 					// Creamos el csv antes de recorrer los archivos
 					// Obteniendo los encabezados
 					Map<String, Object> voMapHeadersCSV = new HashMap<String, Object>();
 					DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();
 					GDSmx voAppBBVAMx = new GDSmx(voMapConf, voDataBBVAmx);
 					voMapHeadersCSV = voAppBBVAMx.getHeaderCSV();
+					/* Se buscan los archivos que terminen con extension .txt */
+					File[] files = FileUtils.getFilesTxt(Archivo);
+					List<String[]> content = new ArrayList<String[]>();
+					content = FileUtils.getContentForCsv(files, voMapHeadersCSV.size());
 
 					GeneradorCSV generaExcel = new GeneradorCSV();
 					boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_" + strYesterda,
@@ -333,6 +333,7 @@ public class app {
 					/* Enviando el correo */
 					SendingMailTLS sendMail = new SendingMailTLS();
 					boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+					System.out.println("El directorio de trabajo es: " + Archivo+"\\");
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break
@@ -388,7 +389,7 @@ public class app {
 			// Generamos los Tokents
 			GenesysCloud voPureCloud = new GenesysCloud();
 			String vsToken = voPureCloud.getToken(idClient, clientSecret, vsUUI);
-			// System.out.print("Valor de token: "+vsToken);
+			//System.out.print("Valor de token: "+vsToken);
 			Token.add(vsToken);
 
 			if (vsToken.equals("ERROR")) {

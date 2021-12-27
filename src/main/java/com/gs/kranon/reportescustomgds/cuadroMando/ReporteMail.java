@@ -48,6 +48,8 @@ public class ReporteMail {
 	public static int lineasPagNoProcesadas=0;//Pendiente
 	//No de lineas de Interacciones NO Procesadas
 	public static int lineasInteraccionesNoProcesadas=0; //OK
+	//No de lineas de Interacciones que no cumplen con el numero de columnas requeridas
+	public static int lineasConColumnasDif=0; //OK
 
 	public ReporteMail() {
 

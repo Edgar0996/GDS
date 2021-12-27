@@ -122,7 +122,7 @@ public class Reporteador extends  Thread  {
                     if (voJsonResponseCall.has("participants")) {
                     	      
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
-                    	System.out.println("Este ID " + vsContactId + " Tiene este largo de participants " + voJsonArrayResponseCall.length());  
+                    	//System.out.println("Este ID " + vsContactId + " Tiene este largo de participants " + voJsonArrayResponseCall.length());  
                     	
                     	voDetailsConversations = new HashMap<>();
                 		String vsConversationStart = voJsonArrayResponseCall.getJSONObject(0).getString("startTime");
@@ -140,7 +140,7 @@ public class Reporteador extends  Thread  {
                         for (int r = 0; r < voJsonArrayResponseCall.length(); r++) { 
                         	JSONObject voJSONParticipants = voJsonArrayResponseCall.getJSONObject(r);
                         	String purpose = voJSONParticipants.getString("purpose");
-                        	System.out.println("Mi primer purpose el: "+ r +" es "+ purpose);
+                        	//System.out.println("Mi primer purpose el: "+ r +" es "+ purpose);
                         	if(purpose.equals("agent")) {
 								/*
 								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
@@ -538,18 +538,18 @@ public class Reporteador extends  Thread  {
                 	
                 	//Validar errores 500 (timeout), 503, 404, 204, los demas seran excepciones generales
                 	String strExceptimeout= String.valueOf(voConexionResponseCall.getCodigoRespuesta());
-                	System.err.println("El error es " + strExceptimeout);
+                	//System.err.println("El error es " + strExceptimeout);
                 	
                 	
                 	if(ReturnErro==false) {
                 		
                 		if (strExceptimeout.equals("500" )|| strExceptimeout.equals("401") ||  strExceptimeout.equals("400")  ||  strExceptimeout.equals("403")   ||  strExceptimeout.equals("404") ||  strExceptimeout.equals("503") ||  strExceptimeout.equals("429")  ){
-                    		System.err.println("Errores excepcionesHttp " );
+                    		//System.err.println("Errores excepcionesHttp " );
                     		ReporteMail.excepcionesHttp= ReporteMail.excepcionesHttp + 1;
                     	}else if (strExceptimeout == "504") {
                     		ReporteMail.excepcionesTimeout = ReporteMail.excepcionesTimeout + 1;
                     	}else {
-                    		System.err.println("Errores excepcionesGrales " );
+                    		//System.err.println("Errores excepcionesGrales " );
                     		
                     		ReporteMail.excepcionesGrales = ReporteMail.excepcionesGrales + 1;
                     	}

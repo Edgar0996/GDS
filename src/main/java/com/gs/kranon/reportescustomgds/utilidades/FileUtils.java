@@ -14,6 +14,7 @@ import java.util.logging.Level;
 
 import org.apache.log4j.LogManager;
 
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
 
 public class FileUtils {
@@ -87,7 +88,7 @@ public class FileUtils {
 	 * 
 	 * @param files Listado de archivos a procesar
 	 */
-	public static List<String[]> getContentForCsv(File[] files) {
+	public static List<String[]> getContentForCsv(File[] files, int numColumnas) {
 		//Variable para almacenar las lineas obtenidas
 		Set<String> arrSD = new HashSet<String>();
 		
@@ -126,7 +127,15 @@ public class FileUtils {
 			/* Recorremos el arrSD para separar por comas y regresar los content */
 			for(String s : arrSD){
 				String[] lineElements = s.split(",");
-				content.add(lineElements);
+				System.out.println("Numero de columnas obtenidas: "+lineElements.length);
+				if(lineElements.length == numColumnas) {
+					content.add(lineElements);
+				} else {
+					ReporteMail.lineasConColumnasDif = ReporteMail.lineasConColumnasDif + 1; 
+					voLogger.error("[FileUtils]---> Línea que no cumple con el número de columnas: "+ s);
+				}
+				
+				
 	        }
 			return content;
 		} else {
