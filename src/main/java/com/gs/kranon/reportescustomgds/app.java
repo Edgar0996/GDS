@@ -137,6 +137,7 @@ public class app {
 					voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
+					System.out.println(tokenList);
 					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
 					// voData.setFechaInicio("2021-01-01");
