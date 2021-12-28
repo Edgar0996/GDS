@@ -3,6 +3,9 @@
  */
 package com.gs.kranon.reportescustomgds.cuadroMando;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Victor Francisco Garcia
  *
@@ -52,7 +55,8 @@ public class ReporteMail {
 	public static int lineasConColumnasDif=0; //OK
 	//Path del archivo de log donde se guardan las lineas con mas columnas
 	public static String pathLogColumnasDif="";//OK
-
+	//Variable para manejar hilos
+	public static List<String> Threa = new ArrayList<>();//OK
 	public ReporteMail() {
 
 	}

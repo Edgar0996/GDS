@@ -72,7 +72,7 @@ public class GenesysCloud {
         return vsAccessToken;
     }
 
-public String getBody(Integer viPag, String vsFechaInit, String vsFechaFin,String OriginationDirection,String vsHorarioIntervalInicio, String vsHorarioIntervalTermino) {
+public String getBody(Integer viPag, String vsFechaInitandTime, String vsFechaFinandTime,String OriginationDirection) {
     	
     	
     	String[] strElementsSeparado = OriginationDirection.split(",");
@@ -141,7 +141,7 @@ public String getBody(Integer viPag, String vsFechaInit, String vsFechaFin,Strin
                 + "	\"nTransferred\",\"tTalk\",\"tHeld\",\"nOutboundAttempted\",\"tContacting\",\"tDialing\",\"tHandle\",\r\n"
                 + "	\"nBlindTransferred\",\"nConsult\",\"nConsultTransferred\",\"oMediaCount\",\"oExternalMediaCount\",\r\n"
                 + "	\"tVoicemail\",\"tMonitoring\",\"tFlowOut\" ],\r\n"
-                + "	\"interval\": \"" +  vsFechaInit + "T" + vsHorarioIntervalInicio + ".000Z/" + vsFechaFin + "T" + vsHorarioIntervalTermino + ".000Z\"\r\n"
+                + "	\"interval\": \"" +  vsFechaInitandTime + ".000Z/" + vsFechaFinandTime+ ".000Z\"\r\n"
                 + "}";
     }
 }

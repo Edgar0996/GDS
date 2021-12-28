@@ -570,8 +570,8 @@ public class Reporteador extends  Thread  {
                 GenraTXT = new GeneradorTXT();
                 nameTxt = new ArrayList<>();
               //System.out.println(voConversations.size()+" del hilo: "+this.getName() + "con un total de ids: "+vlContactId.size());
-                	
-               
+              
+                ReporteMail.Threa.add(this.getName());
                 nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUi,urlArchivoTemp));
                 
                 

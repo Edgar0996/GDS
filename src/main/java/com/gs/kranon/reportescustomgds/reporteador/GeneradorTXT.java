@@ -8,10 +8,12 @@ import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 import java.io.*;
 import java.text.SimpleDateFormat;
 
@@ -33,6 +35,8 @@ public class GeneradorTXT  {
     private String Archivo;
     private String Temporal;
     private List<String> nameTxt= new ArrayList<>();
+    private String conversationStart;
+    private String conversationEnd;
     
 	static {
 	        System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
@@ -66,7 +70,9 @@ public class GeneradorTXT  {
   				File files = new File(timeStamp+"_" + value +".txt"); 
   				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
   				//files.deleteOnExit();
-                
+  				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    			format.setTimeZone(TimeZone.getTimeZone("UTC-6"));
   				
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
   				//voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
@@ -89,23 +95,41 @@ public class GeneradorTXT  {
     	        		if(Agente=="null") {
     	        			Agente="";
     	        		}
-    	        		String  conversationStart = String.valueOf(voDetails.get("ConversationStart"));
-    	        		if(conversationStart=="null") {
+    	        		String  conversationStartSinFormat = String.valueOf(voDetails.get("ConversationStart"));
+    	        		if(conversationStartSinFormat=="null") {
     	        			conversationStart="";
+    	        		}else {
+    	        			
+    	        			Date dataFormateada = formato.parse(conversationStartSinFormat); 
+    	        			conversationStart =format.format(dataFormateada);
+    	        		
     	        		}
     	        		
-    	        		String  conversationEnd = String.valueOf(voDetails.get("vsConversationEnd"));
-    	        		if(conversationEnd=="null") {
+    	        		String  conversationEndSinformato = String.valueOf(voDetails.get("vsConversationEnd"));
+    	        		if(conversationEndSinformato=="null") {
     	        			conversationEnd="";
+    	        		}else {
+    	        			Date dataFormateada = formato.parse(conversationEndSinformato); 
+    	        			conversationEnd =format.format(dataFormateada);
+    	        		
     	        		}
+    	        		//Obtenemos la duración de la llamada 
+    	        		
+    	        		Date firstDate = formato.parse(conversationStartSinFormat);
+    	                Date secondDate = formato.parse(conversationEndSinformato);
+    	        		long diff = secondDate.getTime() - firstDate.getTime();
+    	        		String DuracionLlamada = String.valueOf(diff);
+    	        		
     	        		String  ani = String.valueOf(voDetails.get("ani"));
     	        		if(ani=="null") {
     	        			ani="";
     	        		}
+    	        		
     	        		String  dnis = String.valueOf(voDetails.get("dnis"));
     	        		if(dnis=="null") {
     	        			dnis="";
     	        		}
+    	        		
     	        		String Endoso_Procede = String.valueOf(voDetails.get("Endoso_Procede"));
     	        		
     	        		if(Endoso_Procede == "null") {
@@ -369,10 +393,10 @@ public class GeneradorTXT  {
     	        		dataComplet.add(ani);
     	        		dataComplet.add(dnis);
     	        		dataComplet.add(conversationStart);
-    	        		dataComplet.add("FechaContestacion");
+    	        		dataComplet.add(conversationStart.substring(0,10));
     	        		dataComplet.add("TiempoEspera");
     	        		dataComplet.add(conversationEnd);
-    	        		dataComplet.add("DuracionLlamada");
+    	        		dataComplet.add(DuracionLlamada);
     	        		dataComplet.add("FechaDefinicion");
     	        		dataComplet.add("TiempoDefinicion");
     	        		dataComplet.add("Calificacion");
@@ -459,7 +483,7 @@ public class GeneradorTXT  {
     	        		
     	        		int a=0;
     	        		//Rercorro mi data para pintar línea por línea en mi archivo txt
-    	        		System.out.println("El largo de mi arreglo es " + dataComplet.size());
+    	        		
     	        		for (String data : dataComplet ) {
     	        			//Escribir sobre el archivo
         	        		try {

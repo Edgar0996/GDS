@@ -59,7 +59,7 @@ public class RecuperaConversationID {
 	        voUti.getProperties(voMapConf, uui);
 	    }
 	    
-	 public List<String> RecuperaConverStatID(String vsToken,String vsUUI,String originationDirection,String vsFecha,String strStartTime,String strFinalTime,String urlArchivoTemp,boolean ReturnError){
+	 public List<String> RecuperaConverStatID(String vsToken,String vsUUI,String originationDirection,String vsFecha,String vsFechaIniciotime,String vsFechaFinTime,String urlArchivoTemp,boolean ReturnError){
 		 
 		 ConexionResponse voConexionResponse;
          //recuperamos las variables a comparar para ir por nuestros ID's
@@ -81,8 +81,8 @@ public class RecuperaConversationID {
              voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> LOADING PAGE NUMBER [" + (viPag) + "]");
 
              voPureCloud.vsHorarioInterval = (voMapConf.get("HorarioVerano").trim().toUpperCase().contentEquals("TRUE")) ? "T05:00:00.000Z" : "T06:00:00.000Z";
-             String vsBody = voPureCloud.getBody(viPag, vsFecha, vsFecha,originationDirection,strStartTime,strFinalTime);
-             //System.out.println(vsBody);
+             String vsBody = voPureCloud.getBody(viPag, vsFechaIniciotime, vsFechaFinTime,originationDirection);
+            // System.out.println(vsBody);
              voLogger.info("[RecuperaConversationID][" + vsUUI + "] ---> ENDPOINT[" + vsURLPCDetails + "]");
              
              try {
@@ -121,10 +121,10 @@ public class RecuperaConversationID {
              }else{
             	 if(ReturnError==false) {
             		
-             		PagesNoProcessed(strStartTime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,strFinalTime,viPag);
+             		PagesNoProcessed(vsFechaIniciotime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,vsFechaFinTime,viPag);
              		break;
              	}else {
-             		PagesNoProcessedCsv(strStartTime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,strFinalTime,viPag);
+             		PagesNoProcessedCsv(vsFechaIniciotime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,vsFechaFinTime,viPag);
              		break;
              	}
              }

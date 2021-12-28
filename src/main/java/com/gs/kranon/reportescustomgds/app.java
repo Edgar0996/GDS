@@ -149,46 +149,41 @@ public class app {
 					try {
 
 						// Segmento las 24 horas del día dependiendo el archivo de configuración
-						String strFinalTime = "00:00:00";
+						String strFinalTime =  "00:00:00";
 						ReporteMail.intervaloTiempo = String.valueOf(1440 / intTimeFrame);
 						ReporteMail.duracionIntervalo = String.valueOf(intTimeFrame);
 						ReporteMail.tipoInteracciones = originationDirection;
 						
-						SimpleDateFormat isoFormat = new SimpleDateFormat("HH:mm:ss");
-						isoFormat.setTimeZone(TimeZone.getTimeZone("UTC -7"));
-						Date date = isoFormat.parse("13:00:00");
-						System.out.println("El valor de mi las 00 horas en el formato de Genesys es "+ date );
+						//Pruebas para cambiar la zona horaria 
+						String strFinalTimePrueba= strYesterda+"T00:00:00";
+						SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+						f.setTimeZone(TimeZone.getTimeZone("UTC"));
+						SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+						Date dataFormateada = formato.parse(strFinalTimePrueba); 
+							
+						
+						
+						
+						
 						for (int a = 0; a < 1440; a = a + intTimeFrame) {
-							// System.out.println("Se repite: " + bb);
-							String strStartTime = strFinalTime;
-							Date datex = new SimpleDateFormat("HH:mm:ss").parse(strFinalTime);
-							Calendar calendar = Calendar.getInstance();
-							calendar.setTime(datex);
-							calendar.add(calendar.MINUTE, intTimeFrame);
-							strFinalTime = new SimpleDateFormat("HH:mm:ss").format(calendar.getTime());
-							/*
-							 * Recupero los ConversationID'S
-							 */
+							//Horario formateado de Genesys
+							String strStartTimeprueba = strFinalTimePrueba;
+							Date datexx = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(strFinalTimePrueba);
+							Calendar calendarw = Calendar.getInstance();
+							calendarw.setTime(datexx);
+							calendarw.add(calendarw.MINUTE, intTimeFrame);
+							strFinalTimePrueba = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(calendarw.getTime());
+							Date  dataInicial = formato.parse(strStartTimeprueba);
+							String dateFormatoInicial =	f.format(dataInicial);
+							Date  dataFinal = formato.parse(strFinalTimePrueba);
+							String dateFormatoFinal =f.format(dataFinal);
+						   
 							List<String> listConversationID = new ArrayList<>();
 							RecuperaConversationID recuperaId = new RecuperaConversationID(vsUUI);
-							if (strFinalTime.equals("00:00:00")) {
-								strFinalTime = "23:59:59";
-								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
-								voLogger.info("[Horario  ][" + vsUUI + "] --->  BLOQUE DE HORA[ " + strStartTime + " A "
-										+ strFinalTime + "]");
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime,Archivo, false));
-								String generaerror = " ";
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, generaerror, strFinalTime,Archivo, false));
-								sumTotalHits = sumTotalHits + listConversationID.size();
-							} else {
-								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
-								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + strStartTime + " A "
-										+ strFinalTime + "]"); 
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime,Archivo, false));
-								String generaerror = " ";
-								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, generaerror, strFinalTime,Archivo, false));
-								sumTotalHits = sumTotalHits + listConversationID.size();
-							}
+							
+								System.out.println("BLOQUE DE HORA: " + dateFormatoInicial + " A " + dateFormatoFinal);
+								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + dateFormatoInicial + " A "	+ dateFormatoFinal + "]"); 
+								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda,dateFormatoInicial,dateFormatoFinal,Archivo,false));
 							//Valida si se genero el archivo(paginas no recorrdidas) de error para realizar una segunda vuelta
 							
 							List<String> listPageRecuperado = new ArrayList<>();
@@ -235,24 +230,41 @@ public class app {
 											 strTokenAct=tokenList.get(h);
 											
 										}
+									
 									Reporteador voReporte = new Reporteador(vsUUI, strTokenAct, vsUUI,
 									listConversationThrea.get(h), Archivo, false);
 									voReporte.start();
 									voReporte.setName("Hilo" + h);
-									Threa.add("Hilo" + h);
-									
-									try {
-										//System.out.println("Se creo el hilo " + h);
-										sleep(500);
-										//System.out.println("y me espere " );
-									} catch (InterruptedException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
+									try { 
+										  sleep(900); 
+										  } catch (InterruptedException e) { // TODO Auto-generated
+									  e.printStackTrace(); }
 								}
-
+								totalNoClienteID ++;
+								do {
+									
+									if(ReporteMail.Threa.size() == totalNoClienteID) {
+										
+										ReporteMail.Threa.clear();
+										break;
+									}else {
+										try {
+											System.out.println("Esperamos 10000 aún no termina");
+											sleep(9000);
+										} catch (InterruptedException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										
+									}
+									
+								}while (true);
+								 
+								
+								
+								
 							}
-
+						
 						}
 
 					} catch (ParseException e1) {
@@ -267,12 +279,7 @@ public class app {
 					/*
 					 * sleep de prueba
 					 */
-					try {
-						sleep(10000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					
 					// Creamos el csv antes de recorrer los archivos
 					// Obteniendo los encabezados
 					Map<String, Object> voMapHeadersCSV = new HashMap<String, Object>();
@@ -508,8 +515,7 @@ public class app {
 					f.close();
 					dir.delete();
 					RecuperaConversationID recuperaId = new RecuperaConversationID(vsUUI);
-					
-					listPage.addAll(recuperaId.RecuperaConverStatID(vsTokens, vsUUI, originationDirection, vsFecha, strStartTime, strFinalTime, urlArchivoTem, ReturnError));
+					listPage.addAll(recuperaId.RecuperaConverStatID(vsTokens, vsUUI, originationDirection, vsFecha,strStartTime,strFinalTime,urlArchivoTem,ReturnError));
 					
 				} catch (IOException e) {
 
