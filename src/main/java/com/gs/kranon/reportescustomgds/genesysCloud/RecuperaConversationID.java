@@ -120,7 +120,7 @@ public class RecuperaConversationID {
                  }
              }else{
             	 if(ReturnError==false) {
-            		System.err.println("Entro aquí en error de mi paginado");
+            		
              		PagesNoProcessed(strStartTime,voConexionResponse.getCodigoRespuesta(),urlArchivoTemp,vsUUI,vsFecha,strFinalTime,viPag);
              		break;
              	}else {

@@ -44,6 +44,7 @@ import java.io.IOException;
 
 import static java.lang.Thread.sleep;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.mail.Message;
@@ -152,6 +153,11 @@ public class app {
 						ReporteMail.intervaloTiempo = String.valueOf(1440 / intTimeFrame);
 						ReporteMail.duracionIntervalo = String.valueOf(intTimeFrame);
 						ReporteMail.tipoInteracciones = originationDirection;
+						
+						SimpleDateFormat isoFormat = new SimpleDateFormat("HH:mm:ss");
+						isoFormat.setTimeZone(TimeZone.getTimeZone("UTC -7"));
+						Date date = isoFormat.parse("13:00:00");
+						System.out.println("El valor de mi las 00 horas en el formato de Genesys es "+ date );
 						for (int a = 0; a < 1440; a = a + intTimeFrame) {
 							// System.out.println("Se repite: " + bb);
 							String strStartTime = strFinalTime;
@@ -177,7 +183,7 @@ public class app {
 							} else {
 								System.out.println("BLOQUE DE HORA: " + strStartTime + " A " + strFinalTime);
 								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + strStartTime + " A "
-										+ strFinalTime + "]");
+										+ strFinalTime + "]"); 
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, strStartTime, strFinalTime,Archivo, false));
 								String generaerror = " ";
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda, generaerror, strFinalTime,Archivo, false));

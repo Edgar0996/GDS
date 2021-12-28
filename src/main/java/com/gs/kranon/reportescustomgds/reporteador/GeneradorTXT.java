@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  * @author kranoncloud
  */
 public class GeneradorTXT  {
-	
+		
     private Map<String,String> voMapConf = null;
     private Utilerias voUtil = null;
     private String  conversationId;
@@ -332,6 +332,7 @@ public class GeneradorTXT  {
     	        		if(Emision_Importe=="null") {
     	        			Emision_Importe="";
     	        		}
+    	        	
     	        		String Incidencia_Origen = String.valueOf(voDetails.get("Incidencia_Origen"));
     	        		if(Incidencia_Origen=="null") {
     	        			Incidencia_Origen="";
@@ -375,85 +376,86 @@ public class GeneradorTXT  {
     	        		dataComplet.add("FechaDefinicion");
     	        		dataComplet.add("TiempoDefinicion");
     	        		dataComplet.add("Calificacion");
+    	        		//apartado Endoso
+    	        		dataComplet.add(Endoso_Solicitante);
+    	        		dataComplet.add(Endoso_Poliza);
     	        		dataComplet.add(Endoso_Procede);
-    	        		dataComplet.add(Cotizacion_Hablante);
-    	        		dataComplet.add(Emision_No_Cobro);
-    	        		dataComplet.add(Tramites_Escala);
-    	        		dataComplet.add(Cargo_No_Cobro);
-    	        		dataComplet.add(Cotizacion_NúmCoti);
-    	        		dataComplet.add(Pago_No_Cobro);
-    	        		dataComplet.add(Link_Hablante);
+    	        		dataComplet.add(Endoso_No_Procede);
+    	        		//apartado INCIDENCIA
+    	        		dataComplet.add(Incidencia_Hablante);
+    	        		dataComplet.add(Incidencia_Origen);
+    	        		dataComplet.add(Incidencia_Afectacion);
+    	        		//apartado LLAMADACORTADA
+    	        		dataComplet.add(LlamadaCortada_Comentarios);
+    	        		//apartado LLAMADAOTRAAREA
     	        		dataComplet.add(Endoso_Solicitante);
     	        		dataComplet.add(Domiciliacion_Movimiento);
-    	        		dataComplet.add(LlamadaCortada_Comentarios);
-    	        		dataComplet.add(Cargo_Cancelacion);
-    	        		dataComplet.add(Cotizacion_ClaveAgente);
-    	        		dataComplet.add(Pago_Aceptado);
-    	        		dataComplet.add(TransferIVR_Hablante);
+    	        		//apartado ENVIODOCUMENTOS
+    	        		dataComplet.add(EnvioDoctos_Hablante);
+    	        		dataComplet.add(EnvioDoctos_Email);
+    	        		dataComplet.add(EnvioDoctos_Solicitados);
+    	        		//apartado CONSULTAPROCESODEYEL
+    	        		dataComplet.add(Consulta_Hablante);
+    	        		dataComplet.add(Consulta_Motivo);
+    	        		//apartado CONSULTA
     	        		dataComplet.add(Pago_OtroPago);
     	        		dataComplet.add(EnvioDoctos_Hablante);
+    	        		//apartado ACTUALIZACIONCORREODEYEL
     	        		dataComplet.add(Emision_Ramo);
     	        		dataComplet.add(Emision_Cotizacion);
+    	        		//apartado SOLICITUDREFERENCIADEYEL
     	        		dataComplet.add(Cargo_Cobro);
     	        		dataComplet.add(Tramites_Consultado);
+    	        		//apartado  SOLICITUDUSUARIODEYEL
     	        		dataComplet.add(Pago_Hablante);
     	        		dataComplet.add(Cotizacion_OtroCoti);
-    	        		dataComplet.add(Cargo_Ramo);
-    	        		dataComplet.add(LlamadaOtra_Hablante);
-    	        		dataComplet.add(Emision_Sucursal);
-    	        		dataComplet.add(EnvioDoctos_Solicitados);
-    	        		dataComplet.add(Consulta_Motivo);
-    	        		dataComplet.add(Pago_Sucursal);
-    	        		dataComplet.add(Incidencia_Hablante);
-    	        		dataComplet.add(Endoso_No_Procede);
-    	        		dataComplet.add(Emision_Hablante);
-    	        		dataComplet.add(EnvioDoctos_Email);
-    	        		dataComplet.add(Cargo_Hablante);
-    	        		dataComplet.add(Cargo_Sucursal);
-    	        		dataComplet.add(Cargo_OtroMov);
-    	        		dataComplet.add(LlamadaOtra_Area);
+    	        		//apartado  DOMICILIACION
     	        		dataComplet.add(Domiciliacion_Hablante);
-    	        		dataComplet.add(Cargo_Rehabilitacion);
+    	        		dataComplet.add(Domiciliacion_ClaveAgente);
     	        		dataComplet.add(Domiciliacion_Sucursal);
-    	        		dataComplet.add(Pago_Importe);
-    	        		dataComplet.add(Endoso_Poliza);
-    	        		dataComplet.add(Domiciliacion_OtroMov);
     	        		dataComplet.add(Domiciliacion_Ramo);
     	        		dataComplet.add(Domiciliacion_Poliza);
-    	        		dataComplet.add(Emision_PagoAcep);
-    	        		dataComplet.add(Domiciliacion_ClaveAgente);
-    	        		dataComplet.add(Cargo_Poliza);
-    	        		dataComplet.add(Pago_Ramo);
-    	        		dataComplet.add(Emision_ClaveAgente);
-    	        		dataComplet.add(Incidencia_Afectacion);
-    	        		dataComplet.add(Pago_ClaveAgente);
-    	        		dataComplet.add(Consulta_Hablante);
-    	        		dataComplet.add(Link_Email);
-    	        		dataComplet.add(Tramites_PersonaEscalada);
-    	        		dataComplet.add(Emision_Importe);
-    	        		dataComplet.add(Incidencia_Origen);
-    	        		dataComplet.add(Cotizacion_Email);
-    	        		dataComplet.add(Tramites_ClaveAgente);
-    	        		dataComplet.add(Pago_Poliza);
-    	        		dataComplet.add(Emision_Poliza);
+    	        		dataComplet.add(Domiciliacion_OtroMov);
+    	        		//apartado  CARGORECURRENTE
+    	        		dataComplet.add(Cargo_Hablante);
     	        		dataComplet.add(Cargo_ClaveAgente);
+    	        		dataComplet.add(Cargo_Sucursal); 
+    	        		dataComplet.add(Cargo_Ramo);
+    	        		dataComplet.add(Cargo_Poliza);
+    	        		dataComplet.add(Cargo_Rehabilitacion);
+    	        		dataComplet.add(Cargo_Cancelacion);
+    	        		dataComplet.add(Cargo_Cobro);
+    	        		dataComplet.add(Cargo_OtroMov);
+    	        		//apartado  EMISION
+    	        		dataComplet.add(Emision_Hablante);
+    	        		dataComplet.add(Emision_ClaveAgente);
+    	        		dataComplet.add(Emision_Cotizacion);
+    	        		dataComplet.add(Emision_Sucursal);
+    	        		dataComplet.add(Emision_Ramo);
+    	        		dataComplet.add(Emision_Poliza);
+    	        		dataComplet.add(Emision_PagoAcep);
+    	        		dataComplet.add(Emision_Importe);
     	        		dataComplet.add(Emision_OtroMov);
-    	        		dataComplet.add("COTIZACION_CorreoElectronico");
-    	        		dataComplet.add("COTIZACION_NumeroCotizacion");
-    	        		dataComplet.add("ENVIOLINK_Calificacion");
-    	        		dataComplet.add("ENVIOLINK_NombreQuienHabla");
-    	        		dataComplet.add("ENVIOLINK_CorreoElectronico");
-    	        		dataComplet.add("TRANSFERENCIAIVR_Calificacion");
-    	        		dataComplet.add("TRANSFERENCIAIVR_NombreQuienHabla");
-    	        		dataComplet.add("PAGO_Calificacion");
-    	        		dataComplet.add("PAGO_NombreQuienHabla");
-    	        		dataComplet.add("PAGO_ClaveAgente");
-    	        		dataComplet.add("PAGO_NumSucursal");
-    	        		dataComplet.add("PAGO_NumRamo");
-    	        		dataComplet.add("PAGO_NumPoliza");
-    	        		dataComplet.add("PAGO_NumImporte");
-    	        		dataComplet.add("PAGO_PagoAceptado");
-    	        		dataComplet.add("PAGO_Motivo");
+    	        		//apartado COTIZACION
+    	        		dataComplet.add(Cotizacion_Hablante);
+    	        		dataComplet.add(Cotizacion_ClaveAgente);
+    	        		dataComplet.add(Cotizacion_Email);
+    	        		dataComplet.add(Cotizacion_NúmCoti);
+    	        		//apartado ENVIOLINK
+    	        		dataComplet.add(Link_Hablante);
+    	        		dataComplet.add(Link_Email);
+    	        		//apartado TRANSFERENCIAIVR
+    	        		dataComplet.add(TransferIVR_Hablante);
+    	        		//apartado TRANSFERENCIAIVR
+    	        		dataComplet.add(Pago_Hablante);
+    	        		dataComplet.add(Pago_ClaveAgente);
+    	        		dataComplet.add(Pago_Sucursal);
+    	        		dataComplet.add(Pago_Ramo);
+    	        		dataComplet.add(Pago_Poliza);
+    	        		dataComplet.add(Pago_Importe);
+    	        		dataComplet.add(Pago_Aceptado);
+    	        		dataComplet.add(Emision_OtroMov);
+    	        		
     	        		
     	        		int a=0;
     	        		//Rercorro mi data para pintar línea por línea en mi archivo txt
