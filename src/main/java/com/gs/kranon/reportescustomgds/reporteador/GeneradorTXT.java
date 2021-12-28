@@ -110,7 +110,7 @@ public class GeneradorTXT  {
     	        		
     	        		if(Endoso_Procede == "null") {
     	        			
-    	        			Endoso_Procede=" ";
+    	        			Endoso_Procede="";
     	        		}
     	        		String Cotizacion_Hablante = String.valueOf(voDetails.get("Cotizacion_Hablante"));
     	        		if(Cotizacion_Hablante=="null") {
@@ -134,7 +134,7 @@ public class GeneradorTXT  {
     	        		}
     	        		String Pago_No_Cobro = String.valueOf(voDetails.get("Pago_No_Cobro"));
     	        		if(Pago_No_Cobro=="null") {
-    	        			Pago_No_Cobro="";
+    	        			Pago_No_Cobro="Este es mi último campo";
     	        		}
     	        		String Link_Hablante = String.valueOf(voDetails.get("Link_Hablante"));
     	        		if(Link_Hablante=="null") {
@@ -454,20 +454,21 @@ public class GeneradorTXT  {
     	        		dataComplet.add(Pago_Poliza);
     	        		dataComplet.add(Pago_Importe);
     	        		dataComplet.add(Pago_Aceptado);
-    	        		dataComplet.add(Emision_OtroMov);
+    	        		dataComplet.add(Pago_No_Cobro);
     	        		
     	        		
     	        		int a=0;
     	        		//Rercorro mi data para pintar línea por línea en mi archivo txt
+    	        		System.out.println("El largo de mi arreglo es " + dataComplet.size());
     	        		for (String data : dataComplet ) {
     	        			//Escribir sobre el archivo
         	        		try {
         	        			
-        	        			int f = a -1;
+        	        			int f = a +1;
         	        			//Leemos nuestro archivo creado
         	        			Writer  output = new BufferedWriter(new FileWriter(Archivo+".txt", true));
         	        			
-        	        			if (f == 90) {
+        	        			if (f == 75) {
         	        				output.append(dataComplet.get(a));
             	        			output.close(); 
         	        			}else {
