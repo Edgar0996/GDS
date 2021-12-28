@@ -304,6 +304,11 @@ public class app {
 						ReporteMail.pathPagNoProcesadas = "No existen páginas sin procesar";
 						ReporteMail.paginasRetornadasErr = 0;
 					}
+					if(ReporteMail.lineasConColumnasDif > 0) {
+						ReporteMail.pathLogColumnasDif = "C:/Appl/GS/ReportesCustom/Logs/"+strYesterda+"_Reporte.log";
+					}else {
+						ReporteMail.pathLogColumnasDif = "No existen registros con errores de columnas";
+					}
 					ReporteMail.numeroHits = sumTotalHits;
 					ReporteMail.lineasCsvFinal = content.size();
 					System.out.println("resultado de la generacion del archivo: " + resultadoCsv

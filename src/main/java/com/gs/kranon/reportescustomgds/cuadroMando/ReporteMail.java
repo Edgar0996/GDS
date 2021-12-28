@@ -50,6 +50,8 @@ public class ReporteMail {
 	public static int lineasInteraccionesNoProcesadas=0; //OK
 	//No de lineas de Interacciones que no cumplen con el numero de columnas requeridas
 	public static int lineasConColumnasDif=0; //OK
+	//Path del archivo de log donde se guardan las lineas con mas columnas
+	public static String pathLogColumnasDif="";//OK
 
 	public ReporteMail() {
 
