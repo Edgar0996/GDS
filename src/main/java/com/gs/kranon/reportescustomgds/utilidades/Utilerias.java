@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -75,10 +77,11 @@ public class Utilerias {
         }
     }
     
-    public String userDateGMT(String vsFecha) {
+    public static String userDateGMT(String vsFecha) {
         if (vsFecha == null || vsFecha.isEmpty()) return "";
         DateTime voDateTime = new DateTime(vsFecha,DateTimeZone.UTC);
-        return voDateTime.withZone(DateTimeZone.getDefault()).toString();
+        String dateFormat = voDateTime.withZone(DateTimeZone.getDefault()).toString();
+        return dateFormat.substring(0,19);
     }
 	/**
 	 * Permite hacer el calculo del tiempo de ejecucion de la aplicacion 
@@ -103,6 +106,15 @@ public class Utilerias {
         	voLogger.error("[Utilerias] ---> ERROR : " + ex.getMessage());
         }
         return fechaReturn;
+	}
+	
+	public static String secondsToTime(long seconds) {
+		return String.format("%02d min. %02d sec", 
+			    TimeUnit.MILLISECONDS.toMinutes(seconds),
+			    TimeUnit.MILLISECONDS.toSeconds(seconds) - 
+			    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(seconds))
+			);
+
 	}
 
 }

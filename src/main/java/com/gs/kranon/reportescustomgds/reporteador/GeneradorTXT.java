@@ -72,7 +72,7 @@ public class GeneradorTXT  {
   				//files.deleteOnExit();
   				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    			format.setTimeZone(TimeZone.getTimeZone("UTC-6"));
+    			format.setTimeZone(TimeZone.getTimeZone("GTM-6"));
   				
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
   				//voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
@@ -99,18 +99,15 @@ public class GeneradorTXT  {
     	        		if(conversationStartSinFormat=="null") {
     	        			conversationStart="";
     	        		}else {
-    	        			
-    	        			Date dataFormateada = formato.parse(conversationStartSinFormat); 
-    	        			conversationStart =format.format(dataFormateada);
-    	        		
+    	        			conversationStart =Utilerias.userDateGMT(conversationStartSinFormat);
     	        		}
     	        		
     	        		String  conversationEndSinformato = String.valueOf(voDetails.get("vsConversationEnd"));
     	        		if(conversationEndSinformato=="null") {
     	        			conversationEnd="";
     	        		}else {
-    	        			Date dataFormateada = formato.parse(conversationEndSinformato); 
-    	        			conversationEnd =format.format(dataFormateada);
+    	        			 
+    	        			conversationEnd =Utilerias.userDateGMT(conversationEndSinformato);
     	        		
     	        		}
     	        		//Obtenemos la duración de la llamada 
@@ -118,7 +115,8 @@ public class GeneradorTXT  {
     	        		Date firstDate = formato.parse(conversationStartSinFormat);
     	                Date secondDate = formato.parse(conversationEndSinformato);
     	        		long diff = secondDate.getTime() - firstDate.getTime();
-    	        		String DuracionLlamada = String.valueOf(diff);
+    	        		String DuracionLlamada = Utilerias.secondsToTime(diff);
+    	        		
     	        		
     	        		String  ani = String.valueOf(voDetails.get("ani"));
     	        		if(ani=="null") {
@@ -390,8 +388,8 @@ public class GeneradorTXT  {
     	        		dataComplet.add(vsContactId);
     	        		dataComplet.add(queueName);
     	        		dataComplet.add(Agente);
-    	        		dataComplet.add(ani);
-    	        		dataComplet.add(dnis);
+    	        		dataComplet.add(ani.substring(5,15));
+    	        		dataComplet.add(dnis.substring(5,17));
     	        		dataComplet.add(conversationStart);
     	        		dataComplet.add(conversationStart.substring(0,10));
     	        		dataComplet.add("TiempoEspera");
