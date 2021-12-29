@@ -185,7 +185,7 @@ public class app {
 								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + dateFormatoInicial + " A "	+ dateFormatoFinal + "]"); 
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda,dateFormatoInicial,dateFormatoFinal,Archivo,false));
 							//Valida si se genero el archivo(paginas no recorrdidas) de error para realizar una segunda vuelta
-							
+								sumTotalHits =sumTotalHits + listConversationID.size();
 							List<String> listPageRecuperado = new ArrayList<>();
 							listPageRecuperado.addAll(GenerateCsvErroPC(tokenList.get(0), vsUUI, Archivo, originationDirection));
 							
@@ -236,7 +236,7 @@ public class app {
 									voReporte.start();
 									voReporte.setName("Hilo" + h);
 									try { 
-										  sleep(900); 
+										  sleep(500); 
 										  } catch (InterruptedException e) { // TODO Auto-generated
 									  e.printStackTrace(); }
 								}
@@ -250,7 +250,7 @@ public class app {
 									}else {
 										try {
 											System.out.println("Esperamos 10000 aún no termina");
-											sleep(9000);
+											sleep(900);
 										} catch (InterruptedException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
