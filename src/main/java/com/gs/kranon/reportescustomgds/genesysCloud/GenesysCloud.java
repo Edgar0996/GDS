@@ -22,9 +22,7 @@ public class GenesysCloud {
     private ConexionResponse conexionResponse = null;
     private String vsUUI = "";
     public String vsHorarioInterval = "T05:00:00.000Z";
-    public String vsHorarioIntervalInicio = "T01:00:00.000Z";
-    public String vsHorarioIntervalTermino = "T23:59:00.000Z";
-
+   
     public void setUUI(String vsUUI) {
         this.vsUUI = vsUUI;
     }
@@ -44,7 +42,7 @@ public class GenesysCloud {
             encodeData = new String(Base64.encodeBase64((vsClID + ":" + vsClSec).getBytes("ISO-8859-1")));
             header.put("Authorization", " Basic " + encodeData);
         } catch (UnsupportedEncodingException e1) {
-            voLogger.info("[PureCloud  ][" + vsUUI + "] ---> " + e1.getMessage());
+            voLogger.error("[GenesysCloud  ][" + vsUUI + "] ---> " + e1.getMessage());
         }
         try {
             ConexionHttp conexionHttp = new ConexionHttp();
@@ -55,23 +53,64 @@ public class GenesysCloud {
                 if (json.has("access_token")) {
                     
                     vsAccessToken = json.getString("access_token");
-                    voLogger.info("[PureCloud  ][" + vsUUI + "] ---> TOKEN[SUCCESS]. [" + vsClID + "]");
+                   
+                    //voLogger.info("[PureCloud  ][" + vsUUI + "] ---> *************GENERO TOKEN*************** ");
+                    voLogger.info("[GenesysCloud  ][" + vsUUI + "] ---> RESULTADO DE GENERACION DE TOKEN [SUCCESS]");
                 } else {
-                    voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
+                    voLogger.error("[GenesysCloud  ][" + vsUUI + "] ---> TOKEN[ERROR].");
                 }
             } else {
-                voLogger.error("[PureCloud  ][" + vsUUI + "] ---> TOKEN[" + vsAccessToken + "], "
+                voLogger.error("[GenesysCloud  ][" + vsUUI + "] ---> TOKEN[" + vsAccessToken + "], "
                         + " CODIGO RESPUESTA[" + conexionResponse.getCodigoRespuesta() + "], MENSAJE RESPUESTA[" + conexionResponse.getMensajeRespuesta() + "]");
             }
         } catch (IOException e) {
-            voLogger.error("[PureCloud  ][" + vsUUI + "] --->" + e.getMessage());
+            voLogger.error("[GenesysCloud  ][" + vsUUI + "] --->" + e.getMessage());
         } catch (Exception e) {
-            voLogger.error("[PureCloud  ][" + vsUUI + "] --->" + e.getMessage());
+            voLogger.error("[GenesysCloud  ][" + vsUUI + "] --->" + e.getMessage());
         }
+        //System.out.println("Token "+vsAccessToken);
         return vsAccessToken;
     }
 
-    public String getBody(Integer viPag, String vsFecha, String vsFechaInt) {
+public String getBody(Integer viPag, String vsFechaInitandTime, String vsFechaFinandTime,String OriginationDirection) {
+    	
+    	
+    	String[] strElementsSeparado = OriginationDirection.split(",");
+    	String strPrimerDato = null;
+    	String strSegundoDato= null;
+    	String strTercerDato=null;
+    	
+    	
+    	if (strElementsSeparado.length==1) {
+    		
+    		strPrimerDato =  strElementsSeparado[0];
+    		strSegundoDato= null;
+			strTercerDato=null;
+    	}else {
+    		if  (strElementsSeparado.length==2) {
+    		
+    			strPrimerDato =  strElementsSeparado[0];
+				strSegundoDato= strElementsSeparado[1];
+				strTercerDato=null;
+    		}else {
+    			if  (strElementsSeparado.length==3) {
+    				
+    				strPrimerDato =  strElementsSeparado[0];
+    				strSegundoDato= strElementsSeparado[1];
+    				strTercerDato= strElementsSeparado[2];
+    			}else {
+    				 strPrimerDato = null;
+    		    	 strSegundoDato= null;
+    		    	 strTercerDato=null;
+    			}
+    		}
+    			
+    	}
+    	
+    	 		
+		
+		 
+    	
         return "{\r\n"
                 + "	\"order\": \"desc\",\r\n"
                 + "	\"orderBy\": \"conversationStart\",\r\n"
@@ -87,8 +126,14 @@ public class GenesysCloud {
                 + "	{ \"type\": \"or\",\r\n"
                 + "	\"predicates\": [{\r\n"
                 + "	\"dimension\": \"direction\",\r\n"
-                + "	\"value\": \"inbound\"\r\n"
-                + "	}]}],\r\n"
+                + "	\"value\": \""+strPrimerDato+ "\"\r\n"
+                + "	},{\r\n"
+                + "	\"dimension\": \"direction\",\r\n"
+                + "	\"value\": \""+strSegundoDato+ "\"\r\n"
+                + "},{\r\n"
+                + "	\"dimension\": \"direction\",\r\n"
+                + "	\"value\": \""+strTercerDato+ "\"\r\n"
+                + "}]}],\r\n"
                 + "	\"conversationFilters\":[],\r\n"
                 + "	\"evaluationFilters\":[],\r\n"
                 + "	\"surveyFilters\":[],\r\n"
@@ -96,7 +141,7 @@ public class GenesysCloud {
                 + "	\"nTransferred\",\"tTalk\",\"tHeld\",\"nOutboundAttempted\",\"tContacting\",\"tDialing\",\"tHandle\",\r\n"
                 + "	\"nBlindTransferred\",\"nConsult\",\"nConsultTransferred\",\"oMediaCount\",\"oExternalMediaCount\",\r\n"
                 + "	\"tVoicemail\",\"tMonitoring\",\"tFlowOut\" ],\r\n"
-                + "	\"interval\": \"" + vsFecha + vsHorarioIntervalInicio + "/" + vsFechaInt + vsHorarioIntervalTermino + "\"\r\n"
+                + "	\"interval\": \"" +  vsFechaInitandTime + ".000Z/" + vsFechaFinandTime+ ".000Z\"\r\n"
                 + "}";
     }
 }

@@ -1,11 +1,15 @@
 package com.gs.kranon.reportescustomgds.utilidades;
 
+import java.io.File;
 import java.io.FileReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -73,10 +77,44 @@ public class Utilerias {
         }
     }
     
-    public String userDateGMT(String vsFecha) {
+    public static String userDateGMT(String vsFecha) {
         if (vsFecha == null || vsFecha.isEmpty()) return "";
         DateTime voDateTime = new DateTime(vsFecha,DateTimeZone.UTC);
-        return voDateTime.withZone(DateTimeZone.getDefault()).toString();
+        String dateFormat = voDateTime.withZone(DateTimeZone.getDefault()).toString();
+        return dateFormat.substring(0,19);
     }
+	/**
+	 * Permite hacer el calculo del tiempo de ejecucion de la aplicacion 
+	 * @param fechaInicio fecha en que inicio el proceso
+	 * @param fechaFin fecha en que termino el proceso
+	 * @return String tiempo de ejecucion calculado en formato dd hh mm ss
+	 */
+	public static String tiempoEjecucion(String fechaInicio, String fechaFin) {
+		String fechaReturn ="";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date now;
+        try {
+            now = df.parse(fechaFin);
+            java.util.Date date = df.parse(fechaInicio);
+            long l = now.getTime() - date.getTime();
+            long day = l / (24 * 60 * 60 * 1000);
+            long hour = (l / (60 * 60 * 1000) - day * 24);
+            long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+            long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+            fechaReturn = hour + "h " + min + "' " + s + "''";
+        } catch (ParseException ex) {
+        	voLogger.error("[Utilerias] ---> ERROR : " + ex.getMessage());
+        }
+        return fechaReturn;
+	}
+	
+	public static String secondsToTime(long seconds) {
+		return String.format("%02d min. %02d sec", 
+			    TimeUnit.MILLISECONDS.toMinutes(seconds),
+			    TimeUnit.MILLISECONDS.toSeconds(seconds) - 
+			    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(seconds))
+			);
+
+	}
 
 }
