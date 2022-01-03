@@ -129,8 +129,10 @@ public class RecuperaConversationID {
              	}
              }
          } while (true);
-			vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
-			vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012"); 
+			/*
+			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127");
+			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
+			 */
 			ReporteMail.paginasRetornadas = ReporteMail.paginasRetornadas + --viPag;
          voLogger.info("[RecuperaConversationID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
          return vlContactId;

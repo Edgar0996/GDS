@@ -198,14 +198,15 @@ public class app {
 
 							// Genero mis indices dependiendo de mi variables totalThreads
 							List<List<String>> listConversationThrea = new ArrayList<List<String>>();
-							List<String> Threa = new ArrayList<String>();
+							int inttotalNoClienteID;
 							int totalNoClienteID = Integer.parseInt(voMapConf.get("NoClienteID"));
+							
 							for (int h = 0; h < totalNoClienteID; h++) {
 								listConversationThrea.add(new ArrayList<String>());
 							}
 							int totalThread = 0;
 							totalNoClienteID--;
-							// Valido que en se periodo de tiempo tenga datos datos
+							// Valido que el periodo de tiempo tenga datos datos
 							if (listConversationID.size() != 0) {
 								for (int b = 0; b < listConversationID.size(); b++) {
 
@@ -221,7 +222,14 @@ public class app {
 									}
 								}
 								String strTokenAct;
-								for (int h = 0; h <= totalNoClienteID; h++) {
+								System.err.println("Se detectaron estos ID "+listConversationID.size());
+								if(listConversationID.size()<=totalNoClienteID) {
+									inttotalNoClienteID = listConversationID.size();
+								}else {
+									inttotalNoClienteID=totalNoClienteID;
+								}
+								for (int h = 0; h <= inttotalNoClienteID; h++) {
+									
 									if(tokenList.get(h)=="ERROR" || tokenList.get(h)==null) {
 										int s= h-1;
 										   strTokenAct=tokenList.get(s);
@@ -240,29 +248,24 @@ public class app {
 										  } catch (InterruptedException e) { // TODO Auto-generated
 									  e.printStackTrace(); }
 								}
-								totalNoClienteID ++;
-								do {
-									
-									if(ReporteMail.Threa.size() == totalNoClienteID) {
-										
-										ReporteMail.Threa.clear();
-										break;
-									}else {
-										try {
-											System.out.println("Esperamos 10000 aún no termina");
-											sleep(900);
-										} catch (InterruptedException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										
-									}
-									
-								}while (true);
+								
+								inttotalNoClienteID ++; 
+								  do {
+								  
+								  if(ReporteMail.Threa.size() == inttotalNoClienteID) {
+								  
+								  ReporteMail.Threa.clear(); 
+								  break; 
+								  
+								  }else { 
+									  try { 
+										  sleep(500); 
+										  } catch (InterruptedException e) { // TODO Auto-generated
+									  e.printStackTrace(); }
+								  }
+								  }while (true);
 								 
-								
-								
-								
+								 							
 							}
 						
 						}
@@ -280,7 +283,7 @@ public class app {
 					 * sleep de prueba
 					 */
 					try { 
-						  sleep(2000); 
+						  sleep(3000); 
 						  } catch (InterruptedException e) { // TODO Auto-generated
 					  e.printStackTrace(); }
 					// Creamos el csv antes de recorrer los archivos
