@@ -97,7 +97,7 @@ public class app {
 			strYesterda = args[0];
 		} else {
 			/* Recupero la fecha de ayer ("yyyy-MM-dd")*/
-			strYesterda="2021-12-28";
+			strYesterda="2021-12-30";
 			//strYesterda = yesterdaydate();
 		}
 		//Inicio de la ejecucion del proceso
@@ -140,7 +140,7 @@ public class app {
 					voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-					//System.out.println(tokenList);
+					System.out.println(tokenList);
 					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
 					// voData.setFechaInicio("2021-01-01");
@@ -246,10 +246,6 @@ public class app {
 										
 										while(!task1.isDone()) {
 											
-											try { 
-												  sleep(150); 
-												  } catch (InterruptedException e) { // TODO Auto-generated
-											  e.printStackTrace(); }
 										
 										}
 										
