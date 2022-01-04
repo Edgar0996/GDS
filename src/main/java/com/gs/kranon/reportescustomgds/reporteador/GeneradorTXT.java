@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+
+import static java.lang.Thread.sleep;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 
@@ -505,12 +508,14 @@ public class GeneradorTXT  {
         	          		}
 
     	        			a++;
+    	        			
     	        		}
     	        		//mandamos un salto de línea
 	        			Writer  output = new BufferedWriter(new FileWriter(Archivo+".txt", true));
+	        		
 	        			output.append("\n");
 	        			output.close(); 
-    	        		
+	   
     	        		dataComplet.clear();
     	        		
     	        		

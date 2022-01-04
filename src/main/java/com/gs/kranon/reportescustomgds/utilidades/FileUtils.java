@@ -97,7 +97,7 @@ public class FileUtils {
 			List<String[]> content = new ArrayList<String[]>();
 			for (int x = 0; x < files.length; x++) {
 				File file = files[x];
-				// System.out.println("Archivo recuperado: " + file);
+				//System.out.println("Archivo recuperado: " + file);
 				// Leemos el txt recibido por parametro
 				FileReader fileReaderConversations = null;
 				String lineContent = "";

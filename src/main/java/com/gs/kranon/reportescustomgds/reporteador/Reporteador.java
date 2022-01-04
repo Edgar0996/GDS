@@ -99,6 +99,7 @@ public class Reporteador extends  Thread  {
                 ConexionResponse voConexionResponseCall = null;
                 
                 for (String vsContactId : vlContactId) {
+                	
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     viContadorEncontrados++;
                     //voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
@@ -111,14 +112,10 @@ public class Reporteador extends  Thread  {
                     //String vsJsonResponse = voConexionResponseCall.getMensajeRespuesta();
                     
                     if(voConexionResponseCall.getCodigoRespuesta() == 200) {
-                    		
-                   
                     JSONObject voJsonResponseCall = new JSONObject(voConexionResponseCall.getMensajeRespuesta());
                     voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[\"" + vsURLConversation + "\"]\""
                             + " RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
                    
-                    
-                    
                     if (voJsonResponseCall.has("participants")) {
                     	      
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
@@ -151,8 +148,6 @@ public class Reporteador extends  Thread  {
                     				 voDetailsConversations.put("Agente", Agente);
                     			String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
                     				 voDetailsConversations.put("queueName", queueName);
-                    				 
-                    			
                         	}
                         }
                         

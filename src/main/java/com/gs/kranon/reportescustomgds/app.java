@@ -45,6 +45,9 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.Properties;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import javax.mail.Message;
@@ -92,7 +95,8 @@ public class app {
 			/* Asigno la fecha recibida por paramtreo */
 			strYesterda = args[0];
 		} else {
-			/* Recupero la fecha de ayer */
+			/* Recupero la fecha de ayer ("yyyy-MM-dd")*/
+			//strYesterda="2021-12-29";
 			strYesterda = yesterdaydate();
 		}
 		for(int c = 0; c < args.length; c++) {
@@ -237,33 +241,27 @@ public class app {
 										}else {
 											 strTokenAct=tokenList.get(h);
 											
-										}
 									
-									Reporteador voReporte = new Reporteador(vsUUI, strTokenAct, vsUUI,
-									listConversationThrea.get(h), Archivo, false);
-									voReporte.start();
-									voReporte.setName("Hilo" + h);
-									try { 
-										  sleep(500); 
-										  } catch (InterruptedException e) { // TODO Auto-generated
-									  e.printStackTrace(); }
+									}
+									ExecutorService executor = Executors.newFixedThreadPool(20);
+									Future<?> task1= executor.submit(new Reporteador(vsUUI, strTokenAct, vsUUI,listConversationThrea.get(h), Archivo, false));
+									
+								
+									if(h<=inttotalNoClienteID) {
+										
+										while(!task1.isDone()) {
+											
+											try { 
+												  sleep(150); 
+												  } catch (InterruptedException e) { // TODO Auto-generated
+											  e.printStackTrace(); }
+										
+										}
+										
+									}
 								}
 								
-								inttotalNoClienteID ++; 
-								  do {
-								  
-								  if(ReporteMail.Threa.size() == inttotalNoClienteID) {
-								  
-								  ReporteMail.Threa.clear(); 
-								  break; 
-								  
-								  }else { 
-									  try { 
-										  sleep(500); 
-										  } catch (InterruptedException e) { // TODO Auto-generated
-									  e.printStackTrace(); }
-								  }
-								  }while (true);
+								
 								 
 								 							
 							}
@@ -283,7 +281,7 @@ public class app {
 					 * sleep de prueba
 					 */
 					try { 
-						  sleep(3000); 
+						  sleep(9000); 
 						  } catch (InterruptedException e) { // TODO Auto-generated
 					  e.printStackTrace(); }
 					// Creamos el csv antes de recorrer los archivos
