@@ -100,9 +100,6 @@ public class app {
 			strYesterda="2021-12-28";
 			//strYesterda = yesterdaydate();
 		}
-		for(int c = 0; c < args.length; c++) {
-			System.out.println("Argumento "+c+" recibido desde consola: "+args[c]);
-		}
 		//Inicio de la ejecucion del proceso
 		ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -143,7 +140,7 @@ public class app {
 					voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 					/* Genero los token's */
 					List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-					System.out.println(tokenList);
+					//System.out.println(tokenList);
 					int sumTotalHits = 0;
 					DataReports voData = new DataReports();
 					// voData.setFechaInicio("2021-01-01");
@@ -165,11 +162,7 @@ public class app {
 						f.setTimeZone(TimeZone.getTimeZone("UTC"));
 						SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 						Date dataFormateada = formato.parse(strFinalTimePrueba); 
-							
-						
-						
-						
-						
+					
 						for (int a = 0; a < 1440; a = a + intTimeFrame) {
 							//Horario formateado de Genesys
 							String strStartTimeprueba = strFinalTimePrueba;
@@ -186,7 +179,7 @@ public class app {
 							List<String> listConversationID = new ArrayList<>();
 							RecuperaConversationID recuperaId = new RecuperaConversationID(vsUUI);
 							
-								System.out.println("BLOQUE DE HORA: " + dateFormatoInicial + " A " + dateFormatoFinal);
+								System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> BLOQUE DE HORA: " + dateFormatoInicial + " A " + dateFormatoFinal);
 								voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + dateFormatoInicial + " A "	+ dateFormatoFinal + "]"); 
 								listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda,dateFormatoInicial,dateFormatoFinal,Archivo,false));
 							//Valida si se genero el archivo(paginas no recorrdidas) de error para realizar una segunda vuelta
@@ -228,7 +221,7 @@ public class app {
 									}
 								}
 								
-								System.err.println("Se detectaron estos ID "+listConversationID.size());
+								System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]-->   Número de hits recuperados: "+listConversationID.size());
 								if(listConversationID.size()<=totalNoClienteID) {
 									inttotalNoClienteID = listConversationID.size();
 								}else {
@@ -263,6 +256,8 @@ public class app {
 									}
 								}
 														
+							} else {
+								System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]-->   Número de hits recuperados: "+listConversationID.size());
 							}
 						
 						}
@@ -273,7 +268,6 @@ public class app {
 					/*
 					 * valido si existen Id's de error trabajo
 					 */
-					System.out.println("El valor de mi array ID es " + ReporteMail.arrContactId.size());
 					GenerateCsvErroIE(tokenList.get(0), vsUUI, Archivo);
 
 					/*
@@ -321,27 +315,8 @@ public class app {
 					}
 					ReporteMail.numeroHits = sumTotalHits;
 					ReporteMail.lineasCsvFinal = content.size();
-					System.out.println("resultado de la generacion del archivo: " + resultadoCsv
-							+ " Con un tamanio de content: " + content.size());
-					
-					/* Calculando la duracion del programa */
-					
-
-					/*
-					 * System.out.println("Valor de ReporteMail ejecucion: " +
-					 * ReporteMail.fechaEjecucion + " inicioProceso: " + ReporteMail.inicioProceso +
-					 * " finProceso: " + ReporteMail.finProceso + " numeroHits: " +
-					 * ReporteMail.numeroHits + " paginasRetornadas: " +
-					 * ReporteMail.paginasRetornadas + " conversationsIdOK: " +
-					 * ReporteMail.conversationsIdOK + " excepcionesHttp: " +
-					 * ReporteMail.excepcionesHttp + " pathCsvFinal: " + ReporteMail.pathCsvFinal +
-					 * " pathInteraccionesNoProcesadas: " +
-					 * ReporteMail.pathInteraccionesNoProcesadas +
-					 * " lineasInteraccionesNoProcesadas: " +
-					 * ReporteMail.lineasInteraccionesNoProcesadas + " tipoInteracciones: " +
-					 * ReporteMail.tipoInteracciones);
-					 */
-
+					//System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Resultado de la generacion del archivo: " + resultadoCsv
+						//	+ " Con un tamaño de: " + content.size());
 					  try { 
 						  sleep(3000); 
 						  } catch (InterruptedException e) { // TODO Auto-generated
@@ -354,7 +329,11 @@ public class app {
 					/* Enviando el correo */
 					SendingMailTLS sendMail = new SendingMailTLS();
 					boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
-					System.out.println("El directorio de trabajo es: " + Archivo+"\\");
+					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+"\\");
+					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + "\\" + vsUUI + "_conversations_IE.csv");
+					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + "\\" + vsUUI + "_page_PE.csv");
+					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo Final CSV: " +ReporteMail.pathCsvFinal);
+
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break

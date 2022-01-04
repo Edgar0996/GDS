@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +62,6 @@ public class FileUtils {
 		} else {
 			voLogger.error("[FileUtils][" + vsUUI + "] ---> No existe el directorio");
 		}
-		System.out.println("Archivos eliminados (txt)");
 		voLogger.error("[FileUtils][" + vsUUI + "] ---> Archivos temporales borrados.");
 
 	}
@@ -79,7 +80,6 @@ public class FileUtils {
 				return name.toLowerCase().endsWith(".txt");
 			}
 		});
-		System.out.println("Total de archivos recuperados: " + files.length);
 		return files;
 
 	}
@@ -129,7 +129,6 @@ public class FileUtils {
 			/* Recorremos el arrSD para separar por comas y regresar los content */
 			for(String s : arrSD){
 				String[] lineElements = s.split(",");
-				System.out.println("Numero de columnas obtenidas: "+lineElements.length);
 				//Recupero mi ID´s de lostxt para comparalos con los ID totales y hacer una siguiente corrida
 				arrContactIdTxt.add(lineElements[0]);
 				if(lineElements.length == numColumnas) {
@@ -142,13 +141,13 @@ public class FileUtils {
 			boolean booRecuperaIDFaltantes= comparaID(directory,arrContactIdTxt,Tokent,UUI);
 			if(booRecuperaIDFaltantes) {
 				content.addAll(searchFilePerdidos(directory+ "\\" ,"IDPerdidos.txt"));
-				System.out.println("Si llego y mi content actualizado es " + content.size() );
+				
 			}
 			
 			return content;
 			
 		} else {
-			System.out.println("El directorio no contiene extensiones de tipo '.txt'");
+			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio no contiene extensiones de tipo '.txt'");
 			return null;
 		}
 
@@ -172,7 +171,6 @@ public class FileUtils {
 	
 	//Función que busca el archivo que contiene los ID recuperados o perdidos
 	public static List<String[]> searchFilePerdidos(String directorio , String archivoABuscar) {
-		System.out.println("El directorio es " + directorio+ "  y mi archivo es "  +  archivoABuscar);
 		try { 
 			  sleep(3000); 
 			  } catch (InterruptedException e) { // TODO Auto-generated
@@ -217,11 +215,11 @@ public class FileUtils {
 				
 				voLogger.error("[FileUtils]---> Se Presentaron errores en los siguientes ID: "+ newList);
 	            newList.add(strContactId); 
-	            System.out.println("ID que no estan " + strContactId);
+	            //System.out.println("ID que no estan " + strContactId);
 	        } 		
         }
 	    if (newList.size()> 0) {
-	    		System.out.println("Si entra aquí");
+	    	
 	    	  Reporteador voReporte = new Reporteador(UUI, Token, UUI, newList, directorio,false,"IDPerdidos");
 	    	  voReporte.start();
 			 voReporte.setName("Hilonuevo");

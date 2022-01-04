@@ -80,7 +80,7 @@ public class GeneradorTXT  {
       				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
       				//files.deleteOnExit();
             	}else {
-            		System.out.println("Ingreso a crear un archivo de IDPerdidos ");
+            		//System.out.println("Ingreso a crear un archivo de IDPerdidos ");
             		  Archivo =	Temporal + "\\" + strNomIdlost;
       				 files = new File(strNomIdlost +".txt"); 
       				write = new FileWriter(Temporal + "\\" + strNomIdlost +".txt");
