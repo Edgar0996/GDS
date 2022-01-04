@@ -19,7 +19,7 @@ import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
 
 public class FileUtils {
 	private static final org.apache.log4j.Logger voLogger = LogManager.getLogger("Reporte");
-
+	
 	/**
 	 * Elimina los archivos temporales de una carpeta, eliminando la carpeta al
 	 * finalizar el proceso
@@ -44,7 +44,7 @@ public class FileUtils {
 					f = new File(fichero.toString());
 					FileReader dir = new FileReader(f);
 					dir.close();
-					f.delete();
+					//f.delete();
 					// System.out.println("El archivo " + result);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -88,10 +88,10 @@ public class FileUtils {
 	 * 
 	 * @param files Listado de archivos a procesar
 	 */
-	public static List<String[]> getContentForCsv(File[] files, int numColumnas) {
+	public static List<String[]> getContentForCsv(File[] files, int numColumnas,String Tokent,String directory,String UUI) {
 		//Variable para almacenar las lineas obtenidas
 		Set<String> arrSD = new HashSet<String>();
-		
+		Set<String> arrContactIdTxt = new HashSet<String>();
 		/* Recorremos el listado de los archivos recuperados */
 		if (files.length != 0) {
 			List<String[]> content = new ArrayList<String[]>();
@@ -128,15 +128,16 @@ public class FileUtils {
 			for(String s : arrSD){
 				String[] lineElements = s.split(",");
 				System.out.println("Numero de columnas obtenidas: "+lineElements.length);
+				//Recupero mi ID´s de lostxt para comparalos con los ID totales y hacer una siguiente corrida
+				arrContactIdTxt.add(lineElements[0]);
 				if(lineElements.length == numColumnas) {
 					content.add(lineElements);
 				} else {
 					ReporteMail.lineasConColumnasDif = ReporteMail.lineasConColumnasDif + 1; 
 					voLogger.error("[FileUtils]---> Línea que no cumple con el número de columnas: "+ s);
 				}
-				
-				
 	        }
+			boolean booRecuperaIDFaltantes= comparaID(directory,arrContactIdTxt,Tokent,UUI);
 			return content;
 		} else {
 			System.out.println("El directorio no contiene extensiones de tipo '.txt'");
@@ -159,6 +160,28 @@ public class FileUtils {
 
 	    }
 	    return false;
+	}
+	
+	public static boolean comparaID(String directorio,Set<String> arrContactIdTxt,String Token,String UUI) {
+		ArrayList<String> newList = new ArrayList<String>();   
+		for(String strContactId : ReporteMail.arrContactId) {
+			if (!arrContactIdTxt.contains(strContactId)) { 
+				System.out.println("El valor de este dato es " +  strContactId);
+				voLogger.error("[FileUtils]---> Se Presentaron errores en los siguientes ID: "+ newList);
+		    	Reporteador voReporte = new Reporteador(UUI, Token, UUI, newList, directorio,false);
+	            newList.add(strContactId); 
+	        } 		
+        }
+	    if (newList.size()<0) {
+	    	
+	    	return false;
+	    }else
+	    {
+	    	return true;
+	    }
+			
+		
+		
 	}
 
 	public FileUtils() {

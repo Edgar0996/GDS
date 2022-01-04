@@ -4,7 +4,9 @@
 package com.gs.kranon.reportescustomgds.cuadroMando;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Victor Francisco Garcia
@@ -57,6 +59,7 @@ public class ReporteMail {
 	public static String pathLogColumnasDif="";//OK
 	//Variable para manejar hilos
 	public static List<String> Threa = new ArrayList<>();//OK
+	public static Set<String> arrContactId = new HashSet<String>();
 	public ReporteMail() {
 
 	}

@@ -87,6 +87,7 @@ public class app {
 	private Reporteador voReporte;
 	private RecuperaConversationID RecuperaId;
 	List<String> Threa;
+	private static String strTokenAct;
 
 
 	public static void main(String[] args) {
@@ -96,8 +97,8 @@ public class app {
 			strYesterda = args[0];
 		} else {
 			/* Recupero la fecha de ayer ("yyyy-MM-dd")*/
-			//strYesterda="2021-12-29";
-			strYesterda = yesterdaydate();
+			strYesterda="2021-12-30";
+			//strYesterda = yesterdaydate();
 		}
 		for(int c = 0; c < args.length; c++) {
 			System.out.println("Argumento "+c+" recibido desde consola: "+args[c]);
@@ -211,6 +212,7 @@ public class app {
 							int totalThread = 0;
 							totalNoClienteID--;
 							// Valido que el periodo de tiempo tenga datos datos
+							
 							if (listConversationID.size() != 0) {
 								for (int b = 0; b < listConversationID.size(); b++) {
 
@@ -225,7 +227,7 @@ public class app {
 										totalThread = 0;
 									}
 								}
-								String strTokenAct;
+								
 								System.err.println("Se detectaron estos ID "+listConversationID.size());
 								if(listConversationID.size()<=totalNoClienteID) {
 									inttotalNoClienteID = listConversationID.size();
@@ -260,10 +262,7 @@ public class app {
 										
 									}
 								}
-								
-								
-								 
-								 							
+														
 							}
 						
 						}
@@ -274,14 +273,14 @@ public class app {
 					/*
 					 * valido si existen Id's de error trabajo
 					 */
-
+					System.out.println("El valor de mi array ID es " + ReporteMail.arrContactId.size());
 					GenerateCsvErroIE(tokenList.get(0), vsUUI, Archivo);
 
 					/*
 					 * sleep de prueba
 					 */
 					try { 
-						  sleep(9000); 
+						  sleep(10000); 
 						  } catch (InterruptedException e) { // TODO Auto-generated
 					  e.printStackTrace(); }
 					// Creamos el csv antes de recorrer los archivos
@@ -293,8 +292,8 @@ public class app {
 					/* Se buscan los archivos que terminen con extension .txt */
 					File[] files = FileUtils.getFilesTxt(Archivo);
 					List<String[]> content = new ArrayList<String[]>();
-					content = FileUtils.getContentForCsv(files, voMapHeadersCSV.size());
-
+					content = FileUtils.getContentForCsv(files, voMapHeadersCSV.size(),strTokenAct,Archivo,vsUUI);
+					
 					GeneradorCSV generaExcel = new GeneradorCSV();
 					boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_" + strYesterda,
 							content, vsUUI, voMapHeadersCSV);

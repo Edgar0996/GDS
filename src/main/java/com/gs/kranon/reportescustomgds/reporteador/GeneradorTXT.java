@@ -4,15 +4,18 @@
  */
 package com.gs.kranon.reportescustomgds.reporteador;
 
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TimeZone;
 
 import static java.lang.Thread.sleep;
@@ -82,7 +85,9 @@ public class GeneradorTXT  {
         	  int i = 1;
         	//Comparo mis Id's para crear el TXt y pintar el contenido de cada llamada
         	  for(String vsContactId : vlContactId) {
-        		  
+        		  //Genero mi arrContacId para ejecutar de nuevo los Id que no lograron cargarse
+        		
+        		  ReporteMail.arrContactId.add(vsContactId);
     		  for (Map.Entry entry : voConversations.entrySet()) {
         		  
     			 
