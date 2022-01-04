@@ -52,7 +52,7 @@ public class GeneradorTXT  {
 	       
     
     
-     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI,String urlArchivoTemp) {
+     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI,String urlArchivoTemp,String strNomIdlost) {
     	 timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
          nameTxt.add(timeStamp);
 	  
@@ -72,14 +72,24 @@ public class GeneradorTXT  {
           		int value = random.nextInt(max + min) + min;
             	Temporal = urlArchivoTemp;
                 //Genero mi archivo temporal
-            	Archivo =	Temporal + "\\" + timeStamp +"_" + value;
-  				File files = new File(timeStamp+"_" + value +".txt"); 
-  				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
-  				//files.deleteOnExit();
-  				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            	File files = null;
+            	if(strNomIdlost.equals("Default")) {
+            		
+            		 Archivo =	Temporal + "\\" + timeStamp +"_" + value;
+      				 files = new File(timeStamp+"_" + value +".txt"); 
+      				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
+      				//files.deleteOnExit();
+            	}else {
+            		System.out.println("Ingreso a crear un archivo de IDPerdidos ");
+            		  Archivo =	Temporal + "\\" + strNomIdlost;
+      				 files = new File(strNomIdlost +".txt"); 
+      				write = new FileWriter(Temporal + "\\" + strNomIdlost +".txt");
+      				//files.deleteOnExit();
+            	}
+            	
+            	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     			format.setTimeZone(TimeZone.getTimeZone("GTM-6"));
-  				
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
   				//voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;

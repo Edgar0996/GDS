@@ -97,7 +97,7 @@ public class app {
 			strYesterda = args[0];
 		} else {
 			/* Recupero la fecha de ayer ("yyyy-MM-dd")*/
-			strYesterda="2021-12-30";
+			strYesterda="2021-12-28";
 			//strYesterda = yesterdaydate();
 		}
 		for(int c = 0; c < args.length; c++) {
@@ -246,7 +246,7 @@ public class app {
 									
 									}
 									ExecutorService executor = Executors.newFixedThreadPool(20);
-									Future<?> task1= executor.submit(new Reporteador(vsUUI, strTokenAct, vsUUI,listConversationThrea.get(h), Archivo, false));
+									Future<?> task1= executor.submit(new Reporteador(vsUUI, strTokenAct, vsUUI,listConversationThrea.get(h), Archivo, false,"Default"));
 									
 								
 									if(h<=inttotalNoClienteID) {
@@ -467,7 +467,7 @@ public class app {
 					f.close();
 					dir.delete();
 					Reporteador voReporte = new Reporteador(vsUUI, vsTokens, vsUUI, listConversationID, urlArchivoTem,
-							booErrores);
+							booErrores,"Default");
 					voReporte.start();
 					voReporte.setName("Hilonuevo");
 					try {

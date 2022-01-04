@@ -66,9 +66,10 @@ public class Reporteador extends  Thread  {
     private Map<String, Object> voMapHeaderCSV = new HashMap<String, Object>();
     private boolean ReturnErro;
     private JSONObject voJSONAgent;
+    private String strNomIdlostRep;
     
 
-    public Reporteador(String uui,String vsTokens,String vsUUI,List<String> vlContactIds,String urlArchivoTem,boolean ReturnError) {
+    public Reporteador(String uui,String vsTokens,String vsUUI,List<String> vlContactIds,String urlArchivoTem,boolean ReturnError,String strNomIdlost) {
         this.voDataReport = voDataReport;
         voMapConf = new HashMap<>();
         voPureCloud = new GenesysCloud();
@@ -79,6 +80,7 @@ public class Reporteador extends  Thread  {
         voUti.getProperties(voMapConf, uui);
         urlArchivoTemp=urlArchivoTem;
         ReturnErro=ReturnError;
+        strNomIdlostRep=strNomIdlost;
     }
    
  
@@ -567,7 +569,8 @@ public class Reporteador extends  Thread  {
               //System.out.println(voConversations.size()+" del hilo: "+this.getName() + "con un total de ids: "+vlContactId.size());
               
                 ReporteMail.Threa.add(this.getName());
-                nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUi,urlArchivoTemp));
+                
+                nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUi,urlArchivoTemp,strNomIdlostRep));
                 
                 
         
