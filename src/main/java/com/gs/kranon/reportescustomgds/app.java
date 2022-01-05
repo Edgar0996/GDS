@@ -41,6 +41,7 @@ public class app {
 			JobDetail voJob = JobBuilder.newJob(EjecucionPrincipal.class)
 					.withIdentity("JobReportesCustom", "ReportesGSD").build();
 
+
 			// CREADO EL HILO QUE EJECUTARA EL JOB 
 			Trigger voTrigger = TriggerBuilder.newTrigger().withIdentity("TriggerReportesCustom", "ReportesGSD").startNow()
 					.withSchedule(CronScheduleBuilder.cronSchedule("0 50 12 ? * MON-FRI")).build();
@@ -48,7 +49,6 @@ public class app {
 			Scheduler voScheduler = StdSchedulerFactory.getDefaultScheduler();
 			voScheduler.start();
 			voScheduler.scheduleJob(voJob, voTrigger);
-
 		} catch (SchedulerException ex) {
 			System.err.println(ex.getMessage());
 		}

@@ -142,6 +142,12 @@ public class FileUtils {
 			if(booRecuperaIDFaltantes) {
 				content.addAll(searchFilePerdidos(directory+ "\\" ,"IDPerdidos.txt"));
 				
+			}else {
+				try { 
+					  sleep(8000); 
+					  } catch (InterruptedException e) { // TODO Auto-generated
+				  e.printStackTrace(); 
+				  }
 			}
 			
 			return content;
@@ -172,7 +178,7 @@ public class FileUtils {
 	//Función que busca el archivo que contiene los ID recuperados o perdidos
 	public static List<String[]> searchFilePerdidos(String directorio , String archivoABuscar) {
 		try { 
-			  sleep(3000); 
+			  sleep(7000); 
 			  } catch (InterruptedException e) { // TODO Auto-generated
 		  e.printStackTrace(); 
 		  }
