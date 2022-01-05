@@ -240,15 +240,15 @@ public class app {
 									}
 									ExecutorService executor = Executors.newFixedThreadPool(20);
 									Future<?> task1= executor.submit(new Reporteador(vsUUI, strTokenAct, vsUUI,listConversationThrea.get(h), Archivo, false,"Default"));
-									
+									try { 
+										  sleep(200); 
+										  } catch (InterruptedException e) { // TODO Auto-generated
+									  e.printStackTrace(); 
+									  }
 								
-									if(h<=inttotalNoClienteID) {
-										
-										while(!task1.isDone()) {
-											
-										
+									if(h>=inttotalNoClienteID) {
+										while(!task1.isDone()) {	
 										}
-										
 									}
 								}
 														
@@ -329,7 +329,11 @@ public class app {
 					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + "\\" + vsUUI + "_conversations_IE.csv");
 					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + "\\" + vsUUI + "_page_PE.csv");
 					System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo Final CSV: " +ReporteMail.pathCsvFinal);
-
+					try { 
+						  sleep(3000); 
+						  } catch (InterruptedException e) { // TODO Auto-generated
+					  e.printStackTrace(); }
+					System.exit(0);
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break
