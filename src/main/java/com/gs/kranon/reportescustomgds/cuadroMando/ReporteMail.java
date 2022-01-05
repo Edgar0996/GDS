@@ -60,6 +60,8 @@ public class ReporteMail {
 	//Variable para manejar hilos
 	public static List<String> Threa = new ArrayList<>();//OK
 	public static Set<String> arrContactId = new HashSet<String>();
+	//Variable para saber cuantos hilos se usaron (para pruebas)
+	public static int noHilosUsados=0; //OK
 	public ReporteMail() {
 
 	}

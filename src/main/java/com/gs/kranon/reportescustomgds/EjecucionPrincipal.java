@@ -62,16 +62,23 @@ public class EjecucionPrincipal implements Job {
 	private RecuperaConversationID RecuperaId;
 	List<String> Threa;
 	private static String strTokenAct;
+	String strYesterda = "";
 
 	public EjecucionPrincipal() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public EjecucionPrincipal(String string) {
+		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
+				+ "]--> Valor que recibo con argumentos:  " + string);
+		strYesterda = string;
 	}
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
 				+ "]--> INICIANDO TAREA PROGRAMADA: " + new Date());
-		String strYesterda = "";
+		
 		/*
 		 * if(args.length > 0) { Asigno la fecha recibida por paramtreo strYesterda =
 		 * args[0]; } else { Recupero la fecha de ayer ("yyyy-MM-dd")
@@ -94,7 +101,7 @@ public class EjecucionPrincipal implements Job {
 
 		if (voMapConf.size() <= 0) {
 			voLogger.error("[app][" + vsUUI + "] ---> NO SE ENCONTRO EL ARCHIVO DE CONFIGURACIÓN O ESTA VACIO");
-			exit(0);
+			//exit(0);
 		} else {
 
 			int intTimeFrame = Integer.parseInt(voMapConf.get("TimeFrame"));
@@ -216,9 +223,8 @@ public class EjecucionPrincipal implements Job {
 										
 										}else {
 											 strTokenAct=tokenList.get(h);
-											
-									
 									}
+									
 									ExecutorService executor = Executors.newFixedThreadPool(20);
 									Future<?> task1= executor.submit(new Reporteador(vsUUI, strTokenAct, vsUUI,listConversationThrea.get(h), Archivo, false,"Default"));
 									try { 
@@ -230,7 +236,9 @@ public class EjecucionPrincipal implements Job {
 									if(h>=inttotalNoClienteID) {
 										while(!task1.isDone()) {	
 										}
+										
 									}
+									List<Runnable> runnableList = executor.shutdownNow();
 								}
 														
 							} else {
@@ -314,7 +322,7 @@ public class EjecucionPrincipal implements Job {
 						  sleep(3000); 
 						  } catch (InterruptedException e) { // TODO Auto-generated
 					  e.printStackTrace(); }
-					System.exit(0);
+					
 				} else {
 					voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 					// Se tendria que terminar el programa aquí con algun return o break
