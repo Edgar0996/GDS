@@ -101,7 +101,7 @@ public class EjecucionPrincipal implements Job {
 
 			String originationDirection = voMapConf.get("OriginationDirection");
 			String pathArchivo = voMapConf.get("PathReporteFinal");
-
+			ReporteMail.noHilosUsados= Integer.parseInt(voMapConf.get("NoClienteID"));
 			Map<String, String> voMapConfId = RecuperaArhivoConfID();
 
 			if (voMapConf.size() <= 0) {
