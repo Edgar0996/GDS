@@ -41,7 +41,7 @@ public class app {
 			System.out.println("Valor recibido desde consola: "+args[0]);
 			/* Asigno la fecha recibida por parametro */
 			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(args[0]);
-			ejecutarApp.ejecutar();
+			//ejecutarApp.ejecutar();
 			System.exit(0);
 			//ejecutarApp.execute(EjecucionPrincipal.class);
 			//strYesterda = args[0];
