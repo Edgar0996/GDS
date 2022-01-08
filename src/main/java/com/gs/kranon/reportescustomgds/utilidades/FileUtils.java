@@ -140,7 +140,7 @@ public class FileUtils {
 	        }
 			boolean booRecuperaIDFaltantes= comparaID(directory,arrContactIdTxt,Tokent,UUI);
 			if(booRecuperaIDFaltantes) {
-				content.addAll(searchFilePerdidos(directory+ "\\" ,"IDPerdidos.txt"));
+				content.addAll(searchFilePerdidos(directory+ File.separator ,"IDPerdidos.txt"));
 				
 			}else {
 				try { 
@@ -178,7 +178,7 @@ public class FileUtils {
 	//Función que busca el archivo que contiene los ID recuperados o perdidos
 	public static List<String[]> searchFilePerdidos(String directorio , String archivoABuscar) {
 		try { 
-			  sleep(7000); 
+			  sleep(10000); 
 			  } catch (InterruptedException e) { // TODO Auto-generated
 		  e.printStackTrace(); 
 		  }

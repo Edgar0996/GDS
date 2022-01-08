@@ -1,6 +1,7 @@
 package com.gs.kranon.reportescustomgds.reporteador;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class GeneradorCSV {
         List content = new ArrayList();
         try {
            //sleep(3000);
-            fileReaderConversations = new FileReader(pathCSV + "temp\\Reporte_" + nameTxt.get(0) + "\\" + nameTxt.get(0) + ".txt");
+            fileReaderConversations = new FileReader(pathCSV + "temp"+File.separator+"Reporte_" + nameTxt.get(0) + File.separator + nameTxt.get(0) + ".txt");
             BufferedReader buffer = new BufferedReader(fileReaderConversations);
             while((lineContent = buffer.readLine()) != null){
             String[] lineElements = lineContent.split(",");
@@ -65,7 +66,7 @@ public class GeneradorCSV {
         
       //Generando excel
         String Archivo;
-        Archivo = pathCSV + "temp\\Reporte_" + nameTxt.get(0) + "\\ReporteFinal";
+        Archivo = pathCSV + "temp"+File.separator+"Reporte_" + nameTxt.get(0) + File.separator + "ReporteFinal";
         vbActivo = false;
         //Obteniendo los encabezados
         DataReportGDSmx voDataBBVAmx = new DataReportGDSmx();

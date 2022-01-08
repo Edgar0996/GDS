@@ -75,15 +75,15 @@ public class GeneradorTXT  {
             	File files = null;
             	if(strNomIdlost.equals("Default")) {
             		
-            		 Archivo =	Temporal + "\\" + timeStamp +"_" + value;
+            		 Archivo =	Temporal + File.separator + timeStamp +"_" + value;
       				 files = new File(timeStamp+"_" + value +".txt"); 
-      				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
+      				write = new FileWriter(Temporal + File.separator  + timeStamp+ "_" + value +".txt");
       				//files.deleteOnExit();
             	}else {
             		//System.out.println("Ingreso a crear un archivo de IDPerdidos ");
-            		  Archivo =	Temporal + "\\" + strNomIdlost;
+            		  Archivo =	Temporal + File.separator  + strNomIdlost;
       				 files = new File(strNomIdlost +".txt"); 
-      				write = new FileWriter(Temporal + "\\" + strNomIdlost +".txt");
+      				write = new FileWriter(Temporal + File.separator  + strNomIdlost +".txt");
       				//files.deleteOnExit();
             	}
             	
@@ -553,7 +553,7 @@ public class GeneradorTXT  {
         	 nameTxt = new ArrayList<>();
              nameTxt.add(files.getName());
              
-        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> SE AGREGARON  [\\" +   voConversations.size() + "\\] CONVERSATIONS ID EN EL  TXT" );
+        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> SE AGREGARON  ["+ File.separator + voConversations.size() + File.separator+"] CONVERSATIONS ID EN EL  TXT" );
                                 
             	
             	

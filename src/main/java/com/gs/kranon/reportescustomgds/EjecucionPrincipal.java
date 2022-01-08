@@ -94,8 +94,8 @@ public class EjecucionPrincipal implements Job {
 
 System.out.println("Se ejecuta la funcion de ejecutar de EjecucionPrincipal.class");
 /* Recupero la fecha de ayer ("yyyy-MM-dd") */
-strYesterda = "2021-12-30";
-// strYesterda = yesterdaydate();
+//strYesterda = "2021-12-30";
+strYesterda = yesterdaydate();
 // Inicio de la ejecucion del proceso
 ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 		.format(Calendar.getInstance().getTime());
@@ -130,7 +130,7 @@ if (voMapConf.size() <= 0) {
 		ReporteMail.fechaEjecucion = new SimpleDateFormat("yyyy-MM-dd")
 				.format(Calendar.getInstance().getTime());
 
-		String Archivo = pathArchivo + "temp\\Reporte_" + timeStamp;
+		String Archivo = pathArchivo + "temp"+File.separator+"Reporte_" + timeStamp;
 		boolean Ruta = createTempDirectory(Archivo);
 		if (Ruta == true) {
 			voLogger.info("[App  ][" + vsUUI + "] ---> *************INICIO DE LA APLICACIÓN*************** ");
@@ -233,7 +233,6 @@ if (voMapConf.size() <= 0) {
 								}else {
 									 strTokenAct=tokenList.get(h);
 							}
-							
 							ExecutorService executor = Executors.newFixedThreadPool(20);
 							Future<?> task1= executor.submit(new Reporteador(vsUUI, strTokenAct, vsUUI,listConversationThrea.get(h), Archivo, false,"Default"));
 							try { 
@@ -283,20 +282,20 @@ if (voMapConf.size() <= 0) {
 			content = FileUtils.getContentForCsv(files, voMapHeadersCSV.size(),strTokenAct,Archivo,vsUUI);
 			
 			GeneradorCSV generaExcel = new GeneradorCSV();
-			boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + "\\ReporteFinal_" + strYesterda,
+			boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + File.separator +"ReporteFinal_" + strYesterda,
 					content, vsUUI, voMapHeadersCSV);
 			// Valores para el reporte de correo
 			ReporteMail.conversationsIdOK = content.size(); // Va ser sin duplicados
-			ReporteMail.pathCsvFinal = Archivo + "\\ReporteFinal_" + strYesterda + ".csv";
+			ReporteMail.pathCsvFinal = Archivo + File.separator+"ReporteFinal_" + strYesterda + ".csv";
 			boolean bIE = FileUtils.searchFile(vsUUI + "_conversations_IE.csv", Archivo);
 			if(bIE) {
-				ReporteMail.pathInteraccionesNoProcesadas = Archivo + "\\" + vsUUI + "_conversations_IE.csv";
+				ReporteMail.pathInteraccionesNoProcesadas = Archivo + File.separator + vsUUI + "_conversations_IE.csv";
 			} else {
 				ReporteMail.pathInteraccionesNoProcesadas = "No existen interacciones sin procesar";
 			}
 			boolean bPE = FileUtils.searchFile(vsUUI + "_page_PE.csv", Archivo);
 			if(bPE) {
-				ReporteMail.pathPagNoProcesadas = Archivo + "\\" + vsUUI + "_page_PE.csv";
+				ReporteMail.pathPagNoProcesadas = Archivo + File.separator + vsUUI + "_page_PE.csv";
 				
 			} else {
 				ReporteMail.pathPagNoProcesadas = "No existen páginas sin procesar";
@@ -316,16 +315,16 @@ if (voMapConf.size() <= 0) {
 				  } catch (InterruptedException e) { // TODO Auto-generated
 			  e.printStackTrace(); }
 			 
-			FileUtils.deleteTemporals(Archivo + "\\", vsUUI);
+			FileUtils.deleteTemporals(Archivo + File.separator, vsUUI);
 			ReporteMail.finProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 					.format(Calendar.getInstance().getTime());
 			ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
 			/* Enviando el correo */
 			SendingMailTLS sendMail = new SendingMailTLS();
 			boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
-			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+"\\");
-			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + "\\" + vsUUI + "_conversations_IE.csv");
-			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + "\\" + vsUUI + "_page_PE.csv");
+			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+File.separator);
+			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + File.separator + vsUUI + "_conversations_IE.csv");
+			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + File.separator + vsUUI + "_page_PE.csv");
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo Final CSV: " +ReporteMail.pathCsvFinal);
 			try { 
 				  sleep(3000); 
@@ -425,7 +424,7 @@ if (voMapConf.size() <= 0) {
 
 		List<String> listConversationID = new ArrayList<>();
 
-		String strRuta = urlArchivoTem + "\\" + vsUUI + "_conversations_IE_TEMP.csv";
+		String strRuta = urlArchivoTem + File.separator + vsUUI + "_conversations_IE_TEMP.csv";
 		File dir = new File(strRuta);
 		boolean booErrores = true;
 		if (dir.exists()) {
@@ -470,7 +469,7 @@ if (voMapConf.size() <= 0) {
 		String strFinalTime=  null;
 		boolean ReturnError=true;
 		
-		String strRuta = urlArchivoTem + "\\" + vsUUI + "_page_PC_TEMP.csv";
+		String strRuta = urlArchivoTem + File.separator + vsUUI + "_page_PC_TEMP.csv";
 		File dir = new File(strRuta);
 		boolean booErrores = true;
 		if (dir.exists()) {

@@ -145,7 +145,7 @@ public class RecuperaConversationID {
 	 public  void PagesNoProcessed(String strStartTime,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi,String strFecha,String strFinalTime,int strPage) {
 		    
 	    
-	    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_page_PC_TEMP.csv";
+	    	strUrlFinal = urlArchivoTemp+ File.separator + vsUUi + "_page_PC_TEMP.csv";
 	    	ReporteMail.paginasRetornadasErr = ReporteMail.paginasRetornadasErr + 1;	
 	    		File  fw = new File (strUrlFinal);
 	    		//Validamos si el archivo existe
@@ -196,7 +196,7 @@ public class RecuperaConversationID {
 	public boolean PagesNoProcessedCsv(String strStartTime,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi,String strFecha,String strFinalTime,int strPage) {
 	    	
 	    	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
-	    	strUrlFinal = urlArchivoTemp+ "\\" + vsUUi + "_page_PE.csv";
+	    	strUrlFinal = urlArchivoTemp+ File.separator + vsUUi + "_page_PE.csv";
 	    	   	ReporteMail.lineasPagNoProcesadas = ReporteMail.lineasPagNoProcesadas + 1;
 	    		File  fw = new File (strUrlFinal);
 	    		//Validamos si el archivo existe
