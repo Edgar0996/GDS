@@ -31,8 +31,15 @@ public class Utilerias {
 	 * vsPathConfId =
 	 * "/home/samuelmanzano/Appl/Configuraciones/confclientid.properties";
 	 */
-    private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties";
-    private String vsPathConfId = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	
+	  private String vsPathConf = File.separator+"home"+File.separator+System.setProperty("user", System.getProperty("user.name"))+File.separator+"Appl"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+	  private String vsPathConfId = File.separator+"home"+File.separator+System.setProperty("user", System.getProperty("user.name"))+File.separator+"Appl"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	 
+    //Para Wind
+	
+	  //private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+	  //private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	 
     public String vsUUI = "";
 
     @SuppressWarnings("rawtypes")

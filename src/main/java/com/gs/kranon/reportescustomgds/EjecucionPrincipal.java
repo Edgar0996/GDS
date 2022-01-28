@@ -4,10 +4,14 @@ import static java.lang.System.exit;
 import static java.lang.Thread.sleep;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,6 +50,8 @@ public class EjecucionPrincipal implements Job {
 	static {
 		System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 	}
+	
+	
 	private static final Logger voLogger = LogManager.getLogger("Reporte");
 	static String pathArchivo;
 	private GenesysCloud voPureCloud = null;
@@ -69,6 +75,7 @@ public class EjecucionPrincipal implements Job {
 	}
 
 	public EjecucionPrincipal(String string) {
+		
 		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
 				+ "]--> Valor que recibo con argumentos:  " + string);
 		strYesterda = string;
@@ -95,7 +102,9 @@ public class EjecucionPrincipal implements Job {
 System.out.println("Se ejecuta la funcion de ejecutar de EjecucionPrincipal.class");
 /* Recupero la fecha de ayer ("yyyy-MM-dd") */
 //strYesterda = "2021-12-30";
-strYesterda = yesterdaydate();
+if(strYesterda=="") {
+	strYesterda = yesterdaydate();
+}
 // Inicio de la ejecucion del proceso
 ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 		.format(Calendar.getInstance().getTime());
@@ -180,7 +189,7 @@ if (voMapConf.size() <= 0) {
 						voLogger.info("[Horario  ][" + vsUUI + "] ---> BLOQUE DE HORA[ " + dateFormatoInicial + " A "	+ dateFormatoFinal + "]"); 
 						listConversationID.addAll(recuperaId.RecuperaConverStatID(tokenList.get(0), vsUUI,originationDirection, strYesterda,dateFormatoInicial,dateFormatoFinal,Archivo,false));
 					//Valida si se genero el archivo(paginas no recorrdidas) de error para realizar una segunda vuelta
-						sumTotalHits =sumTotalHits + listConversationID.size();
+					sumTotalHits =sumTotalHits + listConversationID.size();
 					List<String> listPageRecuperado = new ArrayList<>();
 					listPageRecuperado.addAll(GenerateCsvErroPC(tokenList.get(0), vsUUI, Archivo, originationDirection));
 					
@@ -262,7 +271,7 @@ if (voMapConf.size() <= 0) {
 			 * valido si existen Id's de error trabajo
 			 */
 			GenerateCsvErroIE(tokenList.get(0), vsUUI, Archivo);
-
+			GeneraCSVDeError(Archivo,vsUUI);
 			/*
 			 * sleep de prueba
 			 */
@@ -332,7 +341,7 @@ if (voMapConf.size() <= 0) {
 			  e.printStackTrace(); }
 			
 		} else {
-			voLogger.error("[Generador][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
+			voLogger.error("[EjecuciónPrincipal][" + vsUUI + "] ---> ERROR : NO SE  CREO LA CARPETA TEMPORAL");
 			// Se tendria que terminar el programa aquí con algun return o break
 		}
 	}
@@ -502,4 +511,63 @@ if (voMapConf.size() <= 0) {
 		}
 		return listPage;
 	}
+	
+	
+	public boolean GeneraCSVDeError(String urlArchivoTemp,String vsUUi) {
+    		String strUrlFinal = urlArchivoTemp+ File.separator + "page_PE.csv";
+    	   	ReporteMail.lineasPagNoProcesadas = ReporteMail.lineasPagNoProcesadas + 1;
+    		File  fw = new File (strUrlFinal);
+    		//Validamos si el archivo existe
+    		if(fw.exists()){
+    			
+            }else{
+                //Archivo NO existe, lo crea.
+			try (PrintWriter writer = new PrintWriter(new File(strUrlFinal))) {
+				
+				StringBuilder linea = new StringBuilder();
+				linea.append("Codigo Respuesta");
+				linea.append(',');
+				linea.append("Fecha ");
+				linea.append(',');
+				linea.append("StartTime ");
+				linea.append(',');
+				linea.append("FinalTime ");
+				linea.append(',');
+				linea.append("Page ");
+				linea.append('\n');
+				writer.write(linea.toString());
+	            writer.close();
+	            writer.write(linea.toString());
+    	} catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+            }
+    		
+    		String strUrlFinalID = urlArchivoTemp+ File.separator + "conversations_IE.csv";
+    	   	ReporteMail.lineasPagNoProcesadas = ReporteMail.lineasPagNoProcesadas + 1;
+    		File  fwID = new File (strUrlFinalID);
+    		if(fwID.exists()){
+    			
+            }else{
+
+                //Archivo NO existe, lo crea.
+			try (PrintWriter writer = new PrintWriter(new File(strUrlFinalID))) {
+				
+				StringBuilder linea = new StringBuilder();
+				linea.append("ConversationID");
+				linea.append(',');
+				linea.append("Respuesta de error");
+				linea.append('\n');
+				writer.write(linea.toString());
+	            writer.close();
+	            writer.write(linea.toString());
+				
+    	} catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+            	
+            }
+    		
+        return true;
+    } 
 }

@@ -11,6 +11,7 @@ import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +38,10 @@ public class app {
 
 
 	public static void main(String[] args) {
+		System.setProperty("user", System.getProperty("user.name"));
+		System.out.println("El usuario es " + System.setProperty("user", System.getProperty("user.name")));
+		System.setProperty("diagonal", File.separator);
+		
 		if(args.length > 0) {
 			System.out.println("Valor recibido desde consola: "+args[0]);
 			/* Asigno la fecha recibida por parametro */
