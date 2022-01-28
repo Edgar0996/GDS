@@ -38,6 +38,7 @@ import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.genesysCloud.GenesysCloud;
 import com.gs.kranon.reportescustomgds.genesysCloud.RecuperaConversationID;
 import com.gs.kranon.reportescustomgds.mail.SendingMailTLS;
+import com.gs.kranon.reportescustomgds.mail.SendingMailTLSFiles;
 import com.gs.kranon.reportescustomgds.reporteador.GeneradorCSV;
 import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
 import com.gs.kranon.reportescustomgds.utilidades.FileUtils;
@@ -328,9 +329,12 @@ if (voMapConf.size() <= 0) {
 			ReporteMail.finProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 					.format(Calendar.getInstance().getTime());
 			ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
-			/* Enviando el correo */
+			/* Enviando el correo de reporte a Kranon*/
 			SendingMailTLS sendMail = new SendingMailTLS();
 			boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+			/* Enviando el correo de reporte con archivo adjunto*/
+			SendingMailTLSFiles sendMailFiles = new SendingMailTLSFiles();
+			sendMailFiles.sendMailKranonFiles("Reporte de ejecución del "+strYesterda, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+File.separator);
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + File.separator + vsUUI + "_conversations_IE.csv");
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + File.separator + vsUUI + "_page_PE.csv");
