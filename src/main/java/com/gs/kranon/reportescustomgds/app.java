@@ -39,7 +39,7 @@ public class app {
 
 	public static void main(String[] args) {
 		System.setProperty("user", System.getProperty("user.name"));
-		System.out.println("El usuario es " + System.setProperty("user", System.getProperty("user.name")));
+		//System.out.println("El usuario es " + System.setProperty("user", System.getProperty("user.name")));
 		System.setProperty("diagonal", File.separator);
 		
 		if(args.length > 0) {

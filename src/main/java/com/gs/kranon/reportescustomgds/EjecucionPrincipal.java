@@ -297,6 +297,7 @@ if (voMapConf.size() <= 0) {
 			// Valores para el reporte de correo
 			ReporteMail.conversationsIdOK = content.size(); // Va ser sin duplicados
 			ReporteMail.pathCsvFinal = Archivo + File.separator+"ReporteFinal_" + strYesterda + ".csv";
+			ReporteMail.nameCsvFinal = "ReporteFinal_" + strYesterda + ".csv";
 			boolean bIE = FileUtils.searchFile(vsUUI + "_conversations_IE.csv", Archivo);
 			if(bIE) {
 				ReporteMail.pathInteraccionesNoProcesadas = Archivo + File.separator + vsUUI + "_conversations_IE.csv";
@@ -333,8 +334,10 @@ if (voMapConf.size() <= 0) {
 			SendingMailTLS sendMail = new SendingMailTLS();
 			boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
 			/* Enviando el correo de reporte con archivo adjunto*/
+			String strFechaAct=  new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+			ReporteMail.strYesterda=strFechaAct;
 			SendingMailTLSFiles sendMailFiles = new SendingMailTLSFiles();
-			sendMailFiles.sendMailKranonFiles("Reporte de ejecución del "+strYesterda, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
+			sendMailFiles.sendMailKranonFiles("Reporte  "+strFechaAct, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+File.separator);
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + File.separator + vsUUI + "_conversations_IE.csv");
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + File.separator + vsUUI + "_page_PE.csv");
@@ -475,7 +478,7 @@ if (voMapConf.size() <= 0) {
 		}
 }
 	public static List<String> GenerateCsvErroPC(String vsTokens, String vsUUI, String urlArchivoTem,String originationDirection) {
-
+		//System.out.println("Entro aquí mi archivo lo genera de nueva cuenta ");
 		List<String> listPage= new ArrayList<>();
 		String vsFecha =  null;
 		String strStartTime=  null;
@@ -519,7 +522,6 @@ if (voMapConf.size() <= 0) {
 	
 	public boolean GeneraCSVDeError(String urlArchivoTemp,String vsUUi) {
     		String strUrlFinal = urlArchivoTemp+ File.separator + "page_PE.csv";
-    	   	ReporteMail.lineasPagNoProcesadas = ReporteMail.lineasPagNoProcesadas + 1;
     		File  fw = new File (strUrlFinal);
     		//Validamos si el archivo existe
     		if(fw.exists()){
@@ -548,7 +550,6 @@ if (voMapConf.size() <= 0) {
             }
     		
     		String strUrlFinalID = urlArchivoTemp+ File.separator + "conversations_IE.csv";
-    	   	ReporteMail.lineasPagNoProcesadas = ReporteMail.lineasPagNoProcesadas + 1;
     		File  fwID = new File (strUrlFinalID);
     		if(fwID.exists()){
     			

@@ -583,7 +583,7 @@ public class Reporteador extends  Thread  {
 public  void PagesNoProcessed(String vsContactId,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi) {
     
     	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
-    	strUrlFinal = urlArchivoTemp+ File.separator + vsUUi + "_conversations_IE_TEMP.csv";
+    	strUrlFinal = urlArchivoTemp+ File.separator + "conversations_IE.csv";
     	   		
     		File  fw = new File (strUrlFinal);
     		//Validamos si el archivo existe
@@ -622,7 +622,7 @@ public  void PagesNoProcessed(String vsContactId,int getCodigoRespuesta, String 
 public boolean PagesNoProcessedCsv(String vsContactId,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi) {
     	
     	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
-    	strUrlFinal = urlArchivoTemp+ File.separator + vsUUi + "_conversations_IE.csv";
+    	strUrlFinal = urlArchivoTemp+ File.separator + "conversations_IE.csv";
     	   	ReporteMail.lineasInteraccionesNoProcesadas = ReporteMail.lineasInteraccionesNoProcesadas + 1;
     		File  fw = new File (strUrlFinal);
     		//Validamos si el archivo existe

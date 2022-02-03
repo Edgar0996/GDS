@@ -129,10 +129,12 @@ public class RecuperaConversationID {
              	}
              }
          } while (true);
-			/*
-			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127");
+        
+         /*
+          *  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127");  
 			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
 			 */
+         
 			ReporteMail.paginasRetornadas = ReporteMail.paginasRetornadas + --viPag;
          voLogger.info("[RecuperaConversationID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
          return vlContactId;
@@ -194,9 +196,9 @@ public class RecuperaConversationID {
 	    }
 
 	public boolean PagesNoProcessedCsv(String strStartTime,int getCodigoRespuesta, String urlArchivoTemp,String vsUUi,String strFecha,String strFinalTime,int strPage) {
-	    	
+	 
 	    	String strCodigoRespuesta = String.valueOf(getCodigoRespuesta); ;
-	    	strUrlFinal = urlArchivoTemp+ File.separator + vsUUi + "_page_PE.csv";
+	    	strUrlFinal = urlArchivoTemp+ File.separator + "page_PE.csv";
 	    	   	ReporteMail.lineasPagNoProcesadas = ReporteMail.lineasPagNoProcesadas + 1;
 	    		File  fw = new File (strUrlFinal);
 	    		//Validamos si el archivo existe
