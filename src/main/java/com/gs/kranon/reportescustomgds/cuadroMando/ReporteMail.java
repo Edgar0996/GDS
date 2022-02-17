@@ -65,6 +65,8 @@ public class ReporteMail {
 	public static Set<String> arrContactId = new HashSet<String>();
 	//Variable para saber cuantos hilos se usaron (para pruebas)
 	public static int noHilosUsados=0; //OK
+	//Variable para Detectar la URL de nuetro .jar
+	public static String urlJAr=""; //OK
 	public ReporteMail() {
 
 	}

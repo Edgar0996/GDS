@@ -121,7 +121,7 @@ public class Reporteador extends  Thread  {
                     if (voJsonResponseCall.has("participants")) {
                     	      
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
-                    	//System.out.println("Este ID " + vsContactId + " Tiene este largo de participants " + voJsonArrayResponseCall.length());  
+                    //	System.out.println("Este ID " + vsContactId + " Tiene este largo de participants " + voJsonArrayResponseCall.length());  
                     	
                     	voDetailsConversations = new HashMap<>();
                 		String vsConversationStart = voJsonArrayResponseCall.getJSONObject(0).getString("startTime");
@@ -150,13 +150,31 @@ public class Reporteador extends  Thread  {
                     				 voDetailsConversations.put("Agente", Agente);
                     			String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
                     				 voDetailsConversations.put("queueName", queueName);
+                    				 
+                    		   String connectedTime = voJsonArrayResponseCall.getJSONObject(r).getString("connectedTime");
+                    				 voDetailsConversations.put("connectedTime", connectedTime);
+                    		              				 
+                        	}
+                        	if(purpose.equals("acd")) {
+								/*
+								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
+								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
+								 * voJSONAgent.getString("participantType") ); }
+								 */
+                        		String startTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("startTime");
+                    				 voDetailsConversations.put("startTimeAcd", startTimeAcd);
+                    			String endTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("endTime");
+                    				 voDetailsConversations.put("endTimeAcd", endTimeAcd);
+                    				
                         	}
                         }
                         
-                       
+                      
                         
                         //Recupero los atributos de la llamada	
                     	for (int j = 0; j < voJsonArrayResponseCall.length(); j++) { 
+                    		
+                    		 
                     		 if (voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes").length() > 0) {
                     			 JSONObject voJSONAttributes = voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes");
                     			 
@@ -524,8 +542,44 @@ public class Reporteador extends  Thread  {
                     				
                 				 }
                     		 }
+                    		 
+                    		
+                    		
                     	}
                     	
+                    	  /*Recupero los wrapup de la llamada
+                    	for (int h = 0; h < voJsonArrayResponseCall.length(); h++) {
+                    		
+                    	if(h==3) {
+                    		
+                    	
+                    	 if (voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup").length() > 0) {
+                        	 JSONObject voJSONAwrapup = voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup");
+                        	 if (voJSONAwrapup.has("name")) {
+                				 String name = voJSONAwrapup.getString("name");
+                				 String nameSinComas= name.replace(" ,", ".");
+                				 voDetailsConversations.put("name", nameSinComas);
+                				 System.out.println("Este valor se esta mandando " + nameSinComas);
+                			 }else {
+                				 voDetailsConversations.put("name", "");
+                			 }
+                				 
+                        	 if (voJSONAwrapup.has("durationSeconds")) {
+                				 int durationSeconds = voJSONAwrapup.getInt("durationSeconds");
+                				 String strdurationSeconds= String.valueOf(durationSeconds);
+                				 voDetailsConversations.put("durationSeconds", strdurationSeconds);
+                				 System.out.println("Este valor se esta mandandossss " + strdurationSeconds);
+                			 }else {
+                				 voDetailsConversations.put("durationSeconds", ""); 
+                			 }
+                    	 }else {
+                    		 voDetailsConversations.put("name", "");
+                    		 voDetailsConversations.put("durationSeconds", "");
+                    	 }
+                    		 
+                        }
+                    	}
+                       */
                         
                     	voConversations.put(vsContactId, voDetailsConversations);
                     		

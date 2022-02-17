@@ -16,10 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil.Test;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -41,6 +42,10 @@ public class app {
 		System.setProperty("user", System.getProperty("user.name"));
 		//System.out.println("El usuario es " + System.setProperty("user", System.getProperty("user.name")));
 		System.setProperty("diagonal", File.separator);
+		System.out.println (new File ("").getAbsolutePath ());
+	
+		ReporteMail.urlJAr= new File ("").getAbsolutePath ();
+		System.setProperty("urlJAr", new File ("").getAbsolutePath ());
 		
 		if(args.length > 0) {
 			System.out.println("Valor recibido desde consola: "+args[0]);

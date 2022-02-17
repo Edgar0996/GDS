@@ -16,6 +16,8 @@ import org.apache.poi.util.SystemOutLogger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
+
 /**
  *
  * @author Victor Paredes
@@ -36,9 +38,11 @@ public class Utilerias {
 	  //private String vsPathConfId = File.separator+"home"+File.separator+System.setProperty("user", System.getProperty("user.name"))+File.separator+"Appl"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
 	 
     //Para Wind
-	
-	  private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
-	  private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	 
+	 // private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+     // private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	  private String vsPathConf = ReporteMail.urlJAr + File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+	  private String vsPathConfId = ReporteMail.urlJAr + File.separator +"Configuraciones"+File.separator+"confclientid.properties";
 	 
     public String vsUUI = "";
 

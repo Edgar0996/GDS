@@ -1,4 +1,4 @@
-package com.gs.kranon.reportescustomgds.genesysCloud;
+ package com.gs.kranon.reportescustomgds.genesysCloud;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -129,9 +129,9 @@ public class RecuperaConversationID {
              	}
              }
          } while (true);
-        
+         
          /*
-          *  vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127");  
+          *   vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
 			 * vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da012");
 			 */
          
