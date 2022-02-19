@@ -4,7 +4,9 @@
 package com.gs.kranon.reportescustomgds.cuadroMando;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Victor Francisco Garcia
@@ -55,8 +57,16 @@ public class ReporteMail {
 	public static int lineasConColumnasDif=0; //OK
 	//Path del archivo de log donde se guardan las lineas con mas columnas
 	public static String pathLogColumnasDif="";//OK
-	//Variable para manejar hilos
+	//Variable nombre del archivo
+	public static String  nameCsvFinal ="";
+	//Variable fecha actual
+	public static String strYesterda="";
 	public static List<String> Threa = new ArrayList<>();//OK
+	public static Set<String> arrContactId = new HashSet<String>();
+	//Variable para saber cuantos hilos se usaron (para pruebas)
+	public static int noHilosUsados=0; //OK
+	//Variable para Detectar la URL de nuetro .jar
+	public static String urlJAr=""; //OK
 	public ReporteMail() {
 
 	}

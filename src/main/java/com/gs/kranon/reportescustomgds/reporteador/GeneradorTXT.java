@@ -4,16 +4,22 @@
  */
 package com.gs.kranon.reportescustomgds.reporteador;
 
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TimeZone;
+
+import static java.lang.Thread.sleep;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 
@@ -37,7 +43,8 @@ public class GeneradorTXT  {
     private List<String> nameTxt= new ArrayList<>();
     private String conversationStart;
     private String conversationEnd;
-    
+    private String TiempoEsperaAgent;
+ 
 	static {
 	        System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 	    }
@@ -46,7 +53,7 @@ public class GeneradorTXT  {
 	       
     
     
-     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI,String urlArchivoTemp) {
+     public List<String> GeneraTXT(List<String> vlContactId,Map<String, Map<String, String>> voConversations,String UUI,String urlArchivoTemp,String strNomIdlost) {
     	 timeStamp = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss").format(Calendar.getInstance().getTime());
          nameTxt.add(timeStamp);
 	  
@@ -66,20 +73,32 @@ public class GeneradorTXT  {
           		int value = random.nextInt(max + min) + min;
             	Temporal = urlArchivoTemp;
                 //Genero mi archivo temporal
-            	Archivo =	Temporal + "\\" + timeStamp +"_" + value;
-  				File files = new File(timeStamp+"_" + value +".txt"); 
-  				write = new FileWriter(Temporal + "\\" + timeStamp+ "_" + value +".txt");
-  				//files.deleteOnExit();
-  				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            	File files = null;
+            	if(strNomIdlost.equals("Default")) {
+            		
+            		 Archivo =	Temporal + File.separator + timeStamp +"_" + value;
+      				 files = new File(timeStamp+"_" + value +".txt"); 
+      				write = new FileWriter(Temporal + File.separator  + timeStamp+ "_" + value +".txt");
+      				//files.deleteOnExit();
+            	}else {
+            		//System.out.println("Ingreso a crear un archivo de IDPerdidos ");
+            		  Archivo =	Temporal + File.separator  + strNomIdlost;
+      				 files = new File(strNomIdlost +".txt"); 
+      				write = new FileWriter(Temporal + File.separator  + strNomIdlost +".txt");
+      				//files.deleteOnExit();
+            	}
+            	
+            	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     			format.setTimeZone(TimeZone.getTimeZone("GTM-6"));
-  				
                 //Recorro mi voConversations Map para saber que argumentos tiene cada Id de Llamada
   				//voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
         	//Comparo mis Id's para crear el TXt y pintar el contenido de cada llamada
         	  for(String vsContactId : vlContactId) {
-        		  
+        		  //Genero mi arrContacId para ejecutar de nuevo los Id que no lograron cargarse
+        		
+        		  ReporteMail.arrContactId.add(vsContactId);
     		  for (Map.Entry entry : voConversations.entrySet()) {
         		  
     			 
@@ -110,14 +129,29 @@ public class GeneradorTXT  {
     	        			conversationEnd =Utilerias.userDateGMT(conversationEndSinformato);
     	        		
     	        		}
+    	        		String  conversationStartAcdSinFormat = String.valueOf(voDetails.get("startTimeAcd"));
+    	        		String  conversationEndAcdSinformato = String.valueOf(voDetails.get("endTimeAcd"));
+    	        		if(conversationStartAcdSinFormat=="null" || conversationEndAcdSinformato =="null"  ) {
+    	        			TiempoEsperaAgent="";
+    	        		}else {
+    	        			
+    	        			//Obtenemos El timpo de espera
+    	        			String  conversationStartAcd =Utilerias.userDateGMT(conversationStartAcdSinFormat);
+    	        			String  conversationEndAcd =Utilerias.userDateGMT(conversationEndAcdSinformato);
+    	         	        			
+    	        			Date firstDateAcd = formato.parse(conversationStartAcd);
+        	                Date secondDateAcd= formato.parse(conversationEndAcd);
+        	                long diffacd = secondDateAcd.getTime() - firstDateAcd.getTime();
+        	                TiempoEsperaAgent = Utilerias.secondsToTime(diffacd);
+        	        	
+    	        		}
     	        		//Obtenemos la duración de la llamada 
-    	        		
     	        		Date firstDate = formato.parse(conversationStartSinFormat);
     	                Date secondDate = formato.parse(conversationEndSinformato);
     	        		long diff = secondDate.getTime() - firstDate.getTime();
     	        		String DuracionLlamada = Utilerias.secondsToTime(diff);
     	        		
-    	        		
+    	        		   	        	
     	        		String  ani = String.valueOf(voDetails.get("ani"));
     	        		if(ani=="null") {
     	        			ani="";
@@ -383,6 +417,14 @@ public class GeneradorTXT  {
     	        		if(Emision_OtroMov=="null") {
     	        			Emision_OtroMov="";
     	        		}
+    	        		String Calificacion = String.valueOf(voDetails.get("name"));
+    	        		if(Calificacion=="null") {
+    	        			Calificacion="";
+    	        		}
+    	        		String TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds"));
+    	        		if(TiempoDefinicionagent=="null") {
+    	        			TiempoDefinicionagent="";
+    	        		}
     	        		
     	        		List<String> dataComplet = new ArrayList<>();
     	        		dataComplet.add(vsContactId);
@@ -392,12 +434,12 @@ public class GeneradorTXT  {
     	        		dataComplet.add(dnis.substring(5,17));
     	        		dataComplet.add(conversationStart);
     	        		dataComplet.add(conversationStart.substring(0,10));
-    	        		dataComplet.add("TiempoEspera");
+    	        		dataComplet.add(TiempoEsperaAgent);
     	        		dataComplet.add(conversationEnd);
     	        		dataComplet.add(DuracionLlamada);
-    	        		dataComplet.add("FechaDefinicion");
-    	        		dataComplet.add("TiempoDefinicion");
-    	        		dataComplet.add("Calificacion");
+    	        		dataComplet.add(conversationStart.substring(0,10));
+    	        		dataComplet.add(TiempoDefinicionagent);
+    	        		dataComplet.add(Calificacion);
     	        		//apartado Endoso
     	        		dataComplet.add(Endoso_Solicitante);
     	        		dataComplet.add(Endoso_Poliza);
@@ -505,12 +547,14 @@ public class GeneradorTXT  {
         	          		}
 
     	        			a++;
+    	        			
     	        		}
     	        		//mandamos un salto de línea
 	        			Writer  output = new BufferedWriter(new FileWriter(Archivo+".txt", true));
+	        		
 	        			output.append("\n");
 	        			output.close(); 
-    	        		
+	   
     	        		dataComplet.clear();
     	        		
     	        		
@@ -533,7 +577,7 @@ public class GeneradorTXT  {
         	 nameTxt = new ArrayList<>();
              nameTxt.add(files.getName());
              
-        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> SE AGREGARON  [\\" +   voConversations.size() + "\\] CONVERSATIONS ID EN EL  TXT" );
+        	 voLogger.info("[GeneradorTXT][" + UUI + "] ---> SE AGREGARON  ["+ File.separator + voConversations.size() + File.separator+"] CONVERSATIONS ID EN EL  TXT" );
                                 
             	
             	
