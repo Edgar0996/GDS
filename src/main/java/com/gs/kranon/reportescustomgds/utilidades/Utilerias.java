@@ -12,8 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.SystemOutLogger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+
+import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 
 /**
  *
@@ -24,9 +27,23 @@ public class Utilerias {
         System.setProperty("dateLog", new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
     }
     private static final Logger voLogger = LogManager.getLogger("Reporte");
-
-    private String vsPathConf = "C:/Appl/GS/ReportesCustom/Configuraciones/conf.properties";
-    private String vsPathConfId = "C:/Appl/GS/ReportesCustom/Configuraciones/confclientid.properties";
+	/*
+	 * private String vsPathConf =
+	 * "/home/samuelmanzano/Appl/Configuraciones/conf.properties"; private String
+	 * vsPathConfId =
+	 * "/home/samuelmanzano/Appl/Configuraciones/confclientid.properties";
+	 */
+	
+	 // private String vsPathConf = File.separator+"home"+File.separator+System.setProperty("user", System.getProperty("user.name"))+File.separator+"Appl"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+	  //private String vsPathConfId = File.separator+"home"+File.separator+System.setProperty("user", System.getProperty("user.name"))+File.separator+"Appl"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	 
+    //Para Wind
+	 
+	 // private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+     // private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	  private String vsPathConf = ReporteMail.urlJAr + File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+	  private String vsPathConfId = ReporteMail.urlJAr + File.separator +"Configuraciones"+File.separator+"confclientid.properties";
+	 
     public String vsUUI = "";
 
     @SuppressWarnings("rawtypes")

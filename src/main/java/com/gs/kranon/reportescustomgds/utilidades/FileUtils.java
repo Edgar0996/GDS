@@ -1,12 +1,16 @@
 package com.gs.kranon.reportescustomgds.utilidades;
 
+import static java.lang.Thread.sleep;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +23,7 @@ import com.gs.kranon.reportescustomgds.reporteador.Reporteador;
 
 public class FileUtils {
 	private static final org.apache.log4j.Logger voLogger = LogManager.getLogger("Reporte");
-
+	
 	/**
 	 * Elimina los archivos temporales de una carpeta, eliminando la carpeta al
 	 * finalizar el proceso
@@ -58,7 +62,6 @@ public class FileUtils {
 		} else {
 			voLogger.error("[FileUtils][" + vsUUI + "] ---> No existe el directorio");
 		}
-		System.out.println("Archivos eliminados (txt)");
 		voLogger.error("[FileUtils][" + vsUUI + "] ---> Archivos temporales borrados.");
 
 	}
@@ -77,7 +80,6 @@ public class FileUtils {
 				return name.toLowerCase().endsWith(".txt");
 			}
 		});
-		System.out.println("Total de archivos recuperados: " + files.length);
 		return files;
 
 	}
@@ -88,16 +90,16 @@ public class FileUtils {
 	 * 
 	 * @param files Listado de archivos a procesar
 	 */
-	public static List<String[]> getContentForCsv(File[] files, int numColumnas) {
+	public static List<String[]> getContentForCsv(File[] files, int numColumnas,String Tokent,String directory,String UUI) {
 		//Variable para almacenar las lineas obtenidas
 		Set<String> arrSD = new HashSet<String>();
-		
+		Set<String> arrContactIdTxt = new HashSet<String>();
 		/* Recorremos el listado de los archivos recuperados */
 		if (files.length != 0) {
 			List<String[]> content = new ArrayList<String[]>();
 			for (int x = 0; x < files.length; x++) {
 				File file = files[x];
-				// System.out.println("Archivo recuperado: " + file);
+				//System.out.println("Archivo recuperado: " + file);
 				// Leemos el txt recibido por parametro
 				FileReader fileReaderConversations = null;
 				String lineContent = "";
@@ -127,19 +129,31 @@ public class FileUtils {
 			/* Recorremos el arrSD para separar por comas y regresar los content */
 			for(String s : arrSD){
 				String[] lineElements = s.split(",");
-				System.out.println("Numero de columnas obtenidas: "+lineElements.length);
+				//Recupero mi ID´s de lostxt para comparalos con los ID totales y hacer una siguiente corrida
+				arrContactIdTxt.add(lineElements[0]);
 				if(lineElements.length == numColumnas) {
 					content.add(lineElements);
 				} else {
 					ReporteMail.lineasConColumnasDif = ReporteMail.lineasConColumnasDif + 1; 
 					voLogger.error("[FileUtils]---> Línea que no cumple con el número de columnas: "+ s);
 				}
-				
-				
 	        }
+			boolean booRecuperaIDFaltantes= comparaID(directory,arrContactIdTxt,Tokent,UUI);
+			if(booRecuperaIDFaltantes) {
+				content.addAll(searchFilePerdidos(directory+ File.separator ,"IDPerdidos.txt"));
+				
+			}else {
+				try { 
+					  sleep(8000); 
+					  } catch (InterruptedException e) { // TODO Auto-generated
+				  e.printStackTrace(); 
+				  }
+			}
+			
 			return content;
+			
 		} else {
-			System.out.println("El directorio no contiene extensiones de tipo '.txt'");
+			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio no contiene extensiones de tipo '.txt'");
 			return null;
 		}
 
@@ -159,6 +173,70 @@ public class FileUtils {
 
 	    }
 	    return false;
+	}
+	
+	//Función que busca el archivo que contiene los ID recuperados o perdidos
+	public static List<String[]> searchFilePerdidos(String directorio , String archivoABuscar) {
+		try { 
+			  sleep(10000); 
+			  } catch (InterruptedException e) { // TODO Auto-generated
+		  e.printStackTrace(); 
+		  }
+		List<String[]> content = new ArrayList<String[]>();
+		File archivo = new File(directorio + archivoABuscar);
+	    String lineContent = "";
+	        	FileReader fileReaderConversations;
+				try {
+					fileReaderConversations = new FileReader(archivo);
+					BufferedReader buffer = new BufferedReader(fileReaderConversations);
+					while ((lineContent = buffer.readLine()) != null) {
+						//arrSD.add(lineContent);
+						String[] lineElements = lineContent.split(",");
+						if(lineElements.length == 75) {
+							content.add(lineElements);
+						} else {
+							ReporteMail.lineasConColumnasDif = ReporteMail.lineasConColumnasDif + 1; 
+							voLogger.error("[FileUtils]---> Línea que no cumple con el número de columnas: "+ lineContent);
+						}
+						
+					}
+					
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+	        
+
+	    
+	    return content;
+	}
+	
+	
+	public static boolean comparaID(String directorio,Set<String> arrContactIdTxt,String Token,String UUI) {
+		ArrayList<String> newList = new ArrayList<String>();   
+		for(String strContactId : ReporteMail.arrContactId) {
+			if (!arrContactIdTxt.contains(strContactId)) { 
+				
+				voLogger.error("[FileUtils]---> Se Presentaron errores en los siguientes ID: "+ newList);
+	            newList.add(strContactId); 
+	            //System.out.println("ID que no estan " + strContactId);
+	        } 		
+        }
+	    if (newList.size()> 0) {
+	    	
+	    	  Reporteador voReporte = new Reporteador(UUI, Token, UUI, newList, directorio,false,"IDPerdidos");
+	    	  voReporte.start();
+			 voReporte.setName("Hilonuevo");
+	    	return true;
+	    }else
+	    {
+	    	return false;
+	    }
+			
+		
+		
 	}
 
 	public FileUtils() {
