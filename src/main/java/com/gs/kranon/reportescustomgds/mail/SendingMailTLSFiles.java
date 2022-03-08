@@ -82,7 +82,7 @@ public class SendingMailTLSFiles {
       		+ "<table class=\"demoTable\" style=\"height: 165px; width: 659px;\">\r\n"
       		+ "<thead>\r\n"
       		+ "<tr style=\"height: 18px;\">\r\n"
-      		+ "<td style=\"width: 236.719px; height: 18px;\" colspan=\"4\"><span style=\"color: #c82828;\"></span><span style=\"color: #c82828;\"></span><strong>Notificación automática del envío del reporte inbound</strong></td>\r\n"
+      		+ "<td style=\"width: 236.719px; height: 18px;\" colspan=\"4\"><span style=\"color: #c82828;\"></span><span style=\"color: #c82828;\"></span><strong>Notificaci&oacute;n autom&aacute;tica del env&iacute;o del reporte inbound</strong></td>\r\n"
       		+ "</tr>\r\n"
       		+ "</thead>\r\n"
       		+ "<tbody>\r\n"

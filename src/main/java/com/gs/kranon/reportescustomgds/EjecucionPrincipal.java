@@ -310,7 +310,7 @@ if (voMapConf.size() <= 0) {
 				ReporteMail.pathPagNoProcesadas = Archivo + File.separator + vsUUI + "_page_PE.csv";
 				
 			} else {
-				ReporteMail.pathPagNoProcesadas = "No existen páginas sin procesar";
+				ReporteMail.pathPagNoProcesadas = "No existen p&aacute;ginas sin procesar";
 				ReporteMail.paginasRetornadasErr = 0;
 			}
 			if(ReporteMail.lineasConColumnasDif > 0) {
