@@ -20,7 +20,6 @@ import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil.Test;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;

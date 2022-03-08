@@ -74,7 +74,7 @@ public class GeneradorCSV {
         for (String vsContactId : vlContactId) {
             Map<String, String> voDetails = voConversations.get(vsContactId);
             voAppBBVAMx.analizar(voDetails);
-            voConversations.replace(vsContactId, voDetails);
+            //voConversations.replace(vsContactId, voDetails);
             voMapHeaderCSV = voAppBBVAMx.getHeaderCSV();
         }
        // boolean resultadoCsv = GeneraReportCSV(Archivo, content,vsUUI);

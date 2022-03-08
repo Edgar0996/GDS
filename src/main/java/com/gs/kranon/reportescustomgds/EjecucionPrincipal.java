@@ -105,6 +105,7 @@ System.out.println("Se ejecuta la funcion de ejecutar de EjecucionPrincipal.clas
 //strYesterda = "2021-12-30";
 if(strYesterda=="") {
 	strYesterda = yesterdaydate();
+	//strYesterda="2022-03-07";
 }
 // Inicio de la ejecucion del proceso
 ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -126,7 +127,7 @@ if (voMapConf.size() <= 0) {
 	int intTimeFrame = Integer.parseInt(voMapConf.get("TimeFrame"));
 
 	String originationDirection = voMapConf.get("OriginationDirection");
-	String pathArchivo = voMapConf.get("PathReporteFinal");
+	String pathArchivo = ReporteMail.urlJAr+ File.separator;
 	ReporteMail.noHilosUsados= Integer.parseInt(voMapConf.get("NoClienteID"));
 	Map<String, String> voMapConfId = RecuperaArhivoConfID();
 
@@ -147,7 +148,7 @@ if (voMapConf.size() <= 0) {
 			voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 			/* Genero los token's */
 			List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-		//	System.out.println(tokenList);
+		System.out.println(tokenList);
 			int sumTotalHits = 0;
 			DataReports voData = new DataReports();
 			// voData.setFechaInicio("2021-01-01");

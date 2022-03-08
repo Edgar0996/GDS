@@ -5,7 +5,12 @@ import com.gs.kranon.reportescustomgds.conexionHttp.ConexionResponse;
 import com.gs.kranon.reportescustomgds.conexionHttp.ConexionHttp;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+
+import javax.net.ssl.SSLContext;
+
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
@@ -37,6 +42,20 @@ public class GenesysCloud {
         String URLServicio = "https://login.mypurecloud.com/oauth/token?grant_type=client_credentials";
         String inputJson = "";
         int timeOut = 15000;
+        SSLContext context = null;
+		try {
+			context = SSLContext.getInstance("TLSv1.2");
+		} catch (NoSuchAlgorithmException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			context.init(null,null,null);
+		} catch (KeyManagementException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		SSLContext.setDefault(context);
         HashMap<String, String> header = new HashMap<>();
         try {
             encodeData = new String(Base64.encodeBase64((vsClID + ":" + vsClSec).getBytes("ISO-8859-1")));

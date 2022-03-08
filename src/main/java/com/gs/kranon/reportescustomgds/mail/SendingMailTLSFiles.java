@@ -55,6 +55,7 @@ public class SendingMailTLSFiles {
     props.put("mail.smtp.starttls.enable", mailEnable);
     props.put("mail.smtp.host", mailHost);
     props.put("mail.smtp.port", mailPort);
+    props.put("mail.from", username);
     Session session = Session.getInstance(props,
       new javax.mail.Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {

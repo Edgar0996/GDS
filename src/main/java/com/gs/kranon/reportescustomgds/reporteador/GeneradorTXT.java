@@ -154,231 +154,234 @@ public class GeneradorTXT  {
     	        		   	        	
     	        		String  ani = String.valueOf(voDetails.get("ani"));
     	        		if(ani=="null") {
-    	        			ani="";
+    	        			ani=" ";
     	        		}
     	        		
     	        		String  dnis = String.valueOf(voDetails.get("dnis"));
     	        		if(dnis=="null") {
-    	        			dnis="";
+    	        			dnis=" ";
     	        		}
     	        		
     	        		String Endoso_Procede = String.valueOf(voDetails.get("Endoso_Procede"));
-    	        		
+    	        		;
     	        		if(Endoso_Procede == "null") {
     	        			
-    	        			Endoso_Procede="";
+    	        			Endoso_Procede=" ";
     	        		}
     	        		String Cotizacion_Hablante = String.valueOf(voDetails.get("Cotizacion_Hablante"));
     	        		if(Cotizacion_Hablante=="null") {
-    	        			Cotizacion_Hablante="";
+    	        			Cotizacion_Hablante=" ";
     	        		}
     	        		String Emision_No_Cobro = String.valueOf(voDetails.get("Emision_No_Cobro"));
     	        		if(Emision_No_Cobro=="null") {
-    	        			Emision_No_Cobro="";
+    	        			Emision_No_Cobro=" ";
     	        		}
     	        		String Tramites_Escala = String.valueOf(voDetails.get("Tramites_Escala"));
     	        		if(Tramites_Escala=="null") {
-    	        			Tramites_Escala="";
+    	        			Tramites_Escala=" ";
     	        		}
     	        		String Cargo_No_Cobro = String.valueOf(voDetails.get("Cargo_No_Cobro"));
     	        		if(Cargo_No_Cobro=="null") {
-    	        			Cargo_No_Cobro="";
+    	        			Cargo_No_Cobro=" ";
     	        		}
     	        		String Cotizacion_NúmCoti = String.valueOf(voDetails.get("Cotizacion_NúmCoti"));
     	        		if(Cotizacion_NúmCoti=="null") {
-    	        			Cotizacion_NúmCoti="";
+    	        			Cotizacion_NúmCoti=" ";
     	        		}
     	        		String Pago_No_Cobro = String.valueOf(voDetails.get("Pago_No_Cobro"));
+    	        		
     	        		if(Pago_No_Cobro=="null") {
-    	        			Pago_No_Cobro="Este es mi último campo";
+    	        			Pago_No_Cobro="  ";
     	        		}
     	        		String Link_Hablante = String.valueOf(voDetails.get("Link_Hablante"));
     	        		if(Link_Hablante=="null") {
-    	        			Link_Hablante="";
+    	        			Link_Hablante=" ";
     	        		}
     	        		String Endoso_Solicitante = String.valueOf(voDetails.get("Endoso_Solicitante"));
     	        		if(Endoso_Solicitante=="null") {
-    	        			Endoso_Solicitante="";
+    	        			Endoso_Solicitante=" ";
     	        		}
     	        		String Domiciliacion_Movimiento = String.valueOf(voDetails.get("Domiciliacion_Movimiento"));
     	        		if(Domiciliacion_Movimiento=="null") {
-    	        			Domiciliacion_Movimiento="";
+    	        			Domiciliacion_Movimiento=" ";
     	        		}
     	        		String LlamadaCortada_Comentarios = String.valueOf(voDetails.get("LlamadaCortada_Comentarios"));
     	        		if(LlamadaCortada_Comentarios=="null") {
-    	        			LlamadaCortada_Comentarios="";
+    	        			LlamadaCortada_Comentarios=" ";
     	        		}
     	        		String Cargo_Cancelacion = String.valueOf(voDetails.get("Cargo_Cancelacion"));
     	        		if(Cargo_Cancelacion=="null") {
-    	        			Cargo_Cancelacion="";
+    	        			Cargo_Cancelacion=" ";
     	        		}
     	        		String Cotizacion_ClaveAgente = String.valueOf(voDetails.get("Cotizacion_ClaveAgente"));
     	        		if(Cotizacion_ClaveAgente=="null") {
-    	        			Cotizacion_ClaveAgente="";
+    	        			Cotizacion_ClaveAgente=" ";
     	        		}
     	        		String Pago_Aceptado = String.valueOf(voDetails.get("Pago_Aceptado"));
     	        		if(Pago_Aceptado=="null") {
-    	        			Pago_Aceptado="";
+    	        			Pago_Aceptado=" ";
     	        		}
     	        		String TransferIVR_Hablante = String.valueOf(voDetails.get("TransferIVR_Hablante"));
     	        		if(TransferIVR_Hablante=="null") {
-    	        			TransferIVR_Hablante="";
+    	        			TransferIVR_Hablante=" ";
     	        		}
     	        		String Pago_OtroPago = String.valueOf(voDetails.get("Pago_OtroPago"));
     	        		if(Pago_OtroPago=="null") {
-    	        			Pago_OtroPago="";
+    	        			Pago_OtroPago=" ";
     	        		}
     	        		String EnvioDoctos_Hablante = String.valueOf(voDetails.get("EnvioDoctos_Hablante"));
     	        		if(EnvioDoctos_Hablante=="null") {
-    	        			EnvioDoctos_Hablante="";
+    	        			EnvioDoctos_Hablante=" ";
     	        		}
     	        		String Emision_Ramo = String.valueOf(voDetails.get("Emision_Ramo"));
     	        		if(Emision_Ramo=="null") {
-    	        			Emision_Ramo="";
+    	        			Emision_Ramo=" ";
     	        		}
     	        		String Emision_Cotizacion = String.valueOf(voDetails.get("Emision_Cotizacion"));
     	        		if(Emision_Cotizacion=="null") {
-    	        			Emision_Cotizacion="";
+    	        			Emision_Cotizacion=" ";
     	        		}
     	        		String Cargo_Cobro = String.valueOf(voDetails.get("Cargo_Cobro"));
     	        		if(Cargo_Cobro=="null") {
-    	        			Cargo_Cobro="";
+    	        			Cargo_Cobro=" ";
     	        		}
     	        		String Tramites_Consultado = String.valueOf(voDetails.get("Tramites_Consultado"));
     	        		if(Tramites_Consultado=="null") {
-    	        			Tramites_Consultado="";
+    	        			Tramites_Consultado=" ";
     	        		}
     	        		String Pago_Hablante = String.valueOf(voDetails.get("Pago_Hablante"));
     	        		if(Pago_Hablante=="null") {
-    	        			Pago_Hablante="";
+    	        			Pago_Hablante=" ";
     	        		}
     	        		String Cotizacion_OtroCoti = String.valueOf(voDetails.get("Cotizacion_OtroCoti"));
     	        		if(Cotizacion_OtroCoti=="null") {
-    	        			Cotizacion_OtroCoti="";
+    	        			Cotizacion_OtroCoti=" ";
     	        		}
     	        		String Cargo_Ramo = String.valueOf(voDetails.get("Cargo_Ramo"));
     	        		if(Cargo_Ramo=="null") {
-    	        			Cargo_Ramo="";
+    	        			Cargo_Ramo=" ";
     	        		}
     	        		String LlamadaOtra_Hablante = String.valueOf(voDetails.get("LlamadaOtra_Hablante"));
     	        		if(LlamadaOtra_Hablante=="null") {
-    	        			LlamadaOtra_Hablante="";
+    	        			LlamadaOtra_Hablante=" ";
     	        		}
     	        		String Emision_Sucursal = String.valueOf(voDetails.get("Emision_Sucursal"));
     	        		if(Emision_Sucursal=="null") {
-    	        			Emision_Sucursal="";
+    	        			Emision_Sucursal=" ";
     	        		}
     	        		String EnvioDoctos_Solicitados = String.valueOf(voDetails.get("EnvioDoctos_Solicitados"));
     	        		if(EnvioDoctos_Solicitados=="null") {
-    	        			EnvioDoctos_Solicitados="";
+    	        			EnvioDoctos_Solicitados=" ";
     	        		}
     	        		String Consulta_Motivo = String.valueOf(voDetails.get("Consulta_Motivo"));
     	        		if(Consulta_Motivo=="null") {
-    	        			Consulta_Motivo="";
+    	        			Consulta_Motivo=" ";
     	        		}
     	        		String Pago_Sucursal = String.valueOf(voDetails.get("Pago_Sucursal"));
     	        		if(Pago_Sucursal=="null") {
-    	        			Pago_Sucursal="";
+    	        			Pago_Sucursal=" ";
     	        		}
     	        		String Incidencia_Hablante = String.valueOf(voDetails.get("Incidencia_Hablante"));
     	        		if(Incidencia_Hablante=="null") {
-    	        			Incidencia_Hablante="";
+    	        			Incidencia_Hablante=" ";
     	        		}
+    	        		
     	        		String Endoso_No_Procede = String.valueOf(voDetails.get("Endoso_No_Procede"));
+    	        		
     	        		if(Endoso_No_Procede=="null") {
-    	        			Endoso_No_Procede="";
+    	        			Endoso_No_Procede=" ";
     	        		}
     	        		String Emision_Hablante = String.valueOf(voDetails.get("Emision_Hablante"));
     	        		if(Emision_Hablante=="null") {
-    	        			Emision_Hablante="";
+    	        			Emision_Hablante=" ";
     	        		}
     	        		String EnvioDoctos_Email = String.valueOf(voDetails.get("EnvioDoctos_Email"));
     	        		if(EnvioDoctos_Email=="null") {
-    	        			EnvioDoctos_Email="";
+    	        			EnvioDoctos_Email=" ";
     	        		}
     	        		String Cargo_Hablante = String.valueOf(voDetails.get("Cargo_Hablante"));
     	        		if(Cargo_Hablante=="null") {
-    	        			Cargo_Hablante="";
+    	        			Cargo_Hablante=" ";
     	        		}
     	        		String Cargo_Sucursal = String.valueOf(voDetails.get("Cargo_Sucursal"));
     	        		if(Cargo_Sucursal=="null") {
-    	        			Cargo_Sucursal="";
+    	        			Cargo_Sucursal=" ";
     	        		}
     	        		String Cargo_OtroMov = String.valueOf(voDetails.get("Cargo_OtroMov"));
     	        		if(Cargo_OtroMov=="null") {
-    	        			Cargo_OtroMov="";
+    	        			Cargo_OtroMov=" ";
     	        		}
     	        		String LlamadaOtra_Area = String.valueOf(voDetails.get("LlamadaOtra_Area"));
     	        		if(LlamadaOtra_Area=="null") {
-    	        			LlamadaOtra_Area="";
+    	        			LlamadaOtra_Area=" ";
     	        		}
     	        		String Domiciliacion_Hablante = String.valueOf(voDetails.get("Domiciliacion_Hablante"));
     	        		if(Domiciliacion_Hablante=="null") {
-    	        			Domiciliacion_Hablante="";
+    	        			Domiciliacion_Hablante=" ";
     	        		}
     	        		String Cargo_Rehabilitacion = String.valueOf(voDetails.get("Cargo_Rehabilitacion"));
     	        		if(Cargo_Rehabilitacion=="null") {
-    	        			Cargo_Rehabilitacion="";
+    	        			Cargo_Rehabilitacion=" ";
     	        		}
     	        		String Domiciliacion_Sucursal = String.valueOf(voDetails.get("Domiciliacion_Sucursal"));
     	        		if(Domiciliacion_Sucursal=="null") {
-    	        			Domiciliacion_Sucursal="";
+    	        			Domiciliacion_Sucursal=" ";
     	        		}
     	        		String Pago_Importe = String.valueOf(voDetails.get("Pago_Importe"));
     	        		if(Pago_Importe=="null") {
-    	        			Pago_Importe="";
+    	        			Pago_Importe=" ";
     	        		}
     	        		String Endoso_Poliza = String.valueOf(voDetails.get("Endoso_Poliza"));
     	        		if(Endoso_Poliza=="null") {
-    	        			Endoso_Poliza="";
+    	        			Endoso_Poliza=" ";
     	        		}
     	        		String Domiciliacion_OtroMov = String.valueOf(voDetails.get("Domiciliacion_OtroMov"));
     	        		if(Domiciliacion_OtroMov=="null") {
-    	        			Domiciliacion_OtroMov="";
+    	        			Domiciliacion_OtroMov=" ";
     	        		}
     	        		String Domiciliacion_Ramo = String.valueOf(voDetails.get("Domiciliacion_Ramo"));
     	        		if(Domiciliacion_Ramo=="null") {
-    	        			Domiciliacion_Ramo="";
+    	        			Domiciliacion_Ramo=" ";
     	        		}
     	        		String Domiciliacion_Poliza = String.valueOf(voDetails.get("Domiciliacion_Poliza"));
     	        		if(Domiciliacion_Poliza=="null") {
-    	        			Domiciliacion_Poliza="";
+    	        			Domiciliacion_Poliza=" ";
     	        		}
     	        		String Emision_PagoAcep = String.valueOf(voDetails.get("Emision_PagoAcep"));
     	        		if(Emision_PagoAcep=="null") {
-    	        			Emision_PagoAcep="";
+    	        			Emision_PagoAcep=" ";
     	        		}
     	        		String Domiciliacion_ClaveAgente = String.valueOf(voDetails.get("Domiciliacion_ClaveAgente"));
     	        		if(Domiciliacion_ClaveAgente=="null") {
-    	        			Domiciliacion_ClaveAgente="";
+    	        			Domiciliacion_ClaveAgente=" ";
     	        		}
     	        		String Cargo_Poliza = String.valueOf(voDetails.get("Cargo_Poliza"));
     	        		if(Cargo_Poliza=="null") {
-    	        			Cargo_Poliza="";
+    	        			Cargo_Poliza=" ";
     	        		}
     	        		String Pago_Ramo = String.valueOf(voDetails.get("Pago_Ramo"));
     	        		if(Pago_Ramo=="null") {
-    	        			Pago_Ramo="";
+    	        			Pago_Ramo=" ";
     	        		}
     	        		String Emision_ClaveAgente = String.valueOf(voDetails.get("Emision_ClaveAgente"));
     	        		if(Emision_ClaveAgente=="null") {
-    	        			Emision_ClaveAgente="";
+    	        			Emision_ClaveAgente=" ";
     	        		}
     	        		String Incidencia_Afectacion = String.valueOf(voDetails.get("Incidencia_Afectacion"));
     	        		if(Incidencia_Afectacion=="null") {
-    	        			Incidencia_Afectacion="";
+    	        			Incidencia_Afectacion=" ";
     	        		}
     	        		String Pago_ClaveAgente = String.valueOf(voDetails.get("Pago_ClaveAgente"));
     	        		if(Pago_ClaveAgente=="null") {
-    	        			Pago_ClaveAgente="";
+    	        			Pago_ClaveAgente=" ";
     	        		}
     	        		String Consulta_Hablante = String.valueOf(voDetails.get("Consulta_Hablante"));
     	        		if(Consulta_Hablante=="null") {
-    	        			Consulta_Hablante="";
+    	        			Consulta_Hablante=" ";
     	        		}
     	        		String Link_Email = String.valueOf(voDetails.get("Link_Email"));
     	        		if(Link_Email=="null") {
-    	        			Link_Email="";
+    	        			Link_Email=" ";
     	        		}
     	        		String Tramites_PersonaEscalada = String.valueOf(voDetails.get("Tramites_PersonaEscalada"));
     	        		if(Tramites_PersonaEscalada=="null") {
@@ -386,44 +389,44 @@ public class GeneradorTXT  {
     	        		}
     	        		String Emision_Importe = String.valueOf(voDetails.get("Emision_Importe"));
     	        		if(Emision_Importe=="null") {
-    	        			Emision_Importe="";
+    	        			Emision_Importe=" ";
     	        		}
     	        	
     	        		String Incidencia_Origen = String.valueOf(voDetails.get("Incidencia_Origen"));
     	        		if(Incidencia_Origen=="null") {
-    	        			Incidencia_Origen="";
+    	        			Incidencia_Origen=" ";
     	        		}
     	        		String Cotizacion_Email = String.valueOf(voDetails.get("Cotizacion_Email"));
     	        		if(Cotizacion_Email=="null") {
-    	        			Cotizacion_Email="";
+    	        			Cotizacion_Email=" ";
     	        		}
     	        		String Tramites_ClaveAgente = String.valueOf(voDetails.get("Tramites_ClaveAgente"));
     	        		if(Tramites_ClaveAgente=="null") {
-    	        			Tramites_ClaveAgente="";
+    	        			Tramites_ClaveAgente=" ";
     	        		}
     	        		String Pago_Poliza = String.valueOf(voDetails.get("Pago_Poliza"));
     	        		if(Pago_Poliza=="null") {
-    	        			Pago_Poliza="";
+    	        			Pago_Poliza=" ";
     	        		}
     	        		String Emision_Poliza = String.valueOf(voDetails.get("Emision_Poliza"));
     	        		if(Emision_Poliza=="null") {
-    	        			Emision_Poliza="";
+    	        			Emision_Poliza=" ";
     	        		}
     	        		String Cargo_ClaveAgente = String.valueOf(voDetails.get("Cargo_ClaveAgente"));
     	        		if(Cargo_ClaveAgente=="null") {
-    	        			Cargo_ClaveAgente="";
+    	        			Cargo_ClaveAgente=" ";
     	        		}
     	        		String Emision_OtroMov = String.valueOf(voDetails.get("Emision_OtroMov"));
     	        		if(Emision_OtroMov=="null") {
-    	        			Emision_OtroMov="";
+    	        			Emision_OtroMov=" ";
     	        		}
     	        		String Calificacion = String.valueOf(voDetails.get("name"));
     	        		if(Calificacion=="null") {
-    	        			Calificacion="";
+    	        			Calificacion=" ";
     	        		}
     	        		String TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds"));
     	        		if(TiempoDefinicionagent=="null") {
-    	        			TiempoDefinicionagent="";
+    	        			TiempoDefinicionagent=" ";
     	        		}
     	        		
     	        		List<String> dataComplet = new ArrayList<>();
@@ -523,7 +526,6 @@ public class GeneradorTXT  {
     	        		
     	        		int a=0;
     	        		//Rercorro mi data para pintar línea por línea en mi archivo txt
-    	        		
     	        		for (String data : dataComplet ) {
     	        			//Escribir sobre el archivo
         	        		try {
