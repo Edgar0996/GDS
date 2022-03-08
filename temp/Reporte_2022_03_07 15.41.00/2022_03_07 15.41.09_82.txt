@@ -1,1 +1,0 @@
-2ce84cda-2ed0-4e1f-9d15-5123f546d904,KranonQueue,Promotora Kranon,5527797805,525541233687,2022-03-04T13:38:15,2022-03-04,00 min. 04 sec,2022-03-04T13:38:46,00 min. 31 sec,2022-03-04,3,prueba,Efrain,12346,Si,NOESINDIVIDUAL,,,,,Efrain,,,,,,,false,,,,,,,false,,,,,,,,,,,,,,,false,,,,,,,,,false,,,,,,,,,,,,,,,  
