@@ -72,7 +72,8 @@ public class EjecucionPrincipal implements Job {
 	String strYesterda = "";
 
 	public EjecucionPrincipal() {
-		// TODO Auto-generated constructor stub
+		ejecutar();
+		System.exit(0);
 	}
 
 	public EjecucionPrincipal(String string) {
@@ -99,8 +100,6 @@ public class EjecucionPrincipal implements Job {
 
 	}// Termina execute
 	public void ejecutar() {
-
-System.out.println("Se ejecuta la funcion de ejecutar de EjecucionPrincipal.class");
 /* Recupero la fecha de ayer ("yyyy-MM-dd") */
 //strYesterda = "2021-12-30";
 if(strYesterda=="") {

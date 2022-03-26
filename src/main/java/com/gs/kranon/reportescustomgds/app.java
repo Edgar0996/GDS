@@ -47,7 +47,7 @@ public class app {
 		System.setProperty("urlJAr", new File ("").getAbsolutePath ());
 		
 		if(args.length > 0) {
-			System.out.println("Valor recibido desde consola: "+args[0]);
+			System.out.println("Fecha recibida: "+args[0]);
 			/* Asigno la fecha recibida por parametro */
 			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(args[0]);
 			//ejecutarApp.ejecutar();
@@ -55,32 +55,8 @@ public class app {
 			//ejecutarApp.execute(EjecucionPrincipal.class);
 			//strYesterda = args[0];
 		} else {
-			/* Ejecuntando la aplicacion mediante el CRON */
+			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal();
 
-		try { // CREANDO EL JOB A EJECUTAR
-
-			System.out.println("Entrando a crear el JOB");
-
-			Map<String, String> voMapConf = RecuperaArhivoConf("1234567890");
-			String EjecucionCron = voMapConf.get("EjecucionCron");
-			System.out.println("La fecha de mi croon es " + EjecucionCron);
-			System.err.println("Entrando a crear el JOB");
-
-			JobDetail voJob = JobBuilder.newJob(EjecucionPrincipal.class)
-					.withIdentity("JobReportesCustom", "ReportesGSD").build();
-
-
-			// CREADO EL HILO QUE EJECUTARA EL JOB 
-			Trigger voTrigger = TriggerBuilder.newTrigger().withIdentity("TriggerReportesCustom", "ReportesGSD").startNow()
-					.withSchedule(CronScheduleBuilder.cronSchedule(EjecucionCron)).build();
-			System.err.println("Entrando a crear el JOB");
-
-			Scheduler voScheduler = StdSchedulerFactory.getDefaultScheduler();
-			voScheduler.start();
-			voScheduler.scheduleJob(voJob, voTrigger);
-		} catch (SchedulerException ex) {
-			System.err.println(ex.getMessage());
-		}
 	 }
 
 	}
