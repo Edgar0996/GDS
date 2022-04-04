@@ -76,11 +76,19 @@ public class EjecucionPrincipal implements Job {
 		System.exit(0);
 	}
 
+	public EjecucionPrincipal(String string,String data) {
+		
+		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
+				+ "]--> Valor de mi ruta para buscar los arhivo de configuración llegando date " + string);
+		strYesterda = data;
+		ejecutar();
+		System.exit(0);
+		
+	}
 	public EjecucionPrincipal(String string) {
 		
 		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
-				+ "]--> Valor que recibo con argumentos:  " + string);
-		strYesterda = string;
+				+ "]--> Valor de mi ruta para buscar los arhivo de configuración " + string);
 		ejecutar();
 		System.exit(0);
 		
@@ -126,7 +134,7 @@ if (voMapConf.size() <= 0) {
 	int intTimeFrame = Integer.parseInt(voMapConf.get("TimeFrame"));
 
 	String originationDirection = voMapConf.get("OriginationDirection");
-	String pathArchivo = ReporteMail.urlJAr+ File.separator;
+	String pathArchivo = ReporteMail.pathConfig+ File.separator;
 	ReporteMail.noHilosUsados= Integer.parseInt(voMapConf.get("NoClienteID"));
 	Map<String, String> voMapConfId = RecuperaArhivoConfID();
 
@@ -150,7 +158,7 @@ if (voMapConf.size() <= 0) {
 		//System.out.println(tokenList);
 			int sumTotalHits = 0;
 			DataReports voData = new DataReports();
-			// voData.setFechaInicio("2021-01-01");
+			// voData.setFechaInicio("2022-04-02");
 			// voData.setFechaFin(new
 			// SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 			voData.setVsOrigination(originationDirection);

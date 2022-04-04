@@ -41,6 +41,8 @@ public class ReporteMail {
 	public static int excepcionesTimeout=0;//Pendiente
 	//Número de Excepciones Generales
 	public static int excepcionesGrales=0; //Pendiente
+	//Path arhivo de configuraciones
+	public static String pathConfig=""; //O
 	//Path del archivo final CSV
 	public static String pathCsvFinal=""; //OK
 	//Path del archivo de paginas no procesadas

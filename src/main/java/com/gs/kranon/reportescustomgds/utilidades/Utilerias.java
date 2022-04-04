@@ -41,8 +41,8 @@ public class Utilerias {
 	 
 	  //private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
       //private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
-	  private String vsPathConf = ReporteMail.urlJAr + File.separator+"Configuraciones"+File.separator+"conf.properties"; 
-	  private String vsPathConfId = ReporteMail.urlJAr + File.separator +"Configuraciones"+File.separator+"confclientid.properties";
+	  private String vsPathConf = ReporteMail.pathConfig+"/configuraciones/conf.properties";
+	  private String vsPathConfId = ReporteMail.pathConfig +"/configuraciones/confclientid.properties" ;
 	  
     public String vsUUI = "";
 

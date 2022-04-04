@@ -202,8 +202,6 @@ public class Reporteador extends  Thread  {
                     				 String resultEndoso_No_Procede = Endoso_No_Procede.replaceAll("\\s+","");
                     				 voDetailsConversations.put("Endoso_No_Procede", resultEndoso_No_Procede);
                     				 
-                    			 }else {
-                    				 voDetailsConversations.put("Endoso_No_Procede", null);
                     			 }
                     				 
                     			 
@@ -212,32 +210,24 @@ public class Reporteador extends  Thread  {
                     				 String Endoso_ProcedeSinComas= Endoso_Procede.replace(" ,", ".");
                     				 voDetailsConversations.put("Endoso_Procede", Endoso_ProcedeSinComas);
                     				 
-                    			 }else {
-                    				 voDetailsConversations.put("Endoso_Procede", null);
                     			 }
                     			 if (voJSONAttributes.has("Cotizacion_Hablante")) {
                 					 String Cotizacion_Hablante = voJSONAttributes.getString("Cotizacion_Hablante");
                 					 String Cotizacion_HablanteSinComas= Cotizacion_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Cotizacion_Hablante", Cotizacion_HablanteSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Cotizacion_Hablante", null);
                 				 }
                     			 if (voJSONAttributes.has("Emision_No_Cobro")) {
                 					 String Emision_No_Cobro = voJSONAttributes.getString("Emision_No_Cobro");
                 					 String Emision_No_CobroSinComas= Emision_No_Cobro.replace(" ,", ".");
                     				 voDetailsConversations.put("Emision_No_Cobro", Emision_No_CobroSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Emision_No_Cobro", null);
                 				 }
                     			 if (voJSONAttributes.has("Tramites_Escala")) {
                 					 String Tramites_Escala = voJSONAttributes.getString("Tramites_Escala");
                 					 String Tramites_EscalaSinComas= Tramites_Escala.replace(" ,", ".");
                     				 voDetailsConversations.put("Tramites_Escala", Tramites_EscalaSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Tramites_Escala", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Cargo_No_Cobro")) {
@@ -245,17 +235,12 @@ public class Reporteador extends  Thread  {
                 					 String Cargo_No_CobroSinComas= Cargo_No_Cobro.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_No_Cobro", Cargo_No_CobroSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cargo_No_Cobro", null);
-                				 }
-                					 
+                				 } 
                     			 if (voJSONAttributes.has("Cotizacion_NúmCoti")) {
                 					 String Cotizacion_NúmCoti = voJSONAttributes.getString("Cotizacion_NúmCoti");
                 					 String Cotizacion_NúmCotiSinComas= Cotizacion_NúmCoti.replace(" ,", ".");
                     				 voDetailsConversations.put("Cotizacion_NúmCoti", Cotizacion_NúmCotiSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cotizacion_NúmCoti", null);
                 				 }
                     			
                     			 if (voJSONAttributes.has("Link_Hablante")) {
@@ -263,24 +248,18 @@ public class Reporteador extends  Thread  {
                 					 String Link_HablanteSinComas= Link_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Link_Hablante", Link_HablanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Link_Hablante", null);
                 				 }
                     			 if (voJSONAttributes.has("Endoso_Solicitante")) {
                 					 String Endoso_Solicitante = voJSONAttributes.getString("Endoso_Solicitante");
                 					 String Endoso_SolicitanteSinComas= Endoso_Solicitante.replace(" ,", ".");
                     				 voDetailsConversations.put("Endoso_Solicitante", Endoso_SolicitanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Endoso_Solicitante", null);
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_Movimiento")) {
                 					 String Domiciliacion_Movimiento = voJSONAttributes.getString("Domiciliacion_Movimiento");
                 					 String Domiciliacion_MovimientoSinComas= Domiciliacion_Movimiento.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_Movimiento", Domiciliacion_MovimientoSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_Movimiento", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("LlamadaCortada_Comentarios")) {
@@ -288,32 +267,24 @@ public class Reporteador extends  Thread  {
                 					 String LlamadaCortada_ComentariosSinComas= LlamadaCortada_Comentarios.replace(" ,", ".");
                     				 voDetailsConversations.put("LlamadaCortada_Comentarios", LlamadaCortada_ComentariosSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("LlamadaCortada_Comentarios", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
                 					 String Cargo_Cancelacion = voJSONAttributes.getString("Cargo_Cancelacion");
                 					 String Cargo_CancelacionSinComas= Cargo_Cancelacion.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_Cancelacion", Cargo_CancelacionSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Cancelacion", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
                 					 String Cotizacion_ClaveAgente = voJSONAttributes.getString("Cotizacion_ClaveAgente");
                 					 String Cotizacion_ClaveAgenteSinComas= Cotizacion_ClaveAgente.replace(" ,", ".");
                     				 voDetailsConversations.put("Cotizacion_ClaveAgente", Cotizacion_ClaveAgenteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cotizacion_ClaveAgente", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
                 					 String Pago_Aceptado = voJSONAttributes.getString("Pago_Aceptado");
                 					 String Pago_AceptadoSinComas= Pago_Aceptado.replace(" ,", ".");
                     				 voDetailsConversations.put("Pago_Aceptado", Pago_AceptadoSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Pago_Aceptado", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("TransferIVR_Hablante")) {
@@ -321,8 +292,6 @@ public class Reporteador extends  Thread  {
                 					 String TransferIVR_HablanteSinComas= TransferIVR_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("TransferIVR_Hablante", TransferIVR_HablanteSinComas);
                     			
-                				 }else {
-                					 voDetailsConversations.put("TransferIVR_Hablante", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Pago_OtroPago")) {
@@ -330,16 +299,12 @@ public class Reporteador extends  Thread  {
                 					 String Pago_OtroPagoSinComas= Pago_OtroPago.replace(" ,", ".");
                     				 voDetailsConversations.put("Pago_OtroPago", Pago_OtroPagoSinComas);
                     				 
-                				 }else{
-                					 voDetailsConversations.put("Pago_OtroPago", null);
                 				 }
                     			 if (voJSONAttributes.has("EnvioDoctos_Hablante")) {
                 					 String EnvioDoctos_Hablante = voJSONAttributes.getString("EnvioDoctos_Hablante");
                 					 String EnvioDoctos_HablanteSinComas= EnvioDoctos_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("EnvioDoctos_Hablante", EnvioDoctos_HablanteSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("EnvioDoctos_Hablante", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Emision_Ramo")) {
@@ -347,40 +312,30 @@ public class Reporteador extends  Thread  {
                 					 String Emision_RamoSinComas= Emision_Ramo.replace(" ,", ".");
                     				 voDetailsConversations.put("Emision_Ramo", Emision_RamoSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Emision_Ramo", null);
                 				 }
                     			 if (voJSONAttributes.has("Emision_Cotizacion")) {
                 					 String Emision_Cotizacion = voJSONAttributes.getString("Emision_Cotizacion");
                 					 String Emision_CotizacionSinComas= Emision_Cotizacion.replace(" ,", ".");
                     				 voDetailsConversations.put("Emision_Cotizacion", Emision_CotizacionSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Emision_Cotizacion", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Cobro")) {
                 					 String Cargo_Cobro = voJSONAttributes.getString("Cargo_Cobro");
                 					 String Cargo_CobroSinComas= Cargo_Cobro.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_Cobro", Cargo_CobroSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Cobro", null);
                 				 }
                     			 if (voJSONAttributes.has("Tramites_Consultado")) {
                 					 String Tramites_Consultado = voJSONAttributes.getString("Tramites_Consultado");
                 					 String Tramites_ConsultadoSinComas= Tramites_Consultado.replace(" ,", ".");
                     				 voDetailsConversations.put("Tramites_Consultado", Tramites_ConsultadoSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Tramites_Consultado", null);
                 				 }
                     			 if (voJSONAttributes.has("Pago_Hablante")) {
                 					 String Pago_Hablante = voJSONAttributes.getString("Pago_Hablante");
                 					 String Pago_HablanteSinComas= Pago_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Pago_Hablante", Pago_HablanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Pago_Hablante", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Cotizacion_OtroCoti")) {
@@ -388,24 +343,18 @@ public class Reporteador extends  Thread  {
                 					 String Cotizacion_OtroCotiSinComas= Cotizacion_OtroCoti.replace(" ,", ".");
                     				 voDetailsConversations.put("Cotizacion_OtroCoti", Cotizacion_OtroCotiSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cotizacion_OtroCoti", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Ramo")) {
                 					 String Cargo_Ramo = voJSONAttributes.getString("Cargo_Ramo");
                 					 String Cargo_RamoSinComas= Cargo_Ramo.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_Ramo", Cargo_RamoSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Ramo", null);
                 				 }
                     			 if (voJSONAttributes.has("LlamadaOtra_Hablante")) {
                 					 String LlamadaOtra_Hablante = voJSONAttributes.getString("LlamadaOtra_Hablante");
                 					 String LlamadaOtra_HablanteSinComas= LlamadaOtra_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("LlamadaOtra_Hablante", LlamadaOtra_HablanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("LlamadaOtra_Hablante", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Emision_Sucursal")) {
@@ -413,8 +362,6 @@ public class Reporteador extends  Thread  {
                 					 String Emision_SucursalSinComas= Emision_Sucursal.replace(" ,", ".");
                     				 voDetailsConversations.put("Emision_Sucursal", Emision_SucursalSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Emision_Sucursal", null); 
                 				 }
                 					 
                     			 if (voJSONAttributes.has("EnvioDoctos_Solicitados")) {
@@ -422,32 +369,24 @@ public class Reporteador extends  Thread  {
                 					 String EnvioDoctos_SolicitadosSinComas= EnvioDoctos_Solicitados.replace(" ,", ".");
                     				 voDetailsConversations.put("EnvioDoctos_Solicitados", EnvioDoctos_SolicitadosSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("EnvioDoctos_Solicitados", null);
                 				 }
                     			 if (voJSONAttributes.has("Consulta_Motivo")) {
                 					 String Consulta_Motivo = voJSONAttributes.getString("Consulta_Motivo");
                 					 String Consulta_MotivoSinComas= Consulta_Motivo.replace(" ,", ".");
                     				 voDetailsConversations.put("Consulta_Motivo", Consulta_MotivoSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Consulta_Motivo", null);
                 				 }
                     			 if (voJSONAttributes.has("Pago_Sucursal")) {
                 					 String Pago_Sucursal = voJSONAttributes.getString("Pago_Sucursal");
                 					 String Pago_SucursalSinComas= Pago_Sucursal.replace(" ,", ".");
                     				 voDetailsConversations.put("Pago_Sucursal", Pago_SucursalSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Pago_Sucursal", null);
                 				 }
                     			 if (voJSONAttributes.has("Incidencia_Hablante")) {
                 					 String Incidencia_Hablante = voJSONAttributes.getString("Incidencia_Hablante");
                 					 String Incidencia_HablanteSinComas= Incidencia_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Incidencia_Hablante", Incidencia_HablanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Incidencia_Hablante", null);
                 				 }
                     			 
                     			 if (voJSONAttributes.has("Emision_Hablante")) {
@@ -455,16 +394,12 @@ public class Reporteador extends  Thread  {
                 					 String Emision_HablanteSinComas= Emision_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Emision_Hablante", Emision_HablanteSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Emision_Hablante", null);
                 				 }
                     			 if (voJSONAttributes.has("EnvioDoctos_Email")) {
                 					 String EnvioDoctos_Email = voJSONAttributes.getString("EnvioDoctos_Email");
                 					 String EnvioDoctos_EmailSinComas= EnvioDoctos_Email.replace(" ,", ".");
                     				 voDetailsConversations.put("EnvioDoctos_Email", EnvioDoctos_EmailSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("EnvioDoctos_Email", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Cargo_Hablante")) {
@@ -472,64 +407,48 @@ public class Reporteador extends  Thread  {
                 					 String Cargo_HablanteSinComas= Cargo_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_Hablante", Cargo_HablanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Hablante", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Sucursal")) {
                 					 String Cargo_Sucursal = voJSONAttributes.getString("Cargo_Sucursal");
                 					 String Cargo_SucursalSinComas= Cargo_Sucursal.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_Sucursal", Cargo_SucursalSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Sucursal", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_OtroMov")) {
                 					 String Cargo_OtroMov = voJSONAttributes.getString("Cargo_OtroMov");
                 					 String Cargo_OtroMovSinComas= Cargo_OtroMov.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_OtroMov", Cargo_OtroMovSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Cargo_OtroMov", null);
                 				 }
                     			 if (voJSONAttributes.has("LlamadaOtra_Area")) {
                 					 String LlamadaOtra_Area = voJSONAttributes.getString("LlamadaOtra_Area");
                 					 String LlamadaOtra_AreaSinComas= LlamadaOtra_Area.replace(" ,", ".");
                     				 voDetailsConversations.put("LlamadaOtra_Area", LlamadaOtra_AreaSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("LlamadaOtra_Area", null);
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_Hablante")) {
                 					 String Domiciliacion_Hablante = voJSONAttributes.getString("Domiciliacion_Hablante");
                 					 String Domiciliacion_HablanteSinComas= Domiciliacion_Hablante.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_Hablante", Domiciliacion_HablanteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_Hablante", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Rehabilitacion")) {
                 					 String Cargo_Rehabilitacion = voJSONAttributes.getString("Cargo_Rehabilitacion");
                 					 String Cargo_RehabilitacionSinComas= Cargo_Rehabilitacion.replace(" ,", ".");
                     				 voDetailsConversations.put("Cargo_Rehabilitacion", Cargo_RehabilitacionSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Rehabilitacion", null);
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_Sucursal")) {
                 					 String Domiciliacion_Sucursal = voJSONAttributes.getString("Domiciliacion_Sucursal");
                 					 String Domiciliacion_SucursalSinComas= Domiciliacion_Sucursal.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_Sucursal", Domiciliacion_SucursalSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_Sucursal", null);
                 				 }
                     			 if (voJSONAttributes.has("Pago_Importe")) {
                 					 String Pago_Importe = voJSONAttributes.getString("Pago_Importe");
                 					 String Pago_ImporteSinComas= Pago_Importe.replace(" ,", ".");
                     				 voDetailsConversations.put("Pago_Importe", Pago_ImporteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Pago_Importe", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Endoso_Poliza")) {
@@ -537,16 +456,12 @@ public class Reporteador extends  Thread  {
                 					 String Endoso_PolizaSinComas= Endoso_Poliza.replace(" ,", ".");
                     				 voDetailsConversations.put("Endoso_Poliza", Endoso_PolizaSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Endoso_Poliza", null);
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_OtroMov")) {
                 					 String Domiciliacion_OtroMov = voJSONAttributes.getString("Domiciliacion_OtroMov");
                 					 String Domiciliacion_OtroMovSinComas= Domiciliacion_OtroMov.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_OtroMov", Domiciliacion_OtroMovSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_OtroMov", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Domiciliacion_Ramo")) {
@@ -554,146 +469,106 @@ public class Reporteador extends  Thread  {
                 					 String Domiciliacion_RamoSinComas= Domiciliacion_Ramo.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_Ramo", Domiciliacion_RamoSinComas);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_Ramo", null);
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_Poliza")) {
                 					 String Domiciliacion_Poliza = voJSONAttributes.getString("Domiciliacion_Poliza");
                 					 String Domiciliacion_PolizaSinComas= Domiciliacion_Poliza.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_Poliza", Domiciliacion_PolizaSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_Poliza", null);
                 				 }
                     			 if (voJSONAttributes.has("Emision_PagoAcep")) {
                 					 String Emision_PagoAcep = voJSONAttributes.getString("Emision_PagoAcep");
                 					 String Emision_PagoAcepSinComas= Emision_PagoAcep.replace(" ,", ".");
                     				 voDetailsConversations.put("Emision_PagoAcep", Emision_PagoAcepSinComas);
                     		
-                				 }else {
-                					 voDetailsConversations.put("Emision_PagoAcep", null);
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_ClaveAgente")) {
                 					 String Domiciliacion_ClaveAgente = voJSONAttributes.getString("Domiciliacion_ClaveAgente");
                 					 String Domiciliacion_ClaveAgenteSinComas= Domiciliacion_ClaveAgente.replace(" ,", ".");
                     				 voDetailsConversations.put("Domiciliacion_ClaveAgente", Domiciliacion_ClaveAgenteSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Domiciliacion_ClaveAgente", null);
                 				 }
                     			 if (voJSONAttributes.has("Cargo_Poliza")) {
                 					 String Cargo_Poliza = voJSONAttributes.getString("Cargo_Poliza");
                 					 String Cargo_PolizaSinComas= Cargo_Poliza.replace(" ,", ".");	
                     				 voDetailsConversations.put("Cargo_Poliza", Cargo_PolizaSinComas);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cargo_Poliza", null);
                 				 }
                     			 if (voJSONAttributes.has("Pago_Ramo")) {
                 					 String Pago_Ramo = voJSONAttributes.getString("Pago_Ramo");
                     				 voDetailsConversations.put("Pago_Ramo", Pago_Ramo);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Pago_Ramo", null);
                 				 }
                     			 if (voJSONAttributes.has("Emision_ClaveAgente")) {
                 					 String Emision_ClaveAgente = voJSONAttributes.getString("Emision_ClaveAgente");
                     				 voDetailsConversations.put("Emision_ClaveAgente", Emision_ClaveAgente);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Emision_ClaveAgente", null);
                 				 }
                     			 if (voJSONAttributes.has("Incidencia_Afectacion")) {
                 					 String Incidencia_Afectacion = voJSONAttributes.getString("Incidencia_Afectacion");
                     				 voDetailsConversations.put("Incidencia_Afectacion", Incidencia_Afectacion);
                     			
-                				 }else {
-                					 voDetailsConversations.put("Incidencia_Afectacion", null);
                 				 }
                     			 if (voJSONAttributes.has("Pago_ClaveAgente")) {
                 					 String Pago_ClaveAgente = voJSONAttributes.getString("Pago_ClaveAgente");
                     				 voDetailsConversations.put("Pago_ClaveAgente", Pago_ClaveAgente);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Pago_ClaveAgente", null);
                 				 }
                     			 if (voJSONAttributes.has("Consulta_Hablante")) {
                 					 String Consulta_Hablante = voJSONAttributes.getString("Consulta_Hablante");
                     				 voDetailsConversations.put("Consulta_Hablante", Consulta_Hablante);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Consulta_Hablante", null);
                 				 }
                     			 if (voJSONAttributes.has("Link_Email")) {
                 					 String Link_Email = voJSONAttributes.getString("Link_Email");
                     				 voDetailsConversations.put("Link_Email", Link_Email);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Link_Email", null);
                 				 }
                     			 if (voJSONAttributes.has("Tramites_PersonaEscalada")) {
                 					 String Tramites_PersonaEscalada = voJSONAttributes.getString("Tramites_PersonaEscalada");
                     				 voDetailsConversations.put("Tramites_PersonaEscalada", Tramites_PersonaEscalada);
                     			
-                				 }else {
-                					 voDetailsConversations.put("Tramites_PersonaEscalada", null);
                 				 }
                     			 if (voJSONAttributes.has("Emision_Importe")) {
                 					 String Emision_Importe = voJSONAttributes.getString("Emision_Importe");
                     				 voDetailsConversations.put("Emision_Importe", Emision_Importe);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Emision_Importe", null);
                 				 }
                     			 if (voJSONAttributes.has("Incidencia_Origen")) {
                 					 String Incidencia_Origen = voJSONAttributes.getString("Incidencia_Origen");
                     				 voDetailsConversations.put("Incidencia_Origen", Incidencia_Origen);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Incidencia_Origen", null);
                 				 }
                     			 if (voJSONAttributes.has("Cotizacion_Email")) {
                 					 String Cotizacion_Email = voJSONAttributes.getString("Cotizacion_Email");
                     				 voDetailsConversations.put("Cotizacion_Email", Cotizacion_Email);
                     				 
-                				 }else {
-                					 voDetailsConversations.put("Cotizacion_Email", null);
                 				 }
                 					 
                     			 if (voJSONAttributes.has("Tramites_ClaveAgente")) {
                 					 String Tramites_ClaveAgente = voJSONAttributes.getString("Tramites_ClaveAgente");
                     				 voDetailsConversations.put("Tramites_ClaveAgente", Tramites_ClaveAgente);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Tramites_ClaveAgente", null);
                 				 }
                     			 if (voJSONAttributes.has("Pago_Poliza")) {
                 					 String Pago_Poliza = voJSONAttributes.getString("Pago_Poliza");
                     				 voDetailsConversations.put("Pago_Poliza", Pago_Poliza);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Pago_Poliza", null);
                 				 }
                     			 if (voJSONAttributes.has("Emision_Poliza")) {
                 					 String Emision_Poliza = voJSONAttributes.getString("Emision_Poliza");
                     				 voDetailsConversations.put("Emision_Poliza", Emision_Poliza);
                     				
-                				 }	else {
-                					 voDetailsConversations.put("Emision_Poliza", null);
-                				 }
+                				 }	
                     			 if (voJSONAttributes.has("Cargo_ClaveAgente")) {
                 					 String Cargo_ClaveAgente = voJSONAttributes.getString("Cargo_ClaveAgente");
                     				 voDetailsConversations.put("Cargo_ClaveAgente", Cargo_ClaveAgente);
                     				 
-                				 }	else {
-                					 voDetailsConversations.put("Cargo_ClaveAgente", null);
-                				 }
+                				 }	
                     			 if (voJSONAttributes.has("Emision_OtroMov")) {
                 					 String Emision_OtroMov = voJSONAttributes.getString("Emision_OtroMov");
                     				 voDetailsConversations.put("Emision_OtroMov", Emision_OtroMov);
                     				
-                				 }else {
-                					 voDetailsConversations.put("Emision_OtroMov", null);
                 				 }
                     			
                     		 }

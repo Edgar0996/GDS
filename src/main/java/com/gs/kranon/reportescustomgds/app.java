@@ -46,16 +46,35 @@ public class app {
 		ReporteMail.urlJAr= new File ("").getAbsolutePath ();
 		System.setProperty("urlJAr", new File ("").getAbsolutePath ());
 		
-		if(args.length > 0) {
-			System.out.println("Fecha recibida: "+args[0]);
-			/* Asigno la fecha recibida por parametro */
-			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(args[0]);
-			//ejecutarApp.ejecutar();
-			System.exit(0);
-			//ejecutarApp.execute(EjecucionPrincipal.class);
-			//strYesterda = args[0];
+		if(args.length > 0 ) {
+			
+			if(args.length == 2) {
+				//System.out.println("Ruta recibida"+args[0]);
+				/* Asigno la fecha recibida por parametro */
+				ReporteMail.pathConfig= args[0];
+				EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(args[0],args[1]);
+				//ejecutarApp.ejecutar();
+				System.exit(0);
+				//ejecutarApp.execute(EjecucionPrincipal.class);
+				//strYesterda = args[0];
+			}else {
+				
+				//System.out.println("Ruta recibida"+args[0]);
+				/* Asigno la fecha recibida por parametro */
+				ReporteMail.pathConfig= args[0];
+				EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(args[0]);
+				//ejecutarApp.ejecutar();
+				System.exit(0);
+				//ejecutarApp.execute(EjecucionPrincipal.class);
+				//strYesterda = args[0];
+				
+				
+			}
+				
+			
 		} else {
-			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal();
+			
+			System.err.println("Error no se recibio ruta de configuración en cabecera");
 
 	 }
 
