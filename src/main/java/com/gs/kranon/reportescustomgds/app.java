@@ -47,10 +47,11 @@ public class app {
 		System.setProperty("urlJAr", new File ("").getAbsolutePath ());
 		
 		if(args.length > 0 ) {
-			
+			System.setProperty("pathConfig", args[0]);
 			if(args.length == 2) {
 				//System.out.println("Ruta recibida"+args[0]);
 				/* Asigno la fecha recibida por parametro */
+				
 				ReporteMail.pathConfig= args[0];
 				EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(args[0],args[1]);
 				//ejecutarApp.ejecutar();
@@ -73,7 +74,9 @@ public class app {
 				
 			
 		} else {
-			
+			ReporteMail.pathConfig= "C:\\Appl\\GS\\ReportesCustom";
+			String urltem= "C:\\Appl\\GS\\ReportesCustom\"";
+			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(urltem);
 			System.err.println("Error no se recibio ruta de configuración en cabecera");
 
 	 }

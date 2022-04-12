@@ -119,7 +119,7 @@ public class Reporteador extends  Thread  {
                             + " RESPONSE: STATUS[" + voConexionResponseCall.getCodigoRespuesta() + "]");
                    
                     if (voJsonResponseCall.has("participants")) {
-                    	      
+                    	    
                     	JSONArray voJsonArrayResponseCall = voJsonResponseCall.getJSONArray("participants");
                     //	System.out.println("Este ID " + vsContactId + " Tiene este largo de participants " + voJsonArrayResponseCall.length());  
                     	
@@ -141,19 +141,31 @@ public class Reporteador extends  Thread  {
                         	String purpose = voJSONParticipants.getString("purpose");
                         	//System.out.println("Mi primer purpose el: "+ r +" es "+ purpose);
                         	if(purpose.equals("agent")) {
+                        		
 								/*
 								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
 								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
 								 * voJSONAgent.getString("participantType") ); }
 								 */
                         		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");
+                        		
                     				 voDetailsConversations.put("Agente", Agente);
                     			String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
+                    			
                     				 voDetailsConversations.put("queueName", queueName);
                     				 
-                    		   String connectedTime = voJsonArrayResponseCall.getJSONObject(r).getString("connectedTime");
-                    				 voDetailsConversations.put("connectedTime", connectedTime);
-                    				 if (voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup").length() > 0) {
+                    		 //  String connectedTime = voJsonArrayResponseCall.getJSONObject(r).getString("connectedTime");
+                    			//	 voDetailsConversations.put("connectedTime", connectedTime);
+                    				// System.out.println(connectedTime);
+                    				 System.out.println("Con el ID " + vsContactId  +" ES esta info " + voJsonArrayResponseCall.getJSONObject(3));
+                    				 if(voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup").equals(null)) {
+                    					 System.out.println("Es null");
+                    				 }else {
+                    					 System.out.println("No Es null");
+                    				 }
+                    				 int largo =voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup").length();
+                    				 
+                    				 if ( largo > 0) {
                                			 JSONObject voJSONAttributeswrapup = voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup");
                                			 
                                			 if (voJSONAttributeswrapup.has("name")) {
@@ -166,10 +178,11 @@ public class Reporteador extends  Thread  {
                                				 voDetailsConversations.put("durationSeconds", strDurationSeconds);
                            				 }
                                		 }
-                    				 
-                    				 
+                    				
+                    				System.out.println("Si llega aquí?"); 
                         	}
                         	if(purpose.equals("acd")) {
+                        	
 								/*
 								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
 								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
@@ -179,22 +192,23 @@ public class Reporteador extends  Thread  {
                     				 voDetailsConversations.put("startTimeAcd", startTimeAcd);
                     			String endTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("endTime");
                     				 voDetailsConversations.put("endTimeAcd", endTimeAcd);
-                    				
+                    				 	
                         	}
                         	
-                        	
+
                         	
                         	
                         }
                         
-                      
+                      System.out.println("El largo de mi agente es " + voJsonArrayResponseCall.length());
                         
                         //Recupero los atributos de la llamada	
                     	for (int j = 0; j < voJsonArrayResponseCall.length(); j++) { 
                     		
-                    		
+                    		System.out.println(voJsonArrayResponseCall.getJSONObject(j));
                     		
                     		 if (voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes").length() > 0) {
+                    			 System.out.println("Entra attibutes"); 
                     			 JSONObject voJSONAttributes = voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes");
                     			
                     			 if (voJSONAttributes.has("Endoso_No_Procede")) {

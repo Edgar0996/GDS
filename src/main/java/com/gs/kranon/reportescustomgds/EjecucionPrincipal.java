@@ -54,6 +54,7 @@ public class EjecucionPrincipal implements Job {
 	
 	
 	private static final Logger voLogger = LogManager.getLogger("Reporte");
+	
 	static String pathArchivo;
 	private GenesysCloud voPureCloud = null;
 	private Utilerias voUtil = null;
@@ -79,7 +80,7 @@ public class EjecucionPrincipal implements Job {
 	public EjecucionPrincipal(String string,String data) {
 		
 		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
-				+ "]--> Valor de mi ruta para buscar los arhivo de configuración llegando date " + string);
+				+ "]--> Buscando configuraciones en " + string);
 		strYesterda = data;
 		ejecutar();
 		System.exit(0);
@@ -88,7 +89,7 @@ public class EjecucionPrincipal implements Job {
 	public EjecucionPrincipal(String string) {
 		
 		System.out.println("[" + new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())
-				+ "]--> Valor de mi ruta para buscar los arhivo de configuración " + string);
+				+ "]--> Buscando configuraciones en " + string);
 		ejecutar();
 		System.exit(0);
 		
@@ -155,7 +156,7 @@ if (voMapConf.size() <= 0) {
 			voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 			/* Genero los token's */
 			List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-		//System.out.println(tokenList);
+		System.out.println(tokenList);
 			int sumTotalHits = 0;
 			DataReports voData = new DataReports();
 			// voData.setFechaInicio("2022-04-02");

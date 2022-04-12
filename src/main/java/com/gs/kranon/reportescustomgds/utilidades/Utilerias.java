@@ -39,10 +39,10 @@ public class Utilerias {
 	 
     //Para Wind
 	 
-	  //private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
-      //private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
-	  private String vsPathConf = ReporteMail.pathConfig+"/configuraciones/conf.properties";
-	  private String vsPathConfId = ReporteMail.pathConfig +"/configuraciones/confclientid.properties" ;
+	  private String vsPathConf = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"conf.properties"; 
+      private String vsPathConfId ="C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+File.separator+"Configuraciones"+File.separator+"confclientid.properties";
+	 // private String vsPathConf = ReporteMail.pathConfig+ File.separator +"conf.properties";
+	 // private String vsPathConfId = ReporteMail.pathConfig+ File.separator +"confclientid.properties" ;
 	  
     public String vsUUI = "";
 
