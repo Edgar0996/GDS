@@ -58,7 +58,9 @@ public class Reporteador extends  Thread  {
    
     private Map<String, String> voMapConf = null;
     private Map<String, Map<String, String>> voConversations;
+    private Map<String, Map<String, String>> voConversations1;
     private List<String> vlContact = null;
+    private List<String> vlContact1 = null;
     private List<String> nameTxt;
     private List<String> vlContactId;
     private Map<String, String> voDetailsConversations;
@@ -67,7 +69,8 @@ public class Reporteador extends  Thread  {
     private boolean ReturnErro;
     private JSONObject voJSONAgent;
     private String strNomIdlostRep;
-    
+    private boolean booSegundoAgent;
+    private String pathArchivo = "C:"+File.separator+"Appl"+File.separator+"GS"+File.separator+"ReportesCustom"+ File.separator+"Logs"+ File.separator;
 
     public Reporteador(String uui,String vsTokens,String vsUUI,List<String> vlContactIds,String urlArchivoTem,boolean ReturnError,String strNomIdlost) {
         this.voDataReport = voDataReport;
@@ -92,16 +95,17 @@ public class Reporteador extends  Thread  {
                 voConexionHttp = new ConexionHttp();
                 HashMap<String, String> voHeader = new HashMap<>();
                 vlContact = new ArrayList<>();
+                vlContact1 = new ArrayList<>();
                 voConversations = new HashMap<>();
                 voHeader.put("Authorization", "bearer " + vsToken);
-                voConversations = new HashMap<>();
+                voConversations1 = new HashMap<>();
                 //COMENZAREMOS A ANALIZAR CADA ID DE CONVERSACION PARA EXTRAER SUS BREADCRUMBS
                 int viContadorEncontrados = 0;
                 String vsURLPCCall = "https://api.mypurecloud.com/api/v2/conversations/";
                 ConexionResponse voConexionResponseCall = null;
                 
                 for (String vsContactId : vlContactId) {
-                	
+                	booSegundoAgent = true;
                     String vsURLConversation = vsURLPCCall + vsContactId;
                     viContadorEncontrados++;
                     //voLogger.info("[Reporteador][" + vsUUi + "] ---> [" + (viContadorEncontrados) + "] ENDPOINT[" + vsURLConversation + "]");
@@ -136,79 +140,20 @@ public class Reporteador extends  Thread  {
                         voDetailsConversations.put("vsConversationEnd", vsConversationEnd);
                         //voDetailsConversations.put("queueName", queueName);
                         //Recupero los datos del Agente
-                        for (int r = 0; r < voJsonArrayResponseCall.length(); r++) { 
-                        	JSONObject voJSONParticipants = voJsonArrayResponseCall.getJSONObject(r);
-                        	String purpose = voJSONParticipants.getString("purpose");
-                        	//System.out.println("Mi primer purpose el: "+ r +" es "+ purpose);
-                        	if(purpose.equals("agent")) {
-                        		
-								/*
-								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
-								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
-								 * voJSONAgent.getString("participantType") ); }
-								 */
-                        		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");
-                        		
-                    				 voDetailsConversations.put("Agente", Agente);
-                    			String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
-                    			
-                    				 voDetailsConversations.put("queueName", queueName);
-                    				 
-                    		 //  String connectedTime = voJsonArrayResponseCall.getJSONObject(r).getString("connectedTime");
-                    			//	 voDetailsConversations.put("connectedTime", connectedTime);
-                    				// System.out.println(connectedTime);
-                    				 System.out.println("Con el ID " + vsContactId  +" ES esta info " + voJsonArrayResponseCall.getJSONObject(3));
-                    				 if(voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup").equals(null)) {
-                    					 System.out.println("Es null");
-                    				 }else {
-                    					 System.out.println("No Es null");
-                    				 }
-                    				 int largo =voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup").length();
-                    				 
-                    				 if ( largo > 0) {
-                               			 JSONObject voJSONAttributeswrapup = voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup");
-                               			 
-                               			 if (voJSONAttributeswrapup.has("name")) {
-                           					 String name = voJSONAttributeswrapup.getString("name");
-                               				 voDetailsConversations.put("name", name);	
-                           				 }
-                               			 if (voJSONAttributeswrapup.has("durationSeconds")) {
-                           					 int durationSeconds = voJSONAttributeswrapup.getInt("durationSeconds");
-                           					 String strDurationSeconds= Integer.toString(durationSeconds);
-                               				 voDetailsConversations.put("durationSeconds", strDurationSeconds);
-                           				 }
-                               		 }
-                    				
-                    				System.out.println("Si llega aquí?"); 
-                        	}
-                        	if(purpose.equals("acd")) {
-                        	
-								/*
-								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
-								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
-								 * voJSONAgent.getString("participantType") ); }
-								 */
-                        		String startTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("startTime");
-                    				 voDetailsConversations.put("startTimeAcd", startTimeAcd);
-                    			String endTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("endTime");
-                    				 voDetailsConversations.put("endTimeAcd", endTimeAcd);
-                    				 	
-                        	}
-                        	
+                        if( voJsonArrayResponseCall.length() > 5  ) {
+                    		JsonDetail(vsContactId,voJsonArrayResponseCall.length(),voJsonArrayResponseCall);
+                    	}
 
-                        	
-                        	
-                        }
                         
-                      System.out.println("El largo de mi agente es " + voJsonArrayResponseCall.length());
+                     
                         
                         //Recupero los atributos de la llamada	
                     	for (int j = 0; j < voJsonArrayResponseCall.length(); j++) { 
                     		
-                    		System.out.println(voJsonArrayResponseCall.getJSONObject(j));
-                    		
+                    		//System.out.println(voJsonArrayResponseCall.getJSONObject(j));
+
                     		 if (voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes").length() > 0) {
-                    			 System.out.println("Entra attibutes"); 
+                    			// System.out.println("Entra attibutes"); 
                     			 JSONObject voJSONAttributes = voJsonArrayResponseCall.getJSONObject(j).getJSONObject("attributes");
                     			
                     			 if (voJSONAttributes.has("Endoso_No_Procede")) {
@@ -588,10 +533,75 @@ public class Reporteador extends  Thread  {
                     		 }
                     		 
                     	}
+                    	int intContadorAgent= 0;
+                    	
+                        for (int r = 0; r < voJsonArrayResponseCall.length(); r++) { 
+                        	JSONObject voJSONParticipants = voJsonArrayResponseCall.getJSONObject(r);
+                        	String purpose = voJSONParticipants.getString("purpose");
+                        	//System.out.println("Mi primer purpose el: "+ r +" es "+ purpose);
+                        	if(purpose.equals("acd")) {
+                            	
+								/*
+								 * voJSONAgent=voJsonArrayResponseCall.getJSONObject(r); for(int s = 0; s <
+								 * voJSONAgent.length(); s++) { System.out.println("El valor de mi jason es " +
+								 * voJSONAgent.getString("participantType") ); }
+								 */
+                        		String startTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("startTime");
+                    				 voDetailsConversations.put("startTimeAcd", startTimeAcd);
+                    			String endTimeAcd = voJsonArrayResponseCall.getJSONObject(r).getString("endTime");
+                    				 voDetailsConversations.put("endTimeAcd", endTimeAcd);
+                    				 	
+                        	}
+                        	
+                        	
+                        	if(purpose.equals("agent") && intContadorAgent == 0) {
+                        		
+                        		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");
+                        		voDetailsConversations.put("Agente", Agente);
+                        		
+                        		String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
+                     
+                        		voDetailsConversations.put("queueName", queueName);
+                        		
+                        		voConversations.put(vsContactId, voDetailsConversations);
+                        		//JSONObject voJSONAttributes =voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup");
+                        		
+                        		intContadorAgent=1;
+                        		
+                        		 
+                        		 
+                        	}else if (purpose.equals("agent") )  {
+                        		
+                        		
+                        		String Agente1 = voJsonArrayResponseCall.getJSONObject(r).getString("name");
+                        		String queueName1 = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
+                        		JSONObject voJSONAttributeswrapup = voJsonArrayResponseCall.getJSONObject(r).getJSONObject("wrapup");
+                       			 
+                       			 if (voJSONAttributeswrapup.has("name")) {
+                   					 String name1 = voJSONAttributeswrapup.getString("name");
+                       				 voDetailsConversations.put("name1", name1);	
+                   				 }
+                       			 if (voJSONAttributeswrapup.has("durationSeconds")) {
+                   					 int durationSeconds1 = voJSONAttributeswrapup.getInt("durationSeconds");
+                   					 String strDurationSeconds1= Integer.toString(durationSeconds1);
+                       				 voDetailsConversations.put("durationSeconds1", strDurationSeconds1);
+                       				
+                   				 }
+                       			booSegundoAgent=false;
+                       			vlContact1.add(vsContactId+"1");
+                       			voConversations1.put(vsContactId+"1", voDetailsConversations);
+                       			 
+                        	}
+
+                        	
+
+                        	
+                        	
+                        }
                     	
                     	
+                        
                     	
-                    	voConversations.put(vsContactId, voDetailsConversations);
                     	
                     		
                     } 
@@ -626,6 +636,7 @@ public class Reporteador extends  Thread  {
                     }
 
                 }
+               // System.out.println("El valor de mi Id's son " + voConversations.size());
                 /*
 				 * Genero los archivos TXT GenraTXT = new GeneradorTXT();
                  */
@@ -636,7 +647,10 @@ public class Reporteador extends  Thread  {
                 ReporteMail.Threa.add(this.getName());
                 nameTxt.addAll(GenraTXT.GeneraTXT(vlContact, voConversations,vsUUi,urlArchivoTemp,strNomIdlostRep));
                 
-                
+                if(booSegundoAgent==false) {
+                	ReporteMail.Threa.add(this.getName());
+                    nameTxt.addAll(GenraTXT.GeneraTXT(vlContact1, voConversations1,vsUUi,urlArchivoTemp,strNomIdlostRep));
+                }
         
         
      }   
@@ -729,5 +743,54 @@ public boolean PagesNoProcessedCsv(String vsContactId,int getCodigoRespuesta, St
     		
         return true;
     } 
+
+public boolean JsonDetail(String vsContactId,int participants,JSONArray Json) {
+	
+	
+	String JsonID = Json.toString();
+	strUrlFinal = pathArchivo+ File.separator + "JsonDetail.txt";
+
+		File  fw = new File (strUrlFinal);
+		//Validamos si el archivo existe
+		if(fw.exists()){
+			
+			try {
+				Writer  output = new BufferedWriter(new FileWriter(strUrlFinal, true));
+				output.append("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]----------- >  -");
+				output.append("Número de participants: " + participants);
+				output.append(" , ");
+				output.append(vsContactId);
+				output.append(" , ");
+				output.append(" Json:----------- >   ");
+				output.append(JsonID);
+				output.append("\n");
+				output.close();
+			} catch (IOException e1) {
+				
+				e1.printStackTrace();
+			}
+        }else{
+            //Archivo NO existe, lo crea.
+		try (PrintWriter writer = new PrintWriter(new File(strUrlFinal))) {
+			
+			StringBuilder linea = new StringBuilder();
+			linea.append("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]------------ >  ");
+			linea.append("Número de participants: " + participants);
+			linea.append(" , ");
+			linea.append(vsContactId);
+			linea.append(" , ");
+			linea.append(" Json:----------- >   ");
+			linea.append(JsonID);
+			linea.append("\n");
+			writer.write(linea.toString());
+            writer.close();
+            writer.write(linea.toString());
+	} catch (FileNotFoundException e) {
+        System.out.println(e.getMessage());
+    }
+        }
+	
+	return false;
+}
 	
 }

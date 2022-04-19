@@ -95,10 +95,13 @@ public class GeneradorTXT  {
   				//voLogger.info("[GeneradorTXT][" + UUI + "] ---> ******************** Iniciamos la Generación de los TXT *******************");
         	  int i = 1;
         	//Comparo mis Id's para crear el TXt y pintar el contenido de cada llamada
+        	 
         	  for(String vsContactId : vlContactId) {
+        		 // System.out.println("Estos IDs " + vsContactId );
         		  //Genero mi arrContacId para ejecutar de nuevo los Id que no lograron cargarse
         		
         		  ReporteMail.arrContactId.add(vsContactId);
+        		 
     		  for (Map.Entry entry : voConversations.entrySet()) {
         		  
     			 
@@ -422,11 +425,19 @@ public class GeneradorTXT  {
     	        		}
     	        		String Calificacion = String.valueOf(voDetails.get("name"));
     	        		if(Calificacion=="null") {
-    	        			Calificacion=" ";
+    	        			Calificacion = String.valueOf(voDetails.get("name1"));
+    	        			System.out.println(Calificacion);
+    	        			if(Calificacion=="null") {
+    	        				Calificacion=" ";
+    	        			}
     	        		}
     	        		String TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds"));
     	        		if(TiempoDefinicionagent=="null") {
-    	        			TiempoDefinicionagent=" ";
+    	        			TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds1"));
+    	        			System.out.println(TiempoDefinicionagent);
+    	        			if(TiempoDefinicionagent=="null") {
+    	        				TiempoDefinicionagent=" ";
+    	        			}
     	        		}
     	        		
     	        		List<String> dataComplet = new ArrayList<>();
