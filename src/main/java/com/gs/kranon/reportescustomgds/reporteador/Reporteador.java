@@ -558,39 +558,62 @@ public class Reporteador extends  Thread  {
                         		
                         		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");
                         		voDetailsConversations.put("Agente", Agente);
-                        		
                         		String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
-                     
                         		voDetailsConversations.put("queueName", queueName);
+                        		String startTimeAgente = voJsonArrayResponseCall.getJSONObject(r).getString("startTime");
+                        		voDetailsConversations.put("startTimeAgente", startTimeAgente);
+                        		String endTimeAgente = voJsonArrayResponseCall.getJSONObject(r).getString("endTime");
+                        		voDetailsConversations.put("endTimeAgente", endTimeAgente);
                         		
-                        		voConversations.put(vsContactId, voDetailsConversations);
-                        		//JSONObject voJSONAttributes =voJsonArrayResponseCall.getJSONObject(3).getJSONObject("wrapup");
+                        		try {
+                        			JSONObject voJSONAttributeswrapup =voJsonArrayResponseCall.getJSONObject(r).getJSONObject("wrapup");
+                        			 if (voJSONAttributeswrapup.has("name")) {
+                       					 String name = voJSONAttributeswrapup.getString("name");
+                           				 voDetailsConversations.put("name", name);	
+                       				 }
+                           			 if (voJSONAttributeswrapup.has("durationSeconds")) {
+                       					 int durationSeconds = voJSONAttributeswrapup.getInt("durationSeconds");
+                       					 String strDurationSeconds= Integer.toString(durationSeconds);
+                           				 voDetailsConversations.put("durationSeconds", strDurationSeconds);
+                           				
+                       				 }
+                        		}
+                        		catch(Exception e)  { 
+        	          			voLogger.error("[GeneradorTXT][" + vsUUi + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE" );              
+        	          		}
                         		
-                        		intContadorAgent=1;
+                        		
+                        		intContadorAgent++;
                         		
                         		 
                         		 
                         	}else if (purpose.equals("agent") )  {
                         		
                         		
-                        		String Agente1 = voJsonArrayResponseCall.getJSONObject(r).getString("name");
-                        		String queueName1 = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
-                        		JSONObject voJSONAttributeswrapup = voJsonArrayResponseCall.getJSONObject(r).getJSONObject("wrapup");
-                       			 
-                       			 if (voJSONAttributeswrapup.has("name")) {
-                   					 String name1 = voJSONAttributeswrapup.getString("name");
-                       				 voDetailsConversations.put("name1", name1);	
-                   				 }
-                       			 if (voJSONAttributeswrapup.has("durationSeconds")) {
-                   					 int durationSeconds1 = voJSONAttributeswrapup.getInt("durationSeconds");
-                   					 String strDurationSeconds1= Integer.toString(durationSeconds1);
-                       				 voDetailsConversations.put("durationSeconds1", strDurationSeconds1);
-                       				
-                   				 }
-                       			booSegundoAgent=false;
-                       			vlContact1.add(vsContactId+"1");
-                       			voConversations1.put(vsContactId+"1", voDetailsConversations);
-                       			 
+                        		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");
+                        		voDetailsConversations.put("Agente", Agente);
+                        		String queueName = voJsonArrayResponseCall.getJSONObject(r).getString("queueName");
+                        		voDetailsConversations.put("queueName", queueName);
+                        		String startTimeAgente = voJsonArrayResponseCall.getJSONObject(r).getString("startTime");
+                        		voDetailsConversations.put("startTimeAgente", startTimeAgente);
+                        		String endTimeAgente = voJsonArrayResponseCall.getJSONObject(r).getString("endTime");
+                        		voDetailsConversations.put("endTimeAgente", endTimeAgente);
+                        		
+                        		try {
+                        			JSONObject voJSONAttributeswrapup = voJsonArrayResponseCall.getJSONObject(r).getJSONObject("wrapup");
+                        			if (voJSONAttributeswrapup.has("name")) {
+                      					 String name = voJSONAttributeswrapup.getString("name");
+                          				 voDetailsConversations.put("name", name);	
+                      				 }
+                          			 if (voJSONAttributeswrapup.has("durationSeconds")) {
+                      					 int durationSeconds = voJSONAttributeswrapup.getInt("durationSeconds");
+                      					 String strDurationSeconds= Integer.toString(durationSeconds);
+                          				 voDetailsConversations.put("durationSeconds", strDurationSeconds);
+                          				
+                      				 }
+                        		}catch(Exception e)  { 
+            	          			voLogger.error("[GeneradorTXT][" + vsUUi + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE" );              
+            	          		}
                         	}
 
                         	
@@ -598,11 +621,8 @@ public class Reporteador extends  Thread  {
                         	
                         	
                         }
-                    	
-                    	
-                        
-                    	
-                    	
+
+                        voConversations.put(vsContactId, voDetailsConversations);
                     		
                     } 
                    

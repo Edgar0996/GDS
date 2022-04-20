@@ -124,6 +124,21 @@ public class GeneradorTXT  {
     	        			conversationStart =Utilerias.userDateGMT(conversationStartSinFormat);
     	        		}
     	        		
+    	        		String  startTimeAgenteSinFormat = String.valueOf(voDetails.get("startTimeAgente"));
+    	        		String startTimeAgente;
+    	        		if(startTimeAgenteSinFormat=="null") {
+    	        			startTimeAgente="";
+    	        		}else {
+    	        			startTimeAgente =Utilerias.userDateGMT(startTimeAgenteSinFormat);
+    	        		}
+    	        		String  endTimeAgenteSinForat = String.valueOf(voDetails.get("endTimeAgente"));
+    	        		String endTimeAgente;
+    	        		if(endTimeAgenteSinForat=="null") {
+    	        			endTimeAgente="";
+    	        		}else {
+    	        			endTimeAgente =Utilerias.userDateGMT(endTimeAgenteSinForat);
+    	        		}
+    	        		
     	        		String  conversationEndSinformato = String.valueOf(voDetails.get("vsConversationEnd"));
     	        		if(conversationEndSinformato=="null") {
     	        			conversationEnd="";
@@ -425,19 +440,11 @@ public class GeneradorTXT  {
     	        		}
     	        		String Calificacion = String.valueOf(voDetails.get("name"));
     	        		if(Calificacion=="null") {
-    	        			Calificacion = String.valueOf(voDetails.get("name1"));
-    	        			System.out.println(Calificacion);
-    	        			if(Calificacion=="null") {
     	        				Calificacion=" ";
-    	        			}
     	        		}
     	        		String TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds"));
     	        		if(TiempoDefinicionagent=="null") {
-    	        			TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds1"));
-    	        			System.out.println(TiempoDefinicionagent);
-    	        			if(TiempoDefinicionagent=="null") {
     	        				TiempoDefinicionagent=" ";
-    	        			}
     	        		}
     	        		
     	        		List<String> dataComplet = new ArrayList<>();
@@ -447,9 +454,9 @@ public class GeneradorTXT  {
     	        		dataComplet.add(ani.substring(5,15));
     	        		dataComplet.add(dnis.substring(5,17));
     	        		dataComplet.add(conversationStart);
-    	        		dataComplet.add(conversationStart.substring(0,10));
+    	        		dataComplet.add(startTimeAgente);
     	        		dataComplet.add(TiempoEsperaAgent);
-    	        		dataComplet.add(conversationEnd);
+    	        		dataComplet.add(endTimeAgente);
     	        		dataComplet.add(DuracionLlamada);
     	        		dataComplet.add(conversationStart.substring(0,10));
     	        		dataComplet.add(TiempoDefinicionagent);

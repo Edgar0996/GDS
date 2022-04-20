@@ -73,7 +73,7 @@ public class RecuperaConversationID {
          HashMap<String, String> voHeader = new HashMap<>();
          voHeader.put("Authorization", "bearer " + vsToken);
          Integer viPag = 0;
-         /*
+         
          do {
         	 
              viPag++;
@@ -131,9 +131,9 @@ public class RecuperaConversationID {
              	}
              }
          } while (true);
-         */
+       
          //OBTENIENDO TODOS LOS CONVERSATION ID DEL RANGO DE HORAS EN EL DIA
-         vlContactId.add("d5cd8350-f440-465f-bf44-9f459a06954d");
+        // vlContactId.add("d5cd8350-f440-465f-bf44-9f459a06954d");
        //  vlContactId.add("1cfd066a-c319-4bb9-a5ad-a8a29d3f4bf4");
          
          /*
