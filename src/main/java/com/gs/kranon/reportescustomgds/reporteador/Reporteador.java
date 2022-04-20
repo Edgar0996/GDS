@@ -577,6 +577,10 @@ public class Reporteador extends  Thread  {
                            				 voDetailsConversations.put("durationSeconds", strDurationSeconds);
                            				
                        				 }
+                           			if (voJSONAttributeswrapup.has("endTime")) {
+                         				 String endTime = voJSONAttributeswrapup.getString("endTime");
+                         				 voDetailsConversations.put("endTime", endTime);	
+                    				 }
                         		}
                         		catch(Exception e)  { 
         	          			voLogger.error("[GeneradorTXT][" + vsUUi + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE" );              
@@ -611,6 +615,10 @@ public class Reporteador extends  Thread  {
                           				 voDetailsConversations.put("durationSeconds", strDurationSeconds);
                           				
                       				 }
+                          			if (voJSONAttributeswrapup.has("endTime")) {
+                          				 String endTime = voJSONAttributeswrapup.getString("endTime");
+                          				 voDetailsConversations.put("endTime", endTime);	
+                     				 }
                         		}catch(Exception e)  { 
             	          			voLogger.error("[GeneradorTXT][" + vsUUi + "] ---> ERROR : NO SE LOGRÓ ESCRIBIR EN EL ARCHIVO DE NOMBRE" );              
             	          		}

@@ -73,14 +73,11 @@ public class app {
 			}
 				
 			
-		} else {
-			ReporteMail.pathConfig= "C:\\Appl\\GS\\ReportesCustom";
-			String urltem= "C:\\Appl\\GS\\ReportesCustom\"";
-			EjecucionPrincipal ejecutarApp = new EjecucionPrincipal(urltem);
+		} 
+		else {
+			//EjecucionPrincipal ejecutarApp = new EjecucionPrincipal();
 			System.err.println("Error no se recibio ruta de configuración en cabecera");
-
 	 }
-
 	}
 	
 	

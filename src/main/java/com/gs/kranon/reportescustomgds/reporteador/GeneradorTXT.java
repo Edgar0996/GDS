@@ -170,12 +170,16 @@ public class GeneradorTXT  {
     	        		String DuracionLlamada = Utilerias.secondsToTime(diff);
     	        		
     	        		   	        	
-    	        		String  ani = String.valueOf(voDetails.get("ani"));
+    	        		String  anicomplet = String.valueOf(voDetails.get("ani"));
+    	        		String ani = anicomplet.substring(4, anicomplet.length() - 0);
+    	        		
     	        		if(ani=="null") {
     	        			ani=" ";
     	        		}
     	        		
-    	        		String  dnis = String.valueOf(voDetails.get("dnis"));
+    	        		String  dnisComplet = String.valueOf(voDetails.get("dnis"));
+    	        		String  dnis = dnisComplet.substring(5, dnisComplet.length() - 0);
+    	        		
     	        		if(dnis=="null") {
     	        			dnis=" ";
     	        		}
@@ -445,20 +449,30 @@ public class GeneradorTXT  {
     	        		String TiempoDefinicionagent = String.valueOf(voDetails.get("durationSeconds"));
     	        		if(TiempoDefinicionagent=="null") {
     	        				TiempoDefinicionagent=" ";
+    	        		}else {
+    	        			TiempoDefinicionagent="0"+TiempoDefinicionagent+" sec";
+    	        		}
+    	        		
+    	        		String endTime = String.valueOf(voDetails.get("endTime"));
+    	        		String  endTimeSinFormat = String.valueOf(voDetails.get("endTime"));
+    	        		if(endTimeSinFormat=="null") {
+    	        			endTime="";
+    	        		}else {
+    	        			endTime =Utilerias.userDateGMT(endTimeSinFormat);
     	        		}
     	        		
     	        		List<String> dataComplet = new ArrayList<>();
     	        		dataComplet.add(vsContactId);
     	        		dataComplet.add(queueName);
     	        		dataComplet.add(Agente);
-    	        		dataComplet.add(ani.substring(5,15));
-    	        		dataComplet.add(dnis.substring(5,17));
+    	        		dataComplet.add(ani);
+    	        		dataComplet.add(dnis);
     	        		dataComplet.add(conversationStart);
     	        		dataComplet.add(startTimeAgente);
     	        		dataComplet.add(TiempoEsperaAgent);
     	        		dataComplet.add(endTimeAgente);
     	        		dataComplet.add(DuracionLlamada);
-    	        		dataComplet.add(conversationStart.substring(0,10));
+    	        		dataComplet.add(endTime);
     	        		dataComplet.add(TiempoDefinicionagent);
     	        		dataComplet.add(Calificacion);
     	        		//apartado Endoso
