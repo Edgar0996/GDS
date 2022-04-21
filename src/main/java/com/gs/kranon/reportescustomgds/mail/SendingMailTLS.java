@@ -317,8 +317,13 @@ public class SendingMailTLS {
       		+ "","text/html");
       Transport.send(message);
       //System.out.println("Correcto!");
-    } catch (MessagingException e) {      
-      throw new RuntimeException(e);
+    } catch (MessagingException e) { 
+    	System.out.println("ENTRO AL CATCH!");
+    	voLogger.error("[SendingMailTLS][" + vsUUI + "] ---> ERROR : NO SE  REALIZÓ EL ENVIO DEL CORREO, REVISA LAS CREDENCIALES");
+    	e.printStackTrace();
+    	return false;
+      //throw new RuntimeException(e);
+      
     }
     voLogger.info("[SendingMailTLS  ][" + vsUUI + "] ---> CORREO ENVIADO EXITOSAMENTE");
         return true;
