@@ -113,7 +113,7 @@ public class EjecucionPrincipal implements Job {
 //strYesterda = "2021-12-30";
 if(strYesterda=="") {
 	strYesterda = yesterdaydate();
-	strYesterda="2022-04-07";
+	//strYesterda="2022-04-07";
 }
 // Inicio de la ejecucion del proceso
 ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
