@@ -154,7 +154,7 @@ public class SendingMailTLSFiles {
       Transport.send(message);
       //System.out.println("Correcto!");
     } catch (MessagingException e) {  
-    	System.out.println("ENTRO AL CATCH!");
+    	
     	voLogger.error("[SendingMailTLSFiles  ][" + vsUUI + "] ---> ERROR : NO SE  REALIZÓ EL ENVIO DEL CORREO, REVISA LAS CREDENCIALES O EL TAMAÑO DEL ARCHIVO ES MUY GRANDE");
     	e.printStackTrace();
     	return false;

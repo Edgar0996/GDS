@@ -318,7 +318,7 @@ public class SendingMailTLS {
       Transport.send(message);
       //System.out.println("Correcto!");
     } catch (MessagingException e) { 
-    	System.out.println("ENTRO AL CATCH!");
+
     	voLogger.error("[SendingMailTLS][" + vsUUI + "] ---> ERROR : NO SE  REALIZÓ EL ENVIO DEL CORREO, REVISA LAS CREDENCIALES");
     	e.printStackTrace();
     	return false;
