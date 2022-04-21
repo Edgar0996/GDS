@@ -132,10 +132,10 @@ public class Reporteador extends  Thread  {
                 		String vsConversationEnd = voJsonArrayResponseCall.getJSONObject(0).getString("endTime");
                 		String vsAni = voJsonArrayResponseCall.getJSONObject(0).getString("ani");
                 		String vsDnis = voJsonArrayResponseCall.getJSONObject(0).getString("dnis");
-
+                	
                 		vlContact.add(vsContactId);
                 		voDetailsConversations.put("ani", vsAni);
-                        voDetailsConversations.put("dnis", vsDnis);
+                      
                         voDetailsConversations.put("ConversationStart", vsConversationStart );
                         voDetailsConversations.put("vsConversationEnd", vsConversationEnd);
                         //voDetailsConversations.put("queueName", queueName);
@@ -553,7 +553,14 @@ public class Reporteador extends  Thread  {
                     				 	
                         	}
                         	
-                        	
+                        	  
+                        	  if(purpose.equals("external")) {
+                        		  if(vsDnis.length()  > 17) {
+                        			   vsDnis = voJsonArrayResponseCall.getJSONObject(r).getString("dnis");
+                              	}
+                        	  }
+                        	  
+                        	  voDetailsConversations.put("dnis", vsDnis);
                         	if(purpose.equals("agent") && intContadorAgent == 0) {
                         		
                         		String Agente = voJsonArrayResponseCall.getJSONObject(r).getString("name");

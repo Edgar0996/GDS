@@ -113,7 +113,7 @@ public class EjecucionPrincipal implements Job {
 //strYesterda = "2021-12-30";
 if(strYesterda=="") {
 	strYesterda = yesterdaydate();
-	//strYesterda="2022-04-07";
+	strYesterda="2022-04-07";
 }
 // Inicio de la ejecucion del proceso
 ReporteMail.inicioProceso = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -156,7 +156,7 @@ if (voMapConf.size() <= 0) {
 			voLogger.info("[App  ][" + vsUUI + "] ---> FECHA DE LA QUE SE GENERARÁ EL REPORTE: " + strYesterda);
 			/* Genero los token's */
 			List<String> tokenList = GeneraToken(voMapConf, voMapConfId, vsUUI);
-		System.out.println(tokenList);
+		//System.out.println(tokenList);
 			int sumTotalHits = 0;
 			DataReports voData = new DataReports();
 			// voData.setFechaInicio("2022-04-02");
