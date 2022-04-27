@@ -192,7 +192,7 @@ public class FileUtils {
 					while ((lineContent = buffer.readLine()) != null) {
 						//arrSD.add(lineContent);
 						String[] lineElements = lineContent.split(",");
-						if(lineElements.length == 75) {
+						if(lineElements.length == 67) {
 							content.add(lineElements);
 						} else {
 							ReporteMail.lineasConColumnasDif = ReporteMail.lineasConColumnasDif + 1; 

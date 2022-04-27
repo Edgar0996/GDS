@@ -269,16 +269,16 @@ public class GDSmx {
         voHeaders.put("ENVIODOCUMENTOS_NombreQuienHabla", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
         voHeaders.put("ENVIODOCUMENTOS_CorreoElectronico", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
         voHeaders.put("ENVIODOCUMENTOS_DocumentoSolicitado", i++);//Tipificaciones para la calificación ENVÍO DE DOCUMENTOS
-        voHeaders.put("CONSULTAPROCESODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
-        voHeaders.put("CONSULTAPROCESODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
+        //voHeaders.put("CONSULTAPROCESODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
+        //voHeaders.put("CONSULTAPROCESODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación CONSULTA PROCESO DEYEL
         voHeaders.put("CONSULTA_NombreQuienHabla", i++);//Tipificaciones para la calificación CONSULTA
         voHeaders.put("CONSULTA_MotivoConsulta", i++);//Tipificaciones para la calificación CONSULTA
-        voHeaders.put("ACTUALIZACIONCORREODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
-        voHeaders.put("ACTUALIZACIONCORREODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
-        voHeaders.put("SOLICITUDREFERENCIADEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
-        voHeaders.put("SOLICITUDREFERENCIADEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
-        voHeaders.put("SOLICITUDUSUARIODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
-        voHeaders.put("SOLICITUDUSUARIODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
+        //voHeaders.put("ACTUALIZACIONCORREODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
+        //voHeaders.put("ACTUALIZACIONCORREODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación ACTUALIZACIÓN CORREO DEYEL
+        //voHeaders.put("SOLICITUDREFERENCIADEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
+        //voHeaders.put("SOLICITUDREFERENCIADEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación SOLICITUD DE REFERENCIA DEYEL
+        //voHeaders.put("SOLICITUDUSUARIODEYEL_NombreQuienHabla", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
+        //voHeaders.put("SOLICITUDUSUARIODEYEL_MotivoConsulta", i++);//Tipificaciones para la calificación SOLICITUD DE USUARIO DEYEL
         voHeaders.put("DOMICILIACION_NombreQuienHabla", i++);//Tipificaciones para la calificación DOMICILIACIÓN
         voHeaders.put("DOMICILIACION_ClaveAgente", i++);//Tipificaciones para la calificación DOMICILIACIÓN
         voHeaders.put("DOMICILIACION_NumSucursal", i++);//Tipificaciones para la calificación DOMICILIACIÓN

@@ -297,7 +297,8 @@ if (voMapConf.size() <= 0) {
 			voMapHeadersCSV = voAppBBVAMx.getHeaderCSV();
 			/* Se buscan los archivos que terminen con extension .txt */
 			File[] files = FileUtils.getFilesTxt(Archivo);
-			List<String[]> content = new ArrayList<String[]>();
+			List<String[]> content = new ArrayList<String[]>();			
+			System.out.println("El tamaño de encabezados es: " + voMapHeadersCSV.size());
 			content = FileUtils.getContentForCsv(files, voMapHeadersCSV.size(),strTokenAct,Archivo,vsUUI);
 			
 			GeneradorCSV generaExcel = new GeneradorCSV();
@@ -341,12 +342,12 @@ if (voMapConf.size() <= 0) {
 			ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
 			/* Enviando el correo de reporte a Kranon*/
 			SendingMailTLS sendMail = new SendingMailTLS();
-			boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+			//boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
 			/* Enviando el correo de reporte con archivo adjunto*/
 			String strFechaAct=  new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
 			ReporteMail.strYesterda=strFechaAct;
 			SendingMailTLSFiles sendMailFiles = new SendingMailTLSFiles();
-			boolean resultSendFile =sendMailFiles.sendMailKranonFiles("Reporte  "+strFechaAct, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
+			//boolean resultSendFile =sendMailFiles.sendMailKranonFiles("Reporte  "+strFechaAct, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
 	
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+File.separator);
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + File.separator + vsUUI + "_conversations_IE.csv");
