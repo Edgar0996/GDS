@@ -158,9 +158,9 @@ public class Reporteador extends  Thread  {
                     			
                     			 if (voJSONAttributes.has("Endoso_No_Procede")) {
                     				 String Endoso_No_Procede = voJSONAttributes.getString("Endoso_No_Procede");
-                    				 String resultEndoso_No_Procede = Endoso_No_Procede.replaceAll("\\s+","");
+                    				 String resultEndoso_No_Procede = Endoso_No_Procede.replaceAll("\n", "");
                     				 voDetailsConversations.put("Endoso_No_Procede", resultEndoso_No_Procede);
-                    				 
+                    			 
                     			 }
                     				 
                     			 
@@ -195,6 +195,7 @@ public class Reporteador extends  Thread  {
                     				 voDetailsConversations.put("Cargo_No_Cobro", Cargo_No_CobroSinComas);
                     				 
                 				 } 
+                    			 
                     			 if (voJSONAttributes.has("Cotizacion_NúmCoti")) {
                 					 String Cotizacion_NúmCoti = voJSONAttributes.getString("Cotizacion_NúmCoti");
                 					 String Cotizacion_NúmCotiSinComas= Cotizacion_NúmCoti.replace(" ,", ".");
@@ -216,7 +217,7 @@ public class Reporteador extends  Thread  {
                 				 }
                     			 if (voJSONAttributes.has("Domiciliacion_Movimiento")) {
                 					 String Domiciliacion_Movimiento = voJSONAttributes.getString("Domiciliacion_Movimiento");
-                					 String Domiciliacion_MovimientoSinComas= Domiciliacion_Movimiento.replace(" ,", ".");
+                					 String Domiciliacion_MovimientoSinComas= Domiciliacion_Movimiento.replace(",", ".");
                     				 voDetailsConversations.put("Domiciliacion_Movimiento", Domiciliacion_MovimientoSinComas);
                     				 
                 				 }
@@ -239,7 +240,7 @@ public class Reporteador extends  Thread  {
                     				 voDetailsConversations.put("Cotizacion_ClaveAgente", Cotizacion_ClaveAgenteSinComas);
                     				 
                 				 }
-                    			 if (voJSONAttributes.has("Cargo_Cancelacion")) {
+                    			 if (voJSONAttributes.has("Pago_Aceptado")) {
                 					 String Pago_Aceptado = voJSONAttributes.getString("Pago_Aceptado");
                 					 String Pago_AceptadoSinComas= Pago_Aceptado.replace(" ,", ".");
                     				 voDetailsConversations.put("Pago_Aceptado", Pago_AceptadoSinComas);
@@ -529,7 +530,12 @@ public class Reporteador extends  Thread  {
                     				 voDetailsConversations.put("Emision_OtroMov", Emision_OtroMov);
                     				
                 				 }
-                    			
+                    			 if (voJSONAttributes.has("Pago_No_Cobro")) {
+                					 String Pago_No_Cobro = voJSONAttributes.getString("Pago_No_Cobro");
+                					 String resultPago_No_Cobro = Pago_No_Cobro.replaceAll("\n", "");
+                    				 voDetailsConversations.put("Pago_No_Cobro", resultPago_No_Cobro);
+                    				
+                				 }
                     		 }
                     		 
                     	}

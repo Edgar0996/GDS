@@ -133,15 +133,9 @@ public class RecuperaConversationID {
          } while (true);
        
          //OBTENIENDO TODOS LOS CONVERSATION ID DEL RANGO DE HORAS EN EL DIA
-        // vlContactId.add("d5cd8350-f440-465f-bf44-9f459a06954d");
-       //  vlContactId.add("1cfd066a-c319-4bb9-a5ad-a8a29d3f4bf4");
-         
-         /*
-          *   vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127"); 
-          *   vlContactId.add("35d5ee86-0b39-429a-8532-0a42b3da0127");
-			 * 
-			 */
-         
+            
+        vlContactId.add("dd790985-4b9e-4a6a-8b87-a6f3ac154b9b");
+        
 			ReporteMail.paginasRetornadas = ReporteMail.paginasRetornadas + --viPag;
          voLogger.info("[RecuperaConversationID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
          return vlContactId;

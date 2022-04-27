@@ -206,6 +206,7 @@ public class GeneradorTXT  {
     	        		if(Cargo_No_Cobro=="null") {
     	        			Cargo_No_Cobro=" ";
     	        		}
+    	        		//System.err.println(Cargo_No_Cobro);
     	        		String Cotizacion_NúmCoti = String.valueOf(voDetails.get("Cotizacion_NúmCoti"));
     	        		if(Cotizacion_NúmCoti=="null") {
     	        			Cotizacion_NúmCoti=" ";
@@ -487,27 +488,19 @@ public class GeneradorTXT  {
     	        		//apartado LLAMADACORTADA
     	        		dataComplet.add(LlamadaCortada_Comentarios);
     	        		//apartado LLAMADAOTRAAREA
-    	        		dataComplet.add(Endoso_Solicitante);
-    	        		dataComplet.add(Domiciliacion_Movimiento);
+    	        		dataComplet.add(LlamadaOtra_Hablante);
+    	        		dataComplet.add(LlamadaOtra_Area);
     	        		//apartado ENVIODOCUMENTOS
     	        		dataComplet.add(EnvioDoctos_Hablante);
     	        		dataComplet.add(EnvioDoctos_Email);
     	        		dataComplet.add(EnvioDoctos_Solicitados);
-    	        		//apartado CONSULTAPROCESODEYEL
+    	        		//apartado CONSULTA
     	        		dataComplet.add(Consulta_Hablante);
     	        		dataComplet.add(Consulta_Motivo);
-    	        		//apartado CONSULTA
-    	        		dataComplet.add(Pago_OtroPago);
-    	        		dataComplet.add(EnvioDoctos_Hablante);
-    	        		//apartado ACTUALIZACIONCORREODEYEL
-    	        		dataComplet.add(Emision_Ramo);
-    	        		dataComplet.add(Emision_Cotizacion);
     	        		//apartado SOLICITUDREFERENCIADEYEL
-    	        		dataComplet.add(Cargo_Cobro);
-    	        		dataComplet.add(Tramites_Consultado);
+    	        		//dataComplet.add(Tramites_Consultado);
     	        		//apartado  SOLICITUDUSUARIODEYEL
-    	        		dataComplet.add(Pago_Hablante);
-    	        		dataComplet.add(Cotizacion_OtroCoti);
+    	        		//dataComplet.add(Cotizacion_OtroCoti);
     	        		//apartado  DOMICILIACION
     	        		dataComplet.add(Domiciliacion_Hablante);
     	        		dataComplet.add(Domiciliacion_ClaveAgente);
