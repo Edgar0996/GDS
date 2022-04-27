@@ -346,7 +346,8 @@ if (voMapConf.size() <= 0) {
 			String strFechaAct=  new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
 			ReporteMail.strYesterda=strFechaAct;
 			SendingMailTLSFiles sendMailFiles = new SendingMailTLSFiles();
-			sendMailFiles.sendMailKranonFiles("Reporte  "+strFechaAct, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
+			boolean resultSendFile =sendMailFiles.sendMailKranonFiles("Reporte  "+strFechaAct, vsUUI, ReporteMail.pathCsvFinal, strYesterda);
+	
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> El directorio de trabajo es: " + Archivo+File.separator);
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Interacciones NO Procesadas: " +Archivo + File.separator + vsUUI + "_conversations_IE.csv");
 			System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Archivo de Páginas NO Procesadas: " +Archivo + File.separator + vsUUI + "_page_PE.csv");
