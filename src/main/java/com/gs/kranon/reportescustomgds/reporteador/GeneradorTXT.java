@@ -499,7 +499,7 @@ public class GeneradorTXT  {
     	        		dataComplet.add(Consulta_Motivo);
     	        		//apartado SOLICITUDREFERENCIADEYEL
     	        		//dataComplet.add(Tramites_Consultado);
-    	        		//apartado  SOLICITUDUSUARIODEYEL
+    	        		//apartado  SOLICITUDUSUARIODEYEL as
     	        		//dataComplet.add(Cotizacion_OtroCoti);
     	        		//apartado  DOMICILIACION
     	        		dataComplet.add(Domiciliacion_Hablante);
