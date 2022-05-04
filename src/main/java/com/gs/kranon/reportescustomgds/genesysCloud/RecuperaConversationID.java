@@ -134,7 +134,7 @@ public class RecuperaConversationID {
        
          //OBTENIENDO TODOS LOS CONVERSATION ID DEL RANGO DE HORAS EN EL DIA
             
-        vlContactId.add("dd790985-4b9e-4a6a-8b87-a6f3ac154b9b");
+       // vlContactId.add("dd790985-4b9e-4a6a-8b87-a6f3ac154b9b");
         
 			ReporteMail.paginasRetornadas = ReporteMail.paginasRetornadas + --viPag;
          voLogger.info("[RecuperaConversationID][" + vsUUI + "] \"RESPONSE[{\"totalHits\":\"\" [" + vlContactId.size() + "]");
