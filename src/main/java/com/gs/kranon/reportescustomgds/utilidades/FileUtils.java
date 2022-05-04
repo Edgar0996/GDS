@@ -128,7 +128,7 @@ public class FileUtils {
 			}
 			/* Recorremos el arrSD para separar por comas y regresar los content */
 			for(String s : arrSD){
-				String[] lineElements = s.split(",");
+				String[] lineElements = s.split(",",-1);
 				//Recupero mi ID´s de lostxt para comparalos con los ID totales y hacer una siguiente corrida
 				arrContactIdTxt.add(lineElements[0]);
 				if(lineElements.length == numColumnas) {
@@ -191,7 +191,7 @@ public class FileUtils {
 					BufferedReader buffer = new BufferedReader(fileReaderConversations);
 					while ((lineContent = buffer.readLine()) != null) {
 						//arrSD.add(lineContent);
-						String[] lineElements = lineContent.split(",");
+						String[] lineElements = lineContent.split(",",-1);
 						if(lineElements.length == 67) {
 							content.add(lineElements);
 						} else {
