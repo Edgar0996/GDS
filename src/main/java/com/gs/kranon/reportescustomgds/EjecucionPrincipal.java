@@ -305,7 +305,12 @@ if (voMapConf.size() <= 0) {
 			boolean resultadoCsv = generaExcel.GeneraReportCSV(Archivo + File.separator +"ReporteFinal_" + strYesterda,
 					content, vsUUI, voMapHeadersCSV);
 			// Valores para el reporte de correo
-			ReporteMail.conversationsIdOK = content.size(); // Va ser sin duplicados
+			if(content == null) {
+				ReporteMail.conversationsIdOK = 0; // Va ser sin duplicados
+			}else {
+				ReporteMail.conversationsIdOK = content.size(); // Va ser sin duplicados
+			}
+			
 			ReporteMail.pathCsvFinal = Archivo + File.separator+"ReporteFinal_" + strYesterda + ".csv";
 			ReporteMail.nameCsvFinal = "ReporteFinal_" + strYesterda + ".csv";
 			boolean bIE = FileUtils.searchFile(vsUUI + "_conversations_IE.csv", Archivo);
@@ -328,7 +333,11 @@ if (voMapConf.size() <= 0) {
 				ReporteMail.pathLogColumnasDif = "No existen registros con errores de columnas";
 			}
 			ReporteMail.numeroHits = sumTotalHits;
-			ReporteMail.lineasCsvFinal = content.size();
+			if(content == null) {
+			ReporteMail.lineasCsvFinal = 0;
+			}else {
+				ReporteMail.lineasCsvFinal = content.size();
+			}
 			//System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> Resultado de la generacion del archivo: " + resultadoCsv
 				//	+ " Con un tamaño de: " + content.size());
 			  try { 
@@ -342,7 +351,7 @@ if (voMapConf.size() <= 0) {
 			ReporteMail.tiempoEjecucion= Utilerias.tiempoEjecucion(ReporteMail.inicioProceso, ReporteMail.finProceso);
 			/* Enviando el correo de reporte a Kranon*/
 			SendingMailTLS sendMail = new SendingMailTLS();
-			//boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
+			boolean result =sendMail.sendMailKranon("Reporte de ejecución de GDS del "+strYesterda, vsUUI);
 			/* Enviando el correo de reporte con archivo adjunto*/
 			String strFechaAct=  new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
 			ReporteMail.strYesterda=strFechaAct;

@@ -84,9 +84,17 @@ public class GeneradorCSV {
     
     public boolean GeneraReportCSV(String vsPathExcel, List<String[]> content,String vsUUI, Map<String, Object> voMapHeadersCSVs) {
         voMapHeaderCSV = voMapHeadersCSVs;
-        vbActivo = false;
-        if (voMapHeaderCSV.size() <= 0) {
-            voLogger.warn("[Reporteador][" + vsUUI + "] ---> NO HAY DATOS PARA REALIZAR LA EXPORTACION.");
+        vbActivo = false; 
+        if (content == null) {
+            voLogger.info("[Reporteador][" + vsUUI + "] ---> NO HAY DATOS PARA REALIZAR LA EXPORTACION.");
+            voLogger.info("[Reporteador][" + vsUUI + "] ---> GENERANDO CSV SOLO CON ENCABEZADOS[" + vsPathExcel + ".csv]");
+            Excel voExcel = new Excel(vsUUI);
+            voExcel.addHeaders(voMapHeaderCSV);
+            if (voExcel.createCSV(vsPathExcel + ".csv")) {
+                voLogger.info("[Reporteador][" + vsUUI + "] ---> ARCHIVO CSV SIN ENCABEZADOS CREADO EXITOSAMENTE");
+            } else {
+                voLogger.error("[Reporteador][" + vsUUI + "] ---> ERROR : NO SE CREO EL ARCHIVO CSV");
+            }
             return false;
         }
         if (!vbActivo) {

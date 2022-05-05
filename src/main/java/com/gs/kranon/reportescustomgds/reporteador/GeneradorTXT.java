@@ -559,7 +559,7 @@ public class GeneradorTXT  {
         	        			//Leemos nuestro archivo creado
         	        			Writer  output = new BufferedWriter(new FileWriter(Archivo+".txt", true));
         	        			
-        	        			if (f == 75) {
+        	        			if (f == dataComplet.size()) {
         	        				output.append(dataComplet.get(a));
             	        			output.close(); 
         	        			}else {

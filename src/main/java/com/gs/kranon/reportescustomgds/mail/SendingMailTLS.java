@@ -320,7 +320,7 @@ public class SendingMailTLS {
     } catch (MessagingException e) { 
 
     	voLogger.error("[SendingMailTLS][" + vsUUI + "] ---> ERROR : NO SE  REALIZÓ EL ENVIO DEL CORREO, REVISA LAS CREDENCIALES");
-    	e.printStackTrace();
+    	//e.printStackTrace();
     	return false;
       //throw new RuntimeException(e);
       

@@ -3,6 +3,7 @@ package com.gs.kranon.reportescustomgds.mail;
 import com.gs.kranon.reportescustomgds.cuadroMando.ReporteMail;
 import com.gs.kranon.reportescustomgds.utilidades.Utilerias;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -154,9 +155,9 @@ public class SendingMailTLSFiles {
       Transport.send(message);
       //System.out.println("Correcto!");
     } catch (MessagingException e) {  
-    	
+		System.out.println("["+new SimpleDateFormat("dd-mm-yyyy HH:mm:ss").format(Calendar.getInstance().getTime())+"]--> ERROR : NO SE  REALIZÓ EL ENVIO DEL CORREO, REVISA LAS CREDENCIALES O EL TAMAÑO DEL ARCHIVO ES MUY GRANDE");
     	voLogger.error("[SendingMailTLSFiles  ][" + vsUUI + "] ---> ERROR : NO SE  REALIZÓ EL ENVIO DEL CORREO, REVISA LAS CREDENCIALES O EL TAMAÑO DEL ARCHIVO ES MUY GRANDE");
-    	e.printStackTrace();
+    	//e.printStackTrace();
     	return false;
     }
     voLogger.info("[SendingMailTLSFiles  ][" + vsUUI + "] ---> CORREO ENVIADO A GDS EXITOSAMENTE");

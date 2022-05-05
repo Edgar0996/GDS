@@ -63,6 +63,18 @@ public class Excel {
             }
         }
     }
+    public void addHeaders(Map<String, Object> voHeaders) {
+        row = sheet.createRow(++rowCount);
+        voLogger.info("[Excel      ][" + vsUUI + "] ---> ADD HEADERS");
+        for (Entry<String, Object> voEntry : voHeaders.entrySet()) {
+            String vsValue = voEntry.getKey();
+            Object voIndex = voEntry.getValue();
+            HSSFCell cell = row.createCell((Integer) voIndex);
+            if (vsValue instanceof String) {
+                cell.setCellValue((String) vsValue);
+            }
+        }
+    }
 
     @SuppressWarnings("deprecation")
     public boolean createCSV(String vsPath) {
